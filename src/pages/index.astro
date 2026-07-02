@@ -3,21 +3,127 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ButtonLink from '../components/ui/ButtonLink.astro';
 import SimpleCard from '../components/cards/SimpleCard.astro';
 ---
+
 <BaseLayout title="DRAGGON Lab" description="AI-aided biodesign platforms for programming biological systems.">
   <section class="mx-auto max-w-7xl px-4 py-20">
-    <p class="text-sm font-semibold uppercase tracking-wide text-draggon-violet">University of Bristol - School of Engineering Mathematics and Technology</p>
-    <h1 class="mt-4 max-w-4xl text-5xl font-bold tracking-tight text-slate-950">AI-aided biodesign platforms for programming biological systems.</h1>
-    <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">We develop software, data, and automation workflows to engineer organisms with novel capabilities.</p>
-    <p class="mt-4 text-sm text-slate-500">Developing, Researching, and Architecting Genetic and Genomic Networks.</p>
-    <div class="mt-8 flex flex-wrap gap-3"><ButtonLink href="/research">Explore Research</ButtonLink><ButtonLink href="/tools" variant="secondary">Explore Tools</ButtonLink></div>
+    <p class="text-sm font-semibold uppercase tracking-wide text-draggon-violet">
+      University of Bristol - School of Engineering Mathematics and Technology
+    </p>
+    <h1 class="mt-4 max-w-4xl text-5xl font-bold tracking-tight text-slate-950">
+      AI-aided biodesign platforms for programming biological systems.
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+      We develop software, data, and automation workflows to engineer organisms with novel capabilities, from more
+      nutritious and resilient crops to microbiome therapeutics.
+    </p>
+    <p class="mt-4 text-sm text-slate-500">
+      Developing, Researching, and Architecting Genetic and Genomic Networks.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <ButtonLink href="/research">Explore Research</ButtonLink>
+      <ButtonLink href="/tools" variant="secondary">Explore Tools</ButtonLink>
+    </div>
   </section>
+
   <section class="mx-auto max-w-7xl px-4 py-12">
-    <h2 class="text-3xl font-bold">Research Vision</h2>
-    <p class="mt-4 max-w-3xl text-slate-600">We build AI-aided biodesign platforms that connect biological software foundations, automated DBTL workflows, machine learning, digital twins, and genetic network engineering.</p>
+    <div class="max-w-3xl">
+      <p class="text-sm font-semibold uppercase tracking-wide text-draggon-violet">Research Vision</p>
+      <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-950">Programming biology with reusable platforms</h2>
+      <p class="mt-4 text-lg leading-8 text-slate-600">
+        DRAGGON Lab builds AI-aided biodesign platforms that connect biological software foundations, automated DBTL
+        workflows, machine learning, digital twins, and genetic network engineering.
+      </p>
+    </div>
+    <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <SimpleCard title="Biological Software Foundations" href="/research">
+        Reusable standards, data structures, software, and metadata for programmable biology.
+      </SimpleCard>
+      <SimpleCard title="Automated DBTL Workflows" href="/research">
+        Programmatic design-build-test-learn workflows for genetic network engineering.
+      </SimpleCard>
+      <SimpleCard title="AI-Aided Biodesign" href="/research">
+        Machine learning and hybrid models that improve design from standardized biological data.
+      </SimpleCard>
+      <SimpleCard title="Digital Twins of Living Systems" href="/research">
+        Simulations connecting engineered systems with cells, organisms, communities, and environments.
+      </SimpleCard>
+      <SimpleCard title="Intelligent Genetic & Genomic Networks" href="/research">
+        Biological architectures for sensing, computing, feedback, and decision-making in living systems.
+      </SimpleCard>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 py-12">
+    <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-draggon-violet">Tool Ecosystem Preview</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-950">A platform ecosystem for the DBTL cycle</h2>
+        <p class="mt-4 max-w-3xl text-slate-600">
+          We build open, reusable software, standards-enabled metadata, and FAIR data workflows so that biological
+          engineering can become more reproducible, collaborative, and programmable.
+        </p>
+      </div>
+      <ButtonLink href="/tools" variant="secondary">View Platform Ecosystem</ButtonLink>
+    </div>
     <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <SimpleCard title="Biological Software Foundations" href="/research">Reusable standards, data structures, software, and metadata for programmable biology.</SimpleCard>
-      <SimpleCard title="Automated DBTL Workflows" href="/research">Programmatic design-build-test-learn workflows for genetic network engineering.</SimpleCard>
-      <SimpleCard title="AI-Aided Biodesign" href="/research">Machine learning and hybrid models that improve design from standardized biological data.</SimpleCard>
+      <SimpleCard title="Design - LOICA" href="/tools">Program genetic networks and biological functions before building them.</SimpleCard>
+      <SimpleCard title="Build - PUDU and BuildCompiler" href="/tools">Translate designs into assembly and automation-ready build plans.</SimpleCard>
+      <SimpleCard title="Test, Learn, and Infrastructure" href="/tools">Connect Flapjack workflows, SeqTrainer, SynBioSuite, standards, and repositories.</SimpleCard>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 py-12">
+    <p class="text-sm font-semibold uppercase tracking-wide text-draggon-violet">Applications / Impact</p>
+    <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-950">Engineering organisms with useful capabilities</h2>
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <SimpleCard title="Resilient crops">Biodesign workflows for more nutritious, robust, and sustainable plant systems.</SimpleCard>
+      <SimpleCard title="Microbiome therapeutics">Programmable living systems that can sense, respond, and support healthier communities.</SimpleCard>
+      <SimpleCard title="Reusable bioengineering infrastructure">Open tools and standards that make biological engineering easier to reproduce and extend.</SimpleCard>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 py-12">
+    <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-draggon-violet">Featured Publications</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-950">Selected scholarly outputs</h2>
+      </div>
+      <ButtonLink href="/publications" variant="secondary">Browse Publications</ButtonLink>
+    </div>
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <SimpleCard title="PhD thesis" href="/publications">Automated design, build, test, learn workflows to engineer synthetic genetic networks.</SimpleCard>
+      <SimpleCard title="LOICA" href="/publications">Design automation for genetic networks.</SimpleCard>
+      <SimpleCard title="SBOL and metadata" href="/publications">Standards-enabled infrastructure for reproducible biological engineering.</SimpleCard>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 py-12">
+    <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-draggon-violet">Featured Lab Notes</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-950">Research logs and explainers</h2>
+      </div>
+      <ButtonLink href="/lab-notes" variant="secondary">Read Lab Notes</ButtonLink>
+    </div>
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <SimpleCard title="Launching the DRAGGON Lab website" href="/lab-notes">An invitation to build open AI-aided biodesign platforms.</SimpleCard>
+      <SimpleCard title="What is biological software engineering?" href="/lab-notes">A research explainer for the lab identity.</SimpleCard>
+      <SimpleCard title="From DBTL to AI-aided biodesign" href="/lab-notes">A software-platform note for the DRAGGON ecosystem.</SimpleCard>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 py-16">
+    <div class="rounded-3xl bg-draggon-deep px-6 py-10 text-white md:px-10">
+      <p class="text-sm font-semibold uppercase tracking-wide text-violet-200">Join / Collaborate</p>
+      <h2 class="mt-2 max-w-3xl text-3xl font-bold tracking-tight">Build open AI-aided biodesign platforms with us</h2>
+      <p class="mt-4 max-w-3xl text-violet-100">
+        We welcome prospective students, postdocs, collaborators, funders, open-source contributors, and technically
+        curious partners interested in programmable biological systems.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <ButtonLink href="/join-collaborate" variant="subtle">Join / Collaborate</ButtonLink>
+        <ButtonLink href="mailto:contact@draggonlab.org" variant="subtle">Contact DRAGGON Lab</ButtonLink>
+      </div>
     </div>
   </section>
 </BaseLayout>

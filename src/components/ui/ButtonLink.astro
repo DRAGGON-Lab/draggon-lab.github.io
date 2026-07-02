@@ -1,4 +1,19 @@
 ---
 const { href, variant = 'primary' } = Astro.props;
+
+const variants = {
+  primary: 'bg-draggon-violet text-white hover:bg-draggon-deep',
+  secondary: 'border border-violet-200 text-draggon-deep hover:bg-violet-50',
+  subtle: 'border border-violet-200/70 text-white hover:border-white/80 hover:bg-white/10'
+};
 ---
-<a href={href} class:list={['inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold transition', variant === 'primary' ? 'bg-draggon-violet text-white hover:bg-draggon-deep' : 'border border-violet-200 text-draggon-deep hover:bg-violet-50']}><slot /></a>
+
+<a
+  href={href}
+  class:list={[
+    'inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold transition',
+    variants[variant] ?? variants.primary
+  ]}
+>
+  <slot />
+</a>

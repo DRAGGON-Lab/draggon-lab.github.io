@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ButtonLink from '../components/ui/ButtonLink.astro';
+import SimpleCard from '../components/cards/SimpleCard.astro';
+---
+<BaseLayout title="DRAGGON Lab" description="AI-aided biodesign platforms for programming biological systems.">
+  <section class="mx-auto max-w-7xl px-4 py-20">
+    <p class="text-sm font-semibold uppercase tracking-wide text-draggon-violet">University of Bristol - School of Engineering Mathematics and Technology</p>
+    <h1 class="mt-4 max-w-4xl text-5xl font-bold tracking-tight text-slate-950">AI-aided biodesign platforms for programming biological systems.</h1>
+    <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">We develop software, data, and automation workflows to engineer organisms with novel capabilities.</p>
+    <p class="mt-4 text-sm text-slate-500">Developing, Researching, and Architecting Genetic and Genomic Networks.</p>
+    <div class="mt-8 flex flex-wrap gap-3"><ButtonLink href="/research">Explore Research</ButtonLink><ButtonLink href="/tools" variant="secondary">Explore Tools</ButtonLink></div>
+  </section>
+  <section class="mx-auto max-w-7xl px-4 py-12">
+    <h2 class="text-3xl font-bold">Research Vision</h2>
+    <p class="mt-4 max-w-3xl text-slate-600">We build AI-aided biodesign platforms that connect biological software foundations, automated DBTL workflows, machine learning, digital twins, and genetic network engineering.</p>
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <SimpleCard title="Biological Software Foundations" href="/research">Reusable standards, data structures, software, and metadata for programmable biology.</SimpleCard>
+      <SimpleCard title="Automated DBTL Workflows" href="/research">Programmatic design-build-test-learn workflows for genetic network engineering.</SimpleCard>
+      <SimpleCard title="AI-Aided Biodesign" href="/research">Machine learning and hybrid models that improve design from standardized biological data.</SimpleCard>
+    </div>
+  </section>
+</BaseLayout>

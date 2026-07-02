@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SimpleCard from '../../components/cards/SimpleCard.astro';
+---
+<BaseLayout title="Publications" description="Selected publications and scholarly outputs connected to the DRAGGON Lab research program.">
+  <section class="mx-auto max-w-7xl px-4 py-16">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-950">Publications</h1>
+    <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">This page highlights selected publications, thesis work, software papers, and scholarly outputs connected to the DRAGGON Lab research program.</p>
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <SimpleCard title="PhD thesis">Automated design, build, test, learn workflows to engineer synthetic genetic networks.</SimpleCard>
+      <SimpleCard title="LOICA">Design automation for genetic networks.</SimpleCard>
+      <SimpleCard title="SBOL and metadata">Standards-enabled infrastructure for reproducible biological engineering.</SimpleCard>
+    </div>
+  </section>
+</BaseLayout>

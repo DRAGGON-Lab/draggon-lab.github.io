@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SimpleCard from '../../components/cards/SimpleCard.astro';
+---
+<BaseLayout title="Project Directions" description="Open project directions for students, collaborators, contributors, and partners.">
+  <section class="mx-auto max-w-7xl px-4 py-16">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-950">Project Directions</h1>
+    <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">Project directions are public starting points for students, collaborators, contributors, and partners.</p>
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <SimpleCard title="Standards for Programmable Biology">Standards-enabled data infrastructure for programmable biology.</SimpleCard>
+      <SimpleCard title="Programmatic DBTL Workflows">DBTL workflows for genetic network engineering.</SimpleCard>
+      <SimpleCard title="AI Models for Gene Expression">Graph and foundation models for gene expression from standardized biological designs.</SimpleCard>
+      <SimpleCard title="Digital Twins of Microbial Communities">Agent-based simulations of engineered microbial communities and host-microbiome systems.</SimpleCard>
+      <SimpleCard title="In Vivo Biological Intelligence">Genetic network architectures for sensing, computing, and decision-making.</SimpleCard>
+    </div>
+  </section>
+</BaseLayout>

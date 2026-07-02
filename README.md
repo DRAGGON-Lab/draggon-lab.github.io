@@ -1,2 +1,3 @@
-# draggon-lab.github.io
-DRAGGON Lab website
+# DRAGGON Lab website
+
+Version 1 website for DRAGGON Lab.

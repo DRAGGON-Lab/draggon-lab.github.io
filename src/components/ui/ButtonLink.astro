@@ -1,0 +1,4 @@
+---
+const { href, variant = 'primary' } = Astro.props;
+---
+<a href={href} class:list={['inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold transition', variant === 'primary' ? 'bg-draggon-violet text-white hover:bg-draggon-deep' : 'border border-violet-200 text-draggon-deep hover:bg-violet-50']}><slot /></a>

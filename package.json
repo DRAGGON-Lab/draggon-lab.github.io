@@ -1,0 +1,44 @@
+{
+  "name": "draggon-lab.github.io",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env PUBLIC_DEPLOY_ENV=development astro dev",
+    "build": "cross-env PUBLIC_DEPLOY_ENV=production astro check && astro build",
+    "build:production": "cross-env PUBLIC_DEPLOY_ENV=production astro check && astro build",
+    "build:preview": "cross-env PUBLIC_DEPLOY_ENV=preview astro check && astro build",
+    "build:development": "cross-env PUBLIC_DEPLOY_ENV=development astro check && astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "pnpm test:content && pnpm test:smoke",
+    "test:content": "cross-env PUBLIC_DEPLOY_ENV=production tsx scripts/check-content-graph.ts",
+    "test:content:preview": "cross-env PUBLIC_DEPLOY_ENV=preview tsx scripts/check-content-graph.ts",
+    "test:smoke": "cross-env PUBLIC_DEPLOY_ENV=production tsx scripts/smoke-routes.ts",
+    "graph": "tsx scripts/generate-site-graph.ts"
+  },
+  "dependencies": {
+    "@astrojs/check": "latest",
+    "@astrojs/mdx": "latest",
+    "@astrojs/tailwind": "latest",
+    "astro": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@eslint/js": "latest",
+    "autoprefixer": "latest",
+    "cross-env": "latest",
+    "eslint": "latest",
+    "prettier": "latest",
+    "prettier-plugin-astro": "latest",
+    "prettier-plugin-tailwindcss": "latest",
+    "tsx": "latest"
+  },
+  "engines": { "node": ">=22" },
+  "packageManager": "pnpm@10.0.0"
+}

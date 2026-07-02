@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SimpleCard from '../../components/cards/SimpleCard.astro';
+---
+<BaseLayout title="Lab Notes" description="Research logs from DRAGGON Lab.">
+  <section class="mx-auto max-w-7xl px-4 py-16">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-950">Lab Notes</h1>
+    <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">Lab Notes are research logs from DRAGGON Lab: research explainers, software updates, tutorials, paper notes, teaching reflections, and invitations to collaborate.</p>
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <SimpleCard title="Launching the DRAGGON Lab website">An invitation to build open AI-aided biodesign platforms.</SimpleCard>
+      <SimpleCard title="What is biological software engineering?">A research explainer for the lab identity.</SimpleCard>
+      <SimpleCard title="From DBTL to AI-aided biodesign">A software-platform note for the DRAGGON ecosystem.</SimpleCard>
+    </div>
+  </section>
+</BaseLayout>

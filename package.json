@@ -17,7 +17,7 @@
     "test": "pnpm test:content && pnpm test:smoke",
     "test:content": "cross-env PUBLIC_DEPLOY_ENV=production tsx scripts/check-content-graph.ts",
     "test:content:preview": "cross-env PUBLIC_DEPLOY_ENV=preview tsx scripts/check-content-graph.ts",
-    "test:smoke": "node --import 'data:text/javascript,import { register } from \"node:module\"; import { pathToFileURL } from \"node:url\"; register(\"./scripts/ts-esm-loader.mjs\", pathToFileURL(\"./\"));' scripts/smoke-routes.ts",
+    "test:smoke": "node --import \"data:text/javascript,import { register } from 'node:module'; import { pathToFileURL } from 'node:url'; register('./scripts/ts-esm-loader.mjs', pathToFileURL('./'));\" scripts/smoke-routes.ts",
     "graph": "tsx scripts/generate-site-graph.ts"
   },
   "dependencies": {

@@ -17,7 +17,7 @@
     "test": "pnpm test:content && pnpm test:smoke",
     "test:content": "cross-env PUBLIC_DEPLOY_ENV=production tsx scripts/check-content-graph.ts",
     "test:content:preview": "cross-env PUBLIC_DEPLOY_ENV=preview tsx scripts/check-content-graph.ts",
-    "test:smoke": "cross-env PUBLIC_DEPLOY_ENV=production tsx scripts/smoke-routes.ts",
+    "test:smoke": "node --import 'data:text/javascript,import { register } from \"node:module\"; import { pathToFileURL } from \"node:url\"; register(\"./scripts/ts-esm-loader.mjs\", pathToFileURL(\"./\"));' scripts/smoke-routes.ts",
     "graph": "tsx scripts/generate-site-graph.ts"
   },
   "dependencies": {
@@ -39,6 +39,8 @@
     "prettier-plugin-tailwindcss": "latest",
     "tsx": "latest"
   },
-  "engines": { "node": ">=22" },
-  "packageManager": "pnpm@10.0.0"
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.28.1"
 }

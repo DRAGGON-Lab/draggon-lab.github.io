@@ -1,0 +1,58 @@
+name: Teaching resource request or suggestion
+description: Request a new teaching resource, suggest an existing one, or offer to contribute or adapt a resource.
+title: "Teaching resource: "
+labels: [teaching, resource]
+body:
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: What kind of issue is this?
+      options:
+        - Request for a new resource
+        - Suggestion of an existing resource
+        - Offer to contribute or adapt a resource
+    validations:
+      required: true
+  - type: input
+    id: topic
+    attributes:
+      label: Topic or concept
+    validations:
+      required: true
+  - type: textarea
+    id: audience
+    attributes:
+      label: Intended audience
+    validations:
+      required: true
+  - type: checkboxes
+    id: preferred_format
+    attributes:
+      label: Preferred format
+      options:
+        - label: Video
+        - label: Notebook
+        - label: Tutorial
+        - label: Slides
+        - label: Assignment
+        - label: Workshop
+        - label: Reading guide
+        - label: Demo
+        - label: Not sure
+  - type: textarea
+    id: usefulness
+    attributes:
+      label: Why would this resource be useful?
+      description: Please describe who would benefit and what it would help them learn, build, or understand.
+    validations:
+      required: true
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Would you be interested in helping create or review this resource?
+      options:
+        - label: Yes, I could help write it
+        - label: Yes, I could review it
+        - label: Yes, I could test it as a learner
+        - label: Maybe
+        - label: No, I am only suggesting the idea

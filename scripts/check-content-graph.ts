@@ -82,6 +82,7 @@ function parseFrontmatter(source: string): Record<string, FrontmatterValue> {
   const lines = source.slice(3, end).split('\n');
   const data: Record<string, FrontmatterValue> = {};
   let currentArrayKey: string | undefined;
+  let currentArrayItem: Record<string, unknown> | undefined;
   for (const rawLine of lines) {
     const line = rawLine.trimEnd();
     if (!line.trim() || line.trimStart().startsWith('#')) continue;
@@ -90,8 +91,14 @@ function parseFrontmatter(source: string): Record<string, FrontmatterValue> {
       const list = Array.isArray(data[currentArrayKey]) ? (data[currentArrayKey] as Array<Record<string, unknown>>) : [];
       const itemText = arrayItem[1];
       const objectMatch = itemText.match(/^([^:]+):\s*(.+)$/);
-      list.push(objectMatch ? { [objectMatch[1].trim()]: parseScalar(objectMatch[2]) } : { target: parseScalar(itemText) });
+      currentArrayItem = objectMatch ? { [objectMatch[1].trim()]: parseScalar(objectMatch[2]) } : { target: parseScalar(itemText) };
+      list.push(currentArrayItem);
       data[currentArrayKey] = list;
+      continue;
+    }
+    const continuationItem = line.match(/^\s+([A-Za-z0-9_-]+):\s*(.+)$/);
+    if (continuationItem && currentArrayKey && currentArrayItem) {
+      currentArrayItem[continuationItem[1]] = parseScalar(continuationItem[2]);
       continue;
     }
     const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
@@ -100,9 +107,11 @@ function parseFrontmatter(source: string): Record<string, FrontmatterValue> {
     if (!value) {
       data[key] = [];
       currentArrayKey = key;
+      currentArrayItem = undefined;
     } else {
       data[key] = parseScalar(value);
       currentArrayKey = undefined;
+      currentArrayItem = undefined;
     }
   }
   return data;
@@ -154,11 +163,62 @@ async function collectRouteGraph() {
   const edges: GraphEdge[] = [];
   if (!existsSync(SITE_GRAPH_ROUTE_PATH)) return { nodes, edges };
   const text = await readFile(SITE_GRAPH_ROUTE_PATH, 'utf8');
-  for (const match of text.matchAll(/\{\s*id:\s*['"]([^'"]+)['"],\s*type:\s*['"]([^'"]+)['"],\s*title:\s*['"]([^'"]+)['"]/g)) {
-    nodes.push({ id: match[1], slug: match[1], type: match[2], title: match[3], draft: false, filePath: relative(SITE_GRAPH_ROUTE_PATH), source: 'site-graph route' });
+  const getStringProperty = (objectText: string, property: string) => {
+    const match = objectText.match(new RegExp(`(?:^|[,\\s])${property}:\\s*['"]([^'"]+)['"]`));
+    return match?.[1];
+  };
+  const findMatchingDelimiter = (start: number, open: string, close: string) => {
+    let depth = 0;
+    let quote: string | undefined;
+    for (let index = start; index < text.length; index += 1) {
+      const character = text[index];
+      const previous = text[index - 1];
+      if (quote) {
+        if (character === quote && previous !== '\\') quote = undefined;
+        continue;
+      }
+      if (character === '"' || character === "'" || character === '`') {
+        quote = character;
+        continue;
+      }
+      if (character === open) depth += 1;
+      if (character === close) {
+        depth -= 1;
+        if (depth === 0) return index;
+      }
+    }
+    return -1;
+  };
+  const getArrayItems = (property: string) => {
+    const propertyMatch = text.match(new RegExp(`(?:^|[,\\s])${property}:\\s*\\[`));
+    if (propertyMatch?.index === undefined) return [];
+    const arrayStart = text.indexOf('[', propertyMatch.index);
+    const arrayEnd = findMatchingDelimiter(arrayStart, '[', ']');
+    if (arrayEnd === -1) return [];
+    const arrayText = text.slice(arrayStart + 1, arrayEnd);
+    return [...arrayText.matchAll(/\{/g)]
+      .map((match) => {
+        const objectStart = arrayStart + 1 + (match.index ?? 0);
+        const objectEnd = findMatchingDelimiter(objectStart, '{', '}');
+        return objectEnd === -1 ? undefined : text.slice(objectStart + 1, objectEnd);
+      })
+      .filter((objectText): objectText is string => Boolean(objectText));
+  };
+  for (const objectText of getArrayItems('nodes')) {
+    const id = getStringProperty(objectText, 'id');
+    const type = getStringProperty(objectText, 'type');
+    const title = getStringProperty(objectText, 'title');
+    if (id && type && title) {
+      nodes.push({ id, slug: id, type, title, draft: false, filePath: relative(SITE_GRAPH_ROUTE_PATH), source: 'site-graph route' });
+    }
   }
-  for (const match of text.matchAll(/\{\s*source:\s*['"]([^'"]+)['"],\s*target:\s*['"]([^'"]+)['"],\s*relationship:\s*['"]([^'"]+)['"]/g)) {
-    edges.push({ source: match[1], target: match[2], relationship: match[3], field: 'edges[].relationship', filePath: relative(SITE_GRAPH_ROUTE_PATH) });
+  for (const objectText of getArrayItems('edges')) {
+    const source = getStringProperty(objectText, 'source');
+    const target = getStringProperty(objectText, 'target');
+    const relationship = getStringProperty(objectText, 'relationship');
+    if (source && target && relationship) {
+      edges.push({ source, target, relationship, field: 'edges[].relationship', filePath: relative(SITE_GRAPH_ROUTE_PATH) });
+    }
   }
   return { nodes, edges };
 }

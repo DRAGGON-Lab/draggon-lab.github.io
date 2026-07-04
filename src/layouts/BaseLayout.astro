@@ -3,13 +3,20 @@ import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import { siteConfig } from '../data/siteConfig';
-interface Props { title?: string; description?: string; }
-const { title = siteConfig.labName, description = 'AI-aided biodesign platforms for programming biological systems.' } = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = siteConfig.labName,
+  description = 'AI-aided biodesign platforms for programming biological systems.',
+} = Astro.props;
 const pageTitle = title === siteConfig.labName ? title : `${title} · ${siteConfig.labName}`;
 const deployEnv = process.env.PUBLIC_DEPLOY_ENV ?? 'development';
 const shouldNoIndex = deployEnv === 'preview' || deployEnv === 'development';
 const shouldRenderAnalytics = deployEnv === 'production';
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -22,13 +29,7 @@ const shouldRenderAnalytics = deployEnv === 'production';
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content="/social/draggon-lab-og.svg" />
-    {
-      shouldRenderAnalytics && (
-        <>
-          {/* Production-only analytics go here. */}
-        </>
-      )
-    }
+    {shouldRenderAnalytics && <>{/* Production-only analytics go here. */}</>}
   </head>
   <body>
     <Header />

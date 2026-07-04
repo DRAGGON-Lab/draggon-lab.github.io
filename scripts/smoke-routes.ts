@@ -1,19 +1,7 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
-const routes = [
-  '/',
-  '/research',
-  '/tools',
-  '/publications',
-  '/lab-notes',
-  '/teaching',
-  '/people',
-  '/join-collaborate',
-  '/privacy',
-];
-
-const expectedRouteFiles = {
+const expectedRouteFiles: Record<string, string> = {
   '/': 'src/pages/index.astro',
   '/research': 'src/pages/research/index.astro',
   '/tools': 'src/pages/tools/index.astro',
@@ -24,6 +12,8 @@ const expectedRouteFiles = {
   '/join-collaborate': 'src/pages/join-collaborate.astro',
   '/privacy': 'src/pages/privacy.astro',
 };
+
+const routes = Object.keys(expectedRouteFiles);
 
 console.log('Smoke routes');
 

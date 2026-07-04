@@ -3,21 +3,51 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ButtonLink from '../../components/ui/ButtonLink.astro';
 import SimpleCard from '../../components/cards/SimpleCard.astro';
 ---
-<BaseLayout title="Teaching" description="Open teaching resources and learning paths for biological software engineering.">
+
+<BaseLayout
+  title="Teaching"
+  description="Open teaching resources and learning paths for biological software engineering."
+>
   <section class="mx-auto max-w-7xl px-4 py-16">
     <h1 class="text-4xl font-bold tracking-tight text-slate-950">Teaching</h1>
-    <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">DRAGGON Lab teaching aims to prepare students to become biological software engineers: researchers who connect biology, computation, engineering, standards, data, automation, and responsible design.</p>
-    <p class="mt-4 max-w-3xl text-slate-600">Project-based learning is central. Students should design genetic systems, analyze biological data, build computational workflows, document reusable tools, and communicate results clearly.</p>
+    <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+      DRAGGON Lab teaching aims to prepare students to become biological software engineers:
+      researchers who connect biology, computation, engineering, standards, data, automation, and
+      responsible design.
+    </p>
+    <p class="mt-4 max-w-3xl text-slate-600">
+      Project-based learning is central. Students should design genetic systems, analyze biological
+      data, build computational workflows, document reusable tools, and communicate results clearly.
+    </p>
     <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <SimpleCard title="Foundations">Foundational concepts for biology, computation, standards, and workflows.</SimpleCard>
-      <SimpleCard title="Computer-Aided BioDesign">Design and automate biological engineering workflows.</SimpleCard>
-      <SimpleCard title="AI in Computational Biology">Use machine learning with biological data and design problems.</SimpleCard>
+      <SimpleCard title="Foundations"
+        >Foundational concepts for biology, computation, standards, and workflows.</SimpleCard
+      >
+      <SimpleCard title="Computer-Aided BioDesign"
+        >Design and automate biological engineering workflows.</SimpleCard
+      >
+      <SimpleCard title="AI in Computational Biology"
+        >Use machine learning with biological data and design problems.</SimpleCard
+      >
     </div>
     <div class="mt-10 rounded-2xl border border-violet-100 bg-white p-6">
       <h2 class="text-2xl font-bold">Open teaching resources</h2>
-      <p class="mt-3 text-slate-600">Unless otherwise noted, DRAGGON Lab teaching materials are shared for reuse with attribution under the site content license.</p>
-      <p class="mt-3 text-slate-600">If you have teaching materials, notebooks, examples, diagrams, or workshop ideas that fit DRAGGON Lab themes, you are welcome to suggest them through GitHub or contact the lab.</p>
-      <div class="mt-5 flex flex-wrap gap-3"><ButtonLink href="https://github.com/DRAGGON-Lab/draggon-lab.github.io/issues/new?template=teaching-resource-request.yml">Suggest a resource</ButtonLink><ButtonLink href="mailto:contact@draggonlab.org" variant="secondary">Contact DRAGGON Lab</ButtonLink></div>
+      <p class="mt-3 text-slate-600">
+        Unless otherwise noted, DRAGGON Lab teaching materials are shared for reuse with attribution
+        under the site content license.
+      </p>
+      <p class="mt-3 text-slate-600">
+        If you have teaching materials, notebooks, examples, diagrams, or workshop ideas that fit
+        DRAGGON Lab themes, you are welcome to suggest them through GitHub or contact the lab.
+      </p>
+      <div class="mt-5 flex flex-wrap gap-3">
+        <ButtonLink
+          href="https://github.com/DRAGGON-Lab/draggon-lab.github.io/issues/new?template=teaching-resource-request.yml"
+          >Suggest a resource</ButtonLink
+        ><ButtonLink href="mailto:contact@draggonlab.org" variant="secondary"
+          >Contact DRAGGON Lab</ButtonLink
+        >
+      </div>
     </div>
   </section>
 </BaseLayout>

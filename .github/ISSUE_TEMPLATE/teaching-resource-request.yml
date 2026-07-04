@@ -1,6 +1,6 @@
 name: Teaching resource request or suggestion
 description: Request a new teaching resource, suggest an existing one, or offer to contribute or adapt a resource.
-title: "Teaching resource: "
+title: 'Teaching resource: '
 labels: [teaching, resource]
 body:
   - type: dropdown

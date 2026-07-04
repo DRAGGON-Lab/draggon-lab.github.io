@@ -7,5 +7,5 @@ export const siteConfig = {
   githubOrg: 'https://github.com/DRAGGON-Lab',
   websiteSource: 'https://github.com/DRAGGON-Lab/draggon-lab.github.io',
   googleScholar: 'https://scholar.google.com/citations?user=m3sQS9cAAAAJ&hl=en',
-  linkedin: 'https://www.linkedin.com/'
+  linkedin: 'https://www.linkedin.com/',
 } as const;

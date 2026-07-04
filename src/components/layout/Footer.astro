@@ -2,21 +2,77 @@
 import { siteConfig } from '../../data/siteConfig';
 const year = new Date().getUTCFullYear();
 ---
+
 <footer class="mt-20 border-t border-slate-200 bg-white">
   <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 md:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
     <div>
       <p class="font-bold text-slate-950">{siteConfig.labName}</p>
       <p class="mt-2 text-sm text-slate-600">{siteConfig.acronym}.</p>
-      <p class="mt-2 text-sm text-slate-600">AI-aided biodesign platforms for programming biological systems.</p>
+      <p class="mt-2 text-sm text-slate-600">
+        AI-aided biodesign platforms for programming biological systems.
+      </p>
       <p class="mt-2 text-sm text-slate-600">{siteConfig.affiliation}</p>
-      <p class="mt-2 text-sm text-slate-600">Contact: <a class="underline" href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a></p>
+      <p class="mt-2 text-sm text-slate-600">
+        Contact: <a class="underline" href={`mailto:${siteConfig.contactEmail}`}
+          >{siteConfig.contactEmail}</a
+        >
+      </p>
     </div>
-    <div><h2 class="text-sm font-semibold">Lab</h2><ul class="mt-3 space-y-2 text-sm text-slate-600"><li><a href="/research">Research</a></li><li><a href="/tools">Tools</a></li><li><a href="/people">People</a></li><li><a href="/join-collaborate">Join / Collaborate</a></li></ul></div>
-    <div><h2 class="text-sm font-semibold">Resources</h2><ul class="mt-3 space-y-2 text-sm text-slate-600"><li><a href="/publications">Publications</a></li><li><a href="/lab-notes">Lab Notes</a></li><li><a href="/teaching">Teaching</a></li><li><a href="/project-directions">Project Directions</a></li></ul></div>
-    <div><h2 class="text-sm font-semibold">External</h2><ul class="mt-3 space-y-2 text-sm text-slate-600"><li><a href={siteConfig.githubOrg} target="_blank" rel="noopener noreferrer">GitHub</a></li><li><a href={siteConfig.googleScholar} target="_blank" rel="noopener noreferrer">Google Scholar</a></li><li><a href={siteConfig.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li><li><a href="/lab-notes/rss.xml" target="_blank" rel="noopener noreferrer">RSS</a><p class="text-xs">RSS feed for Lab Notes.</p></li></ul></div>
-    <div><h2 class="text-sm font-semibold">Legal / Technical</h2><ul class="mt-3 space-y-2 text-sm text-slate-600"><li><a href="/privacy">Privacy</a></li><li><a href="/site-graph.json" target="_blank" rel="noopener noreferrer">Site graph JSON</a></li></ul></div>
+    <div>
+      <h2 class="text-sm font-semibold">Lab</h2><ul class="mt-3 space-y-2 text-sm text-slate-600">
+        <li><a href="/research">Research</a></li><li><a href="/tools">Tools</a></li><li>
+          <a href="/people">People</a>
+        </li><li><a href="/join-collaborate">Join / Collaborate</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="text-sm font-semibold">Resources</h2><ul
+        class="mt-3 space-y-2 text-sm text-slate-600"
+      >
+        <li><a href="/publications">Publications</a></li><li>
+          <a href="/lab-notes">Lab Notes</a>
+        </li><li><a href="/teaching">Teaching</a></li><li>
+          <a href="/project-directions">Project Directions</a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="text-sm font-semibold">External</h2><ul
+        class="mt-3 space-y-2 text-sm text-slate-600"
+      >
+        <li>
+          <a href={siteConfig.githubOrg} target="_blank" rel="noopener noreferrer">GitHub</a>
+        </li><li>
+          <a href={siteConfig.googleScholar} target="_blank" rel="noopener noreferrer"
+            >Google Scholar</a
+          >
+        </li><li>
+          <a href={siteConfig.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </li><li>
+          <a href="/lab-notes/rss.xml" target="_blank" rel="noopener noreferrer">RSS</a><p
+            class="text-xs"
+          >
+            RSS feed for Lab Notes.
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="text-sm font-semibold">Legal / Technical</h2><ul
+        class="mt-3 space-y-2 text-sm text-slate-600"
+      >
+        <li><a href="/privacy">Privacy</a></li><li>
+          <a href="/site-graph.json" target="_blank" rel="noopener noreferrer">Site graph JSON</a>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="mx-auto max-w-7xl border-t border-slate-200 px-4 py-5 text-xs text-slate-500">
-    © {year} DRAGGON Lab. Built with Astro, TypeScript, MDX, and GitHub Pages. <a class="underline" href={siteConfig.websiteSource} target="_blank" rel="noopener noreferrer">Source available on GitHub</a>. Code MIT · Content CC BY 4.0 · Logos reserved.
+    © {year} DRAGGON Lab. Built with Astro, TypeScript, MDX, and GitHub Pages. <a
+      class="underline"
+      href={siteConfig.websiteSource}
+      target="_blank"
+      rel="noopener noreferrer">Source available on GitHub</a
+    >. Code MIT · Content CC BY 4.0 · Logos reserved.
   </div>
 </footer>

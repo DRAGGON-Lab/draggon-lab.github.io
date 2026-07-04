@@ -15,10 +15,10 @@ export default {
           softgreen: '#A7F3D0',
           cyan: '#06B6D4',
           dark: '#020617',
-          darksurface: '#0F172A'
-        }
-      }
-    }
+          darksurface: '#0F172A',
+        },
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 };

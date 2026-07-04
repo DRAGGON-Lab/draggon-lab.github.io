@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ButtonLink from '../components/ui/ButtonLink.astro';
 import SimpleCard from '../components/cards/SimpleCard.astro';
+import { siteConfig } from '../data/siteConfig';
 ---
 
 <BaseLayout
@@ -10,7 +11,7 @@ import SimpleCard from '../components/cards/SimpleCard.astro';
 >
   <section class="mx-auto max-w-7xl px-4 py-20">
     <p class="text-draggon-violet text-sm font-semibold tracking-wide uppercase">
-      University of Bristol - School of Engineering Mathematics and Technology
+      {siteConfig.affiliation}
     </p>
     <h1 class="mt-4 max-w-4xl text-5xl font-bold tracking-tight text-slate-950">
       AI-aided biodesign platforms for programming biological systems.

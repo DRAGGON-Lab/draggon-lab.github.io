@@ -14,6 +14,8 @@ The website is a modular public map of the DRAGGON Lab ecosystem: research inter
 
 No separate About page is included in Version 1. Identity is distributed through the homepage, People page, Join / Collaborate page, footer, and Lab Notes.
 
+`/project-directions` is a secondary resource page for prospective collaborators and contributors. It is linked from the footer and from Join / Collaborate CTAs/contextual links, but it is intentionally not included in the Version 1 main navigation.
+
 ## Homepage order
 
 1. Hero

@@ -1,6 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
+
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SimpleCard from '../../components/cards/SimpleCard.astro';
+import { includeEntryInEnvironment, sortEntriesByTitle } from '../../lib/contentFilters';
+
+const entries = sortEntriesByTitle(
+  (await getCollection('tools')).filter(includeEntryInEnvironment),
+);
 ---
 
 <BaseLayout
@@ -14,21 +21,13 @@ import SimpleCard from '../../components/cards/SimpleCard.astro';
       and sharing programmable biological systems.
     </p>
     <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <SimpleCard title="Design - LOICA"
-        >Program genetic networks and biological functions before building them.</SimpleCard
-      >
-      <SimpleCard title="Build - PUDU and BuildCompiler"
-        >Translate designs into assembly and automation-ready build plans.</SimpleCard
-      >
-      <SimpleCard title="Test - Flapjack workflows"
-        >Capture experimental data and metadata from engineered systems.</SimpleCard
-      >
-      <SimpleCard title="Learn - SeqTrainer"
-        >Train and benchmark models from standardized data.</SimpleCard
-      >
-      <SimpleCard title="Infrastructure - SynBioSuite"
-        >Connect standards, repositories, and workflows into a reusable platform.</SimpleCard
-      >
+      {
+        entries.map((entry) => (
+          <SimpleCard title={entry.data.title} eyebrow={entry.data.tags[0]}>
+            {entry.data.summary}
+          </SimpleCard>
+        ))
+      }
     </div>
   </section>
 </BaseLayout>

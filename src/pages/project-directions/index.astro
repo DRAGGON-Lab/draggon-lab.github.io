@@ -1,6 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
+
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SimpleCard from '../../components/cards/SimpleCard.astro';
+import { includeEntryInEnvironment, sortEntriesByTitle } from '../../lib/contentFilters';
+
+const entries = sortEntriesByTitle(
+  (await getCollection('project-directions')).filter(includeEntryInEnvironment),
+);
 ---
 
 <BaseLayout
@@ -14,21 +21,13 @@ import SimpleCard from '../../components/cards/SimpleCard.astro';
       partners.
     </p>
     <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <SimpleCard title="Standards for Programmable Biology"
-        >Standards-enabled data infrastructure for programmable biology.</SimpleCard
-      >
-      <SimpleCard title="Programmatic DBTL Workflows"
-        >DBTL workflows for genetic network engineering.</SimpleCard
-      >
-      <SimpleCard title="AI Models for Gene Expression"
-        >Graph and foundation models for gene expression from standardized biological designs.</SimpleCard
-      >
-      <SimpleCard title="Digital Twins of Microbial Communities"
-        >Agent-based simulations of engineered microbial communities and host-microbiome systems.</SimpleCard
-      >
-      <SimpleCard title="In Vivo Biological Intelligence"
-        >Genetic network architectures for sensing, computing, and decision-making.</SimpleCard
-      >
+      {
+        entries.map((entry) => (
+          <SimpleCard title={entry.data.title} eyebrow={entry.data.tags[0]}>
+            {entry.data.summary}
+          </SimpleCard>
+        ))
+      }
     </div>
   </section>
 </BaseLayout>

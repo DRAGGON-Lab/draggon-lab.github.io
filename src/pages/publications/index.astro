@@ -1,6 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
+
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SimpleCard from '../../components/cards/SimpleCard.astro';
+import { includeEntryInEnvironment, sortEntriesByTitle } from '../../lib/contentFilters';
+
+const entries = sortEntriesByTitle(
+  (await getCollection('publications')).filter(includeEntryInEnvironment),
+);
 ---
 
 <BaseLayout
@@ -14,13 +21,13 @@ import SimpleCard from '../../components/cards/SimpleCard.astro';
       outputs connected to the DRAGGON Lab research program.
     </p>
     <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <SimpleCard title="PhD thesis"
-        >Automated design, build, test, learn workflows to engineer synthetic genetic networks.</SimpleCard
-      >
-      <SimpleCard title="LOICA">Design automation for genetic networks.</SimpleCard>
-      <SimpleCard title="SBOL and metadata"
-        >Standards-enabled infrastructure for reproducible biological engineering.</SimpleCard
-      >
+      {
+        entries.map((entry) => (
+          <SimpleCard title={entry.data.title} eyebrow={entry.data.tags[0]}>
+            {entry.data.summary}
+          </SimpleCard>
+        ))
+      }
     </div>
   </section>
 </BaseLayout>

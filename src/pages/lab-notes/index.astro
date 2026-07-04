@@ -1,6 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
+
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SimpleCard from '../../components/cards/SimpleCard.astro';
+import { includeEntryInEnvironment, sortEntriesByTitle } from '../../lib/contentFilters';
+
+const entries = sortEntriesByTitle(
+  (await getCollection('lab-notes')).filter(includeEntryInEnvironment),
+);
 ---
 
 <BaseLayout title="Lab Notes" description="Research logs from DRAGGON Lab.">
@@ -11,15 +18,13 @@ import SimpleCard from '../../components/cards/SimpleCard.astro';
       tutorials, paper notes, teaching reflections, and invitations to collaborate.
     </p>
     <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <SimpleCard title="Launching the DRAGGON Lab website"
-        >An invitation to build open AI-aided biodesign platforms.</SimpleCard
-      >
-      <SimpleCard title="What is biological software engineering?"
-        >A research explainer for the lab identity.</SimpleCard
-      >
-      <SimpleCard title="From DBTL to AI-aided biodesign"
-        >A software-platform note for the DRAGGON ecosystem.</SimpleCard
-      >
+      {
+        entries.map((entry) => (
+          <SimpleCard title={entry.data.title} eyebrow={entry.data.tags[0]}>
+            {entry.data.summary}
+          </SimpleCard>
+        ))
+      }
     </div>
   </section>
 </BaseLayout>

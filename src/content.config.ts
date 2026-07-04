@@ -8,6 +8,7 @@ const common = z.object({
   tags: z.array(z.string()).default([]),
   draft: z.boolean().default(false),
   language: z.string().default('en'),
+  href: z.string().optional(),
 });
 
 const contentCollection = (directory: string) =>

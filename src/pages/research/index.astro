@@ -1,6 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
+
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SimpleCard from '../../components/cards/SimpleCard.astro';
+import { includeEntryInEnvironment, sortEntriesByTitle } from '../../lib/contentFilters';
+
+const entries = sortEntriesByTitle(
+  (await getCollection('research')).filter(includeEntryInEnvironment),
+);
 ---
 
 <BaseLayout title="Research" description="Explore the DRAGGON Lab research vision.">
@@ -11,21 +18,13 @@ import SimpleCard from '../../components/cards/SimpleCard.astro';
       workflows, machine learning, digital twins, and intelligent genetic networks.
     </p>
     <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <SimpleCard title="Biological Software Foundations"
-        >Reusable software, standards, data structures, and metadata for programmable biology.</SimpleCard
-      >
-      <SimpleCard title="Automated DBTL Workflows"
-        >Programmatic workflows for genetic network engineering.</SimpleCard
-      >
-      <SimpleCard title="AI-Aided Biodesign"
-        >Models and data infrastructure for more predictable biological design.</SimpleCard
-      >
-      <SimpleCard title="Digital Twins of Living Systems"
-        >Simulations connecting engineered systems with cells and communities.</SimpleCard
-      >
-      <SimpleCard title="Intelligent Genetic & Genomic Networks"
-        >Biological architectures for sensing, computing, and decision-making.</SimpleCard
-      >
+      {
+        entries.map((entry) => (
+          <SimpleCard title={entry.data.title} eyebrow={entry.data.tags[0]}>
+            {entry.data.summary}
+          </SimpleCard>
+        ))
+      }
     </div>
   </section>
 </BaseLayout>

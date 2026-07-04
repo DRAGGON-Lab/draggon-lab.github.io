@@ -21,23 +21,23 @@
     "graph": "tsx scripts/generate-site-graph.ts"
   },
   "dependencies": {
-    "@astrojs/check": "latest",
-    "@astrojs/mdx": "latest",
-    "@astrojs/tailwind": "latest",
-    "astro": "latest",
-    "tailwindcss": "latest",
-    "typescript": "latest",
-    "zod": "latest"
+    "@astrojs/check": "0.9.9",
+    "@astrojs/mdx": "7.0.2",
+    "@astrojs/tailwind": "6.0.2",
+    "astro": "7.0.6",
+    "tailwindcss": "4.3.2",
+    "typescript": "6.0.3",
+    "zod": "4.4.3"
   },
   "devDependencies": {
-    "@eslint/js": "latest",
-    "autoprefixer": "latest",
-    "cross-env": "latest",
-    "eslint": "latest",
-    "prettier": "latest",
-    "prettier-plugin-astro": "latest",
-    "prettier-plugin-tailwindcss": "latest",
-    "tsx": "latest"
+    "@eslint/js": "10.0.1",
+    "autoprefixer": "10.5.2",
+    "cross-env": "10.1.0",
+    "eslint": "10.6.0",
+    "prettier": "3.9.4",
+    "prettier-plugin-astro": "0.14.1",
+    "prettier-plugin-tailwindcss": "0.8.0",
+    "tsx": "4.23.0"
   },
   "engines": {
     "node": ">=22"

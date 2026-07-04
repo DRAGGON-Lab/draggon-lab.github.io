@@ -20,7 +20,7 @@ const entries = sortEntriesByTitle(
     <div class="mt-8 grid gap-4 md:grid-cols-2">
       {
         entries.map((entry) => (
-          <SimpleCard title={entry.data.title} eyebrow={entry.data.tags[0]}>
+          <SimpleCard title={entry.data.title} href={entry.data.href} eyebrow={entry.data.tags[0]}>
             {entry.data.summary}
           </SimpleCard>
         ))

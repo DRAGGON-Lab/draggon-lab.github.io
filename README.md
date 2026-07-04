@@ -34,7 +34,7 @@ Infrastructure: SynBioSuite, SBOLInventory, SBOL/SynBioHub integrations.
 
 ## Development
 
-Requires Node.js 22.12.0 or newer and pnpm 10.28.1.
+Use Node.js 22.13.0 and pnpm 10.28.1.
 
 ```bash
 pnpm install

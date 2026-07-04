@@ -1,4 +1,5 @@
-@import '../../node_modules/tailwindcss/index.css';
+@import 'tailwindcss';
+@config '../../tailwind.config.mjs';
 
 :root {
   color-scheme: light;

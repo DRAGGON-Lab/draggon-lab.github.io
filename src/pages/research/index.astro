@@ -3,7 +3,12 @@ import { getCollection } from 'astro:content';
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SimpleCard from '../../components/cards/SimpleCard.astro';
-import { includeEntryInEnvironment, sortEntriesByTitle } from '../../lib/contentFilters';
+import DraftBadge from '../../components/ui/DraftBadge.astro';
+import {
+  includeEntryInEnvironment,
+  shouldShowDraftBadge,
+  sortEntriesByTitle,
+} from '../../lib/contentFilters';
 
 const entries = sortEntriesByTitle(
   (await getCollection('research')).filter(includeEntryInEnvironment),
@@ -21,6 +26,7 @@ const entries = sortEntriesByTitle(
       {
         entries.map((entry) => (
           <SimpleCard title={entry.data.title} eyebrow={entry.data.tags[0]}>
+            {shouldShowDraftBadge(entry) && <DraftBadge slot="titleSuffix" />}
             {entry.data.summary}
           </SimpleCard>
         ))

@@ -2,13 +2,21 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SimpleCard from '../../components/cards/SimpleCard.astro';
 ---
+
 <BaseLayout title="People" description="Meet DRAGGON Lab.">
   <section class="mx-auto max-w-7xl px-4 py-16">
     <h1 class="text-4xl font-bold tracking-tight text-slate-950">People</h1>
-    <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">DRAGGON Lab will grow through interdisciplinary researchers, students, collaborators, and contributors.</p>
+    <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+      DRAGGON Lab will grow through interdisciplinary researchers, students, collaborators, and
+      contributors.
+    </p>
     <div class="mt-8 grid gap-4 md:grid-cols-2">
-      <SimpleCard title="Gonzalo Vidal">Lecturer / Assistant Professor, University of Bristol. Founder, DRAGGON Lab.</SimpleCard>
-      <SimpleCard title="Join / Collaborate" href="/join-collaborate">Explore current opportunities, project directions, and ways to contribute.</SimpleCard>
+      <SimpleCard title="Gonzalo Vidal"
+        >Lecturer / Assistant Professor, University of Bristol. Founder, DRAGGON Lab.</SimpleCard
+      >
+      <SimpleCard title="Join / Collaborate" href="/join-collaborate"
+        >Explore current opportunities, project directions, and ways to contribute.</SimpleCard
+      >
     </div>
   </section>
 </BaseLayout>

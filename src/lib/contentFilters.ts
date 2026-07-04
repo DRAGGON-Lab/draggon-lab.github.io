@@ -7,9 +7,14 @@ type DraftableEntry = {
 
 const deployEnvironment = import.meta.env.PUBLIC_DEPLOY_ENV ?? 'development';
 const isProduction = deployEnvironment === 'production';
+const showsDraftBadges = deployEnvironment === 'preview' || deployEnvironment === 'development';
 
 export function includeEntryInEnvironment<T extends DraftableEntry>(entry: T) {
   return !isProduction || !entry.data.draft;
+}
+
+export function shouldShowDraftBadge<T extends DraftableEntry>(entry: T) {
+  return showsDraftBadges && entry.data.draft === true;
 }
 
 export function sortEntriesByTitle<T extends DraftableEntry>(entries: T[]) {

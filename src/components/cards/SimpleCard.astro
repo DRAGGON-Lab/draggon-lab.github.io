@@ -1,8 +1,8 @@
 ---
-const { title, href, eyebrow } = Astro.props;
+const { title, href, eyebrow, id } = Astro.props;
 ---
 
-<article class="card rounded-2xl p-5">
+<article id={id} class="card rounded-2xl p-5">
   {
     eyebrow && (
       <p class="text-draggon-violet text-xs font-semibold tracking-wide uppercase">{eyebrow}</p>

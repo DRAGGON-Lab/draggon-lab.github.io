@@ -38,8 +38,12 @@ const shouldRenderAnalytics = deployEnv === 'production';
               ? 'dark'
               : 'light';
 
+        const animations = localStorage.getItem('draggon-animations') === 'off' ? 'off' : 'on';
+
         document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.animations = animations;
         document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
+        document.documentElement.classList.toggle('animations-off', animations === 'off');
         document.documentElement.style.colorScheme = resolvedTheme;
       })();
     </script>

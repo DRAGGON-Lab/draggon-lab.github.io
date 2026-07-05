@@ -25,7 +25,11 @@ const entries = sortEntriesByTitle(
     <div class="mt-8 grid gap-4 md:grid-cols-3">
       {
         entries.map((entry) => (
-          <SimpleCard title={entry.data.title} eyebrow={entry.data.tags[0]}>
+          <SimpleCard
+            title={entry.data.title}
+            eyebrow={entry.data.tags[0]}
+            href={`/research/${entry.id}/`}
+          >
             {shouldShowDraftBadge(entry) && <DraftBadge slot="titleSuffix" />}
             {entry.data.summary}
           </SimpleCard>

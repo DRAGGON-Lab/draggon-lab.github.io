@@ -2,15 +2,25 @@
 const { title, href, eyebrow, id } = Astro.props;
 ---
 
-<article id={id} class="card rounded-2xl p-5">
+<article id={id} class:list={['card rounded-2xl p-5', href && 'group relative']}>
+  {
+    href && (
+      <a
+        href={href}
+        class="focus-visible:outline-draggon-violet absolute inset-0 z-10 rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2"
+        aria-label={`Read more about ${title}`}
+      />
+    )
+  }
   {
     eyebrow && (
       <p class="text-draggon-violet text-xs font-semibold tracking-wide uppercase">{eyebrow}</p>
     )
   }
   <h3 class="mt-2 flex flex-wrap items-center gap-2 text-lg font-semibold text-slate-950">
-    {href ? <a href={href}>{title}</a> : title}
+    <span class:list={[href && 'group-hover:text-draggon-violet transition']}>{title}</span>
     <slot name="titleSuffix" />
   </h3>
   <p class="mt-3 text-sm leading-6 text-slate-600"><slot /></p>
+  {href && <p class="text-draggon-violet mt-4 text-sm font-semibold">Read more →</p>}
 </article>

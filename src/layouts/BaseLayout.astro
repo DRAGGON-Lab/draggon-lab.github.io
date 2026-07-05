@@ -24,6 +24,25 @@ const shouldRenderAnalytics = deployEnv === 'production';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <script is:inline>
+      (() => {
+        const storageKey = 'draggon-theme';
+        const savedTheme = localStorage.getItem(storageKey);
+        const theme = ['light', 'dark', 'system'].includes(savedTheme ?? '')
+          ? savedTheme
+          : 'system';
+        const resolvedTheme =
+          theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : theme === 'dark'
+              ? 'dark'
+              : 'light';
+
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.classList.toggle('dark', resolvedTheme === 'dark');
+        document.documentElement.style.colorScheme = resolvedTheme;
+      })();
+    </script>
     {shouldNoIndex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:title" content={pageTitle} />

@@ -1,0 +1,62 @@
+<button
+  type="button"
+  class="theme-toggle"
+  aria-label="Switch to dark mode"
+  aria-live="polite"
+  data-theme-toggle
+>
+  <span class="theme-toggle__icon" aria-hidden="true"></span>
+  <span class="theme-toggle__text" data-theme-toggle-label>System</span>
+</button>
+
+<script>
+  const storageKey = 'draggon-theme';
+  type Theme = 'system' | 'light' | 'dark';
+  const themes: Theme[] = ['system', 'light', 'dark'];
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function storedTheme(): Theme {
+    const value = localStorage.getItem(storageKey);
+    return themes.includes(value as Theme) ? (value as Theme) : 'system';
+  }
+
+  function resolvedTheme(theme: Theme) {
+    return theme === 'system' ? (mediaQuery.matches ? 'dark' : 'light') : theme;
+  }
+
+  function applyTheme(theme: Theme) {
+    const resolved = resolvedTheme(theme);
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.classList.toggle('dark', resolved === 'dark');
+    document.documentElement.style.colorScheme = resolved;
+
+    document.querySelectorAll('[data-theme-toggle]').forEach((toggle) => {
+      const label = toggle.querySelector('[data-theme-toggle-label]');
+      if (label) label.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+      toggle.setAttribute(
+        'aria-label',
+        theme === 'dark'
+          ? 'Switch to system theme'
+          : `Switch to ${themes[themes.indexOf(theme) + 1]} mode`,
+      );
+    });
+  }
+
+  function nextTheme(theme: Theme): Theme {
+    return themes[(themes.indexOf(theme) + 1) % themes.length];
+  }
+
+  applyTheme(storedTheme());
+
+  document.querySelectorAll('[data-theme-toggle]').forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const theme = nextTheme(storedTheme());
+      localStorage.setItem(storageKey, theme);
+      applyTheme(theme);
+    });
+  });
+
+  mediaQuery.addEventListener('change', () => {
+    if (storedTheme() === 'system') applyTheme('system');
+  });
+</script>

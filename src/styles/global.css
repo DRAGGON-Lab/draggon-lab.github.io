@@ -90,6 +90,16 @@ html.dark .hero-neon-text {
   }
 }
 
+@media (forced-colors: active) {
+  .hero-neon-text {
+    background-image: none;
+    color: CanvasText;
+    -webkit-text-fill-color: CanvasText;
+    animation: none;
+    filter: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     scroll-behavior: auto !important;

@@ -98,6 +98,11 @@ html.dark h3 {
   color: var(--color-text);
 }
 
+html.dark .hover\:text-draggon-green:hover,
+html.dark .focus-visible\:text-draggon-green:focus-visible {
+  color: #39ff14;
+}
+
 html.dark .text-slate-700,
 html.dark .text-slate-600,
 html.dark .text-slate-500,

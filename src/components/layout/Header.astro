@@ -1,6 +1,7 @@
 ---
 import { mainNav } from '../../data/navigation';
 import { siteConfig } from '../../data/siteConfig';
+import AnimationToggle from '../ui/AnimationToggle.astro';
 import ThemeToggle from '../ui/ThemeToggle.astro';
 const path = Astro.url.pathname;
 const isActiveNavItem = (href: string) => path === href || path.startsWith(`${href}/`);
@@ -33,6 +34,7 @@ const isActiveNavItem = (href: string) => path === href || path.startsWith(`${hr
       }
     </nav>
     <div class="flex items-center gap-2">
+      <AnimationToggle />
       <ThemeToggle />
       <details class="md:hidden">
         <summary class="cursor-pointer rounded-full border border-slate-200 px-3 py-2 text-sm"

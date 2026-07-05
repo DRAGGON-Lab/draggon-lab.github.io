@@ -9,7 +9,11 @@ const isActiveNavItem = (href: string) => path === href || path.startsWith(`${hr
 <header class="sticky top-0 z-30 border-b border-slate-200/70 bg-white/90 backdrop-blur">
   <a class="sr-only focus:not-sr-only" href="#main-content">Skip to content</a>
   <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-    <a href="/" class="font-bold tracking-tight text-slate-950">{siteConfig.labName}</a>
+    <a
+      href="/"
+      class="hover:text-draggon-green focus-visible:text-draggon-green font-bold tracking-tight text-slate-950 transition-colors"
+      >{siteConfig.labName}</a
+    >
     <nav class="hidden items-center gap-1 md:flex" aria-label="Main navigation">
       {
         mainNav.map((item) => (

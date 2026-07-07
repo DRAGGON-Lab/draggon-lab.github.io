@@ -7,7 +7,7 @@
   data-animation-toggle
 >
   <span class="animation-toggle__icon" aria-hidden="true"></span>
-  <span class="theme-toggle__text" data-animation-toggle-label>Animations on</span>
+  <span class="theme-toggle__text" data-animation-toggle-label>Animations</span>
 </button>
 
 <script>
@@ -31,7 +31,7 @@
 
     document.querySelectorAll('[data-animation-toggle]').forEach((toggle) => {
       const label = toggle.querySelector('[data-animation-toggle-label]');
-      if (label) label.textContent = enabled ? 'Animations on' : 'Animations off';
+      if (label) label.textContent = 'Animations';
       toggle.setAttribute('aria-pressed', String(enabled));
       toggle.setAttribute('aria-label', enabled ? 'Disable animations' : 'Enable animations');
     });

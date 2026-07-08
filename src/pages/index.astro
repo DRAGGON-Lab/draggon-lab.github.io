@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ButtonLink from '../components/ui/ButtonLink.astro';
 import SimpleCard from '../components/cards/SimpleCard.astro';
+import DBTLCycleDisplay from '../components/DBTLCycleDisplay.astro';
 import { siteConfig } from '../data/siteConfig';
 ---
 
@@ -83,16 +84,8 @@ import { siteConfig } from '../data/siteConfig';
       </div>
       <ButtonLink href="/tools" variant="secondary">View Platform Ecosystem</ButtonLink>
     </div>
-    <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <SimpleCard title="Design - LOICA" href="/tools"
-        >Program genetic networks and biological functions before building them.</SimpleCard
-      >
-      <SimpleCard title="Build - PUDU and BuildCompiler" href="/tools"
-        >Translate designs into assembly and automation-ready build plans.</SimpleCard
-      >
-      <SimpleCard title="Test, Learn, and Infrastructure" href="/tools"
-        >Connect Flapjack workflows, SeqTrainer, SynBioSuite, standards, and repositories.</SimpleCard
-      >
+    <div class="mt-8">
+      <DBTLCycleDisplay />
     </div>
   </section>
 

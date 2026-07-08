@@ -40,42 +40,6 @@ a {
   border-color: color-mix(in srgb, #39ff14 22%, rgba(15, 23, 42, 0.1));
   box-shadow: 0 0 0 1px color-mix(in srgb, #39ff14 12%, transparent);
 }
-
-.button-link {
-  position: relative;
-  isolation: isolate;
-}
-
-.button-link::after {
-  content: '';
-  position: absolute;
-  right: 18%;
-  bottom: -0.42rem;
-  left: 18%;
-  z-index: -1;
-  height: 0.34rem;
-  border-radius: 9999px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(57, 255, 20, 0.72) 0%,
-    rgba(57, 255, 20, 0.34) 42%,
-    rgba(167, 243, 208, 0.16) 68%,
-    rgba(57, 255, 20, 0) 100%
-  );
-  filter: blur(0.18rem);
-  opacity: 0.82;
-  transition:
-    opacity 160ms ease,
-    transform 160ms ease,
-    filter 160ms ease;
-}
-
-.button-link:hover::after,
-.button-link:focus-visible::after {
-  filter: blur(0.24rem);
-  opacity: 1;
-  transform: translateY(0.08rem) scaleX(1.08);
-}
 .hero-neon-text {
   position: relative;
   overflow: hidden;

@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SimpleCard from '../../components/cards/SimpleCard.astro';
+import DBTLCycleDisplay from '../../components/DBTLCycleDisplay.astro';
 import DraftBadge from '../../components/ui/DraftBadge.astro';
 import {
   includeEntryInEnvironment,
@@ -25,6 +26,9 @@ const entries = sortEntriesByTitle(
       Our tools form a modular platform ecosystem for designing, building, testing, learning from,
       and sharing programmable biological systems.
     </p>
+    <div class="mt-8">
+      <DBTLCycleDisplay />
+    </div>
     <div class="mt-8 grid gap-4 md:grid-cols-3">
       {
         entries.map((entry) => (

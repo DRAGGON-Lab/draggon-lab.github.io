@@ -1,0 +1,100 @@
+---
+const stages = [
+  {
+    letter: 'D',
+    name: 'Design',
+    summary: 'Model biological functions and compose genetic network designs.',
+    tools: ['LOICA', 'SBOL', 'SynBioHub'],
+  },
+  {
+    letter: 'B',
+    name: 'Build',
+    summary: 'Translate designs into reproducible assembly and automation plans.',
+    tools: ['PUDU', 'BuildCompiler'],
+  },
+  {
+    letter: 'T',
+    name: 'Test',
+    summary: 'Capture measurements, metadata, and characterization workflows.',
+    tools: ['Flapjack', 'Tricahue'],
+  },
+  {
+    letter: 'L',
+    name: 'Learn',
+    summary: 'Turn standardized results into datasets, models, and next designs.',
+    tools: ['SeqTrainer', 'AI/ML'],
+  },
+];
+---
+
+<div class="dbtl-cycle rounded-3xl border border-violet-200/70 bg-white/90 p-5 shadow-sm md:p-6">
+  <div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+    <div>
+      <p class="text-draggon-violet text-sm font-semibold tracking-wide uppercase">DBTL Cycle</p>
+      <h3 class="mt-1 text-2xl font-bold tracking-tight text-slate-950">
+        Design, Build, Test, and Learn on shared infrastructure
+      </h3>
+    </div>
+    <p class="max-w-xl text-sm leading-6 text-slate-600">
+      A modular workflow view for connecting biological software, lab automation, data capture, and
+      learning systems.
+    </p>
+  </div>
+
+  <div class="relative mt-8">
+    <div
+      class="absolute top-10 right-[12%] left-[12%] hidden h-px bg-gradient-to-r from-transparent via-violet-300 to-transparent md:block"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="grid gap-4 md:grid-cols-4">
+      {
+        stages.map((stage) => (
+          <article class="card relative rounded-2xl p-4">
+            <div class="flex items-center gap-3">
+              <div class="bg-draggon-deep grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-xl font-black text-white shadow-lg shadow-violet-900/15">
+                {stage.letter}
+              </div>
+              <div>
+                <h4 class="text-lg font-bold text-slate-950">{stage.name}</h4>
+                <p class="text-draggon-violet text-xs font-semibold tracking-wide uppercase">
+                  Workflow stage
+                </p>
+              </div>
+            </div>
+            <p class="mt-4 text-sm leading-6 text-slate-600">{stage.summary}</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {stage.tools.map((tool) => (
+                <span class="text-draggon-deep rounded-full border border-violet-200 bg-violet-50 px-2.5 py-1 text-xs font-semibold">
+                  {tool}
+                </span>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="border-draggon-green/40 bg-draggon-green/10 mt-4 rounded-2xl border p-4 md:p-5">
+    <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+      <div>
+        <p class="text-draggon-deep text-xs font-semibold tracking-[0.24em] uppercase">
+          Infrastructure
+        </p>
+        <h4 class="mt-1 text-xl font-bold text-slate-950">
+          Standards, repositories, metadata, automation, and FAIR data across every stage
+        </h4>
+      </div>
+      <div class="flex flex-wrap gap-2 md:justify-end">
+        {
+          ['SynBioSuite', 'SynBioHub', 'SBOL', 'FAIR workflows'].map((tool) => (
+            <span class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 ring-1 ring-violet-200/80">
+              {tool}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>

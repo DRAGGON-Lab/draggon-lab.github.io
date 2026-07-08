@@ -14,6 +14,10 @@ import {
 const entries = sortEntriesByTitle(
   (await getCollection('tools')).filter(includeEntryInEnvironment),
 );
+
+const getToolCardTitle = (title: string) => title.replace(/^[^-]+ - /, '');
+const formatStage = (stage?: string) =>
+  stage ? stage.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()) : '';
 ---
 
 <BaseLayout
@@ -29,15 +33,88 @@ const entries = sortEntriesByTitle(
     <div class="mt-8">
       <DBTLCycleDisplay />
     </div>
-    <div class="mt-8 grid gap-4 md:grid-cols-3">
+
+    <div class="mt-8 max-w-xl">
+      <label for="tool-search" class="block text-sm font-semibold text-slate-950"
+        >Search tools</label
+      >
+      <div class="mt-2">
+        <input
+          id="tool-search"
+          type="search"
+          placeholder="Search by tool, summary, tag, or workflow stage"
+          class="focus:border-draggon-violet focus:ring-draggon-violet/20 w-full rounded-full border border-slate-300 bg-white px-5 py-3 text-sm text-slate-950 shadow-sm transition outline-none placeholder:text-slate-400 focus:ring-4"
+          aria-describedby="tool-search-help tool-search-count"
+        />
+      </div>
+      <p id="tool-search-help" class="mt-2 text-sm text-slate-600">
+        Search across tool card text, including workflow stages such as design, build, test, and
+        learn.
+      </p>
+      <p id="tool-search-count" class="sr-only" aria-live="polite"></p>
+    </div>
+
+    <div id="tools-grid" class="mt-8 grid gap-4 md:grid-cols-3">
       {
-        entries.map((entry) => (
-          <SimpleCard title={entry.data.title} eyebrow={entry.data.tags[0]}>
-            {shouldShowDraftBadge(entry) && <DraftBadge slot="titleSuffix" />}
-            {entry.data.summary}
-          </SimpleCard>
-        ))
+        entries.map((entry) => {
+          const cardTitle = getToolCardTitle(entry.data.title);
+          const searchText = [
+            cardTitle,
+            entry.data.title,
+            entry.data.summary,
+            ...entry.data.tags,
+            entry.data.ecosystem_group,
+            entry.data.lifecycle_stage,
+            entry.data.status,
+            formatStage(entry.data.ecosystem_group),
+            formatStage(entry.data.lifecycle_stage),
+          ]
+            .filter(Boolean)
+            .join(' ');
+
+          return (
+            <div class="tool-card" data-tool-search={searchText}>
+              <SimpleCard title={cardTitle} eyebrow={entry.data.tags[0]}>
+                {shouldShowDraftBadge(entry) && <DraftBadge slot="titleSuffix" />}
+                {entry.data.summary}
+              </SimpleCard>
+            </div>
+          );
+        })
       }
     </div>
+    <p
+      id="tools-empty"
+      class="mt-8 hidden rounded-2xl border border-dashed border-slate-300 p-6 text-sm text-slate-600"
+    >
+      No tools match your search. Clear the search field to show all tool cards again.
+    </p>
   </section>
+
+  <script>
+    const searchInput = document.querySelector<HTMLInputElement>('#tool-search');
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('.tool-card'));
+    const emptyState = document.querySelector<HTMLElement>('#tools-empty');
+    const count = document.querySelector<HTMLElement>('#tool-search-count');
+
+    const updateToolSearch = () => {
+      const query = searchInput?.value.trim().toLowerCase() ?? '';
+      let visibleCards = 0;
+
+      cards.forEach((card) => {
+        const text = card.dataset.toolSearch?.toLowerCase() ?? '';
+        const isVisible = query === '' || text.includes(query);
+        card.hidden = !isVisible;
+        if (isVisible) visibleCards += 1;
+      });
+
+      emptyState?.classList.toggle('hidden', visibleCards > 0);
+      if (count) {
+        count.textContent = `${visibleCards} ${visibleCards === 1 ? 'tool' : 'tools'} shown`;
+      }
+    };
+
+    searchInput?.addEventListener('input', updateToolSearch);
+    updateToolSearch();
+  </script>
 </BaseLayout>

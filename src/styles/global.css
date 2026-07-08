@@ -1,16 +1,74 @@
 @import 'tailwindcss';
 @config '../../tailwind.config.mjs';
 
+/* ------------------------------------------------------------------ *
+ * Design tokens
+ * ------------------------------------------------------------------ */
 :root {
   color-scheme: light;
+
+  /* Surfaces & ink (light / "paper") */
+  --color-base: #faf8f4;
+  --color-base-tint: #f4f1ea;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f6f4ef;
+  --color-text: #171526;
+  --color-muted: #565165;
+  --color-border: rgba(23, 21, 38, 0.1);
+  --color-border-strong: rgba(109, 40, 217, 0.24);
+
+  /* Accents */
+  --color-accent: #6d28d9;
+  --color-accent-strong: #3b1a7a;
+  --color-accent-tint: rgba(109, 40, 217, 0.08);
+  --color-signal: #16b364;
+  --color-signal-tint: rgba(22, 179, 100, 0.12);
+  --color-violet-soft: #f4f0ff;
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgba(23, 21, 38, 0.04);
+  --shadow-lift: 0 18px 40px -22px rgba(23, 21, 38, 0.35), 0 2px 6px rgba(23, 21, 38, 0.05);
+
+  /* Motion — strong custom curves (Tailwind's built-in easings are too weak).
+     Private names so they don't collide with Tailwind's --ease-* tokens. */
+  --ease-emphatic: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-flow: cubic-bezier(0.77, 0, 0.175, 1);
 }
+
+html.dark {
+  color-scheme: dark;
+
+  --color-base: #0b0b14;
+  --color-base-tint: #12111d;
+  --color-surface: #15141f;
+  --color-surface-muted: #1a1926;
+  --color-text: #e8e5f2;
+  --color-muted: #a29db5;
+  --color-border: rgba(232, 229, 242, 0.12);
+  --color-border-strong: rgba(167, 139, 250, 0.34);
+
+  --color-accent: #a78bfa;
+  --color-accent-strong: #c4b5fd;
+  --color-accent-tint: rgba(167, 139, 250, 0.16);
+  --color-signal: #34d399;
+  --color-signal-tint: rgba(52, 211, 153, 0.16);
+  --color-violet-soft: rgba(76, 29, 149, 0.28);
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-lift: 0 22px 48px -24px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* ------------------------------------------------------------------ *
+ * Base elements
+ * ------------------------------------------------------------------ */
 html {
   scroll-behavior: smooth;
 }
+
 body {
   margin: 0;
-  background: #f8fafc;
-  color: #0f172a;
+  background: var(--color-base);
+  color: var(--color-text);
   font-family:
     Inter,
     ui-sans-serif,
@@ -19,146 +77,392 @@ body {
     BlinkMacSystemFont,
     'Segoe UI',
     sans-serif;
-}
-a {
-  color: inherit;
-}
-.prose a {
-  color: #4c1d95;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.card {
-  border: 1px solid rgba(15, 23, 42, 0.1);
-  background: rgba(255, 255, 255, 0.86);
-  transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease,
-    background 160ms ease;
-}
-.card:hover {
-  border-color: color-mix(in srgb, #39ff14 22%, rgba(15, 23, 42, 0.1));
-  box-shadow: 0 0 0 1px color-mix(in srgb, #39ff14 12%, transparent);
-}
-.hero-neon-text {
-  position: relative;
-  overflow: visible;
-  line-height: 1.15;
-  background-image: linear-gradient(
-    100deg,
-    #0f172a 0%,
-    #0f172a 37%,
-    #a7f3d0 45%,
-    #39ff14 50%,
-    #a7f3d0 55%,
-    #0f172a 63%,
-    #0f172a 100%
-  );
-  background-size: 240% 100%;
-  background-position: 120% 0;
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 0 rgba(57, 255, 20, 0));
-}
-
-.hero-neon-text--active {
-  animation: hero-neon-scan 1.8s ease-in-out 1;
-  will-change: background-position, filter;
-}
-
-html.dark .hero-neon-text {
-  background-image: linear-gradient(
-    100deg,
-    var(--color-text) 0%,
-    var(--color-text) 37%,
-    #a7f3d0 45%,
-    #39ff14 50%,
-    #a7f3d0 55%,
-    var(--color-text) 63%,
-    var(--color-text) 100%
-  );
-}
-
-@keyframes hero-neon-scan {
-  from {
-    background-position: 120% 0;
-    filter: drop-shadow(0 0 0 rgba(57, 255, 20, 0));
-  }
-  45% {
-    filter: drop-shadow(0 0 0.22rem rgba(57, 255, 20, 0.42));
-  }
-  to {
-    background-position: -120% 0;
-    filter: drop-shadow(0 0 0 rgba(57, 255, 20, 0));
-  }
-}
-
-@media (forced-colors: active) {
-  .hero-neon-text {
-    background-image: none;
-    color: CanvasText;
-    -webkit-text-fill-color: CanvasText;
-    animation: none;
-    filter: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-  }
-
-  .hero-neon-text {
-    animation: none !important;
-    background-position: 50% 0;
-  }
-}
-
-html.animations-off .hero-neon-text {
-  background-image: none;
-  background-position: 50% 0;
-  color: inherit;
-  filter: none;
-  -webkit-text-fill-color: currentColor;
-}
-
-html.animations-off .hero-neon-text--active {
-  animation: none;
-}
-
-:root {
-  --color-base: #f8fafc;
-  --color-surface: #ffffff;
-  --color-surface-muted: #f8fafc;
-  --color-text: #0f172a;
-  --color-muted: #475569;
-  --color-border: rgba(15, 23, 42, 0.1);
-  --color-border-strong: rgba(124, 58, 237, 0.2);
-  --color-violet-soft: #f5f3ff;
-}
-
-html.dark {
-  --color-base: #020617;
-  --color-surface: #0f172a;
-  --color-surface-muted: #111827;
-  --color-text: #e2e8f0;
-  --color-muted: #94a3b8;
-  --color-border: rgba(226, 232, 240, 0.14);
-  --color-border-strong: rgba(167, 139, 250, 0.34);
-  --color-violet-soft: rgba(76, 29, 149, 0.28);
+  font-feature-settings: 'cv05', 'ss01';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 html.dark body {
   background:
-    radial-gradient(circle at top left, rgba(124, 58, 237, 0.14), transparent 32rem),
+    radial-gradient(120% 90% at 0% 0%, rgba(109, 40, 217, 0.16), transparent 42rem),
     var(--color-base);
+}
+
+/* Editorial display face for the high-impact headings only.
+   Subheads (h3+) stay in Inter for legibility in dense grids. */
+h1,
+h2 {
+  font-family: Fraunces, ui-serif, Georgia, Cambria, serif;
+  font-optical-sizing: auto;
+  font-variation-settings:
+    'SOFT' 0,
+    'WONK' 0;
+  letter-spacing: -0.022em;
+  font-weight: 560;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--color-signal-tint);
   color: var(--color-text);
 }
 
+/* One consistent, crisp focus ring across interactive elements */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.prose a {
+  color: var(--color-accent-strong);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  text-underline-offset: 3px;
+  transition:
+    color 160ms var(--ease-emphatic),
+    text-decoration-color 160ms var(--ease-emphatic);
+}
+.prose a:hover {
+  color: var(--color-accent);
+  text-decoration-color: currentColor;
+}
+html.dark .prose a {
+  color: var(--color-accent-strong);
+}
+
+/* ------------------------------------------------------------------ *
+ * Cards
+ * ------------------------------------------------------------------ */
+.card {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 240ms var(--ease-emphatic),
+    border-color 200ms var(--ease-emphatic),
+    box-shadow 240ms var(--ease-emphatic);
+}
+
+/* Non-interactive cards: a quiet border warm-up only */
+.card:hover {
+  border-color: color-mix(in srgb, var(--color-accent) 32%, var(--color-border));
+}
+
+/* Interactive cards (they carry `group`): lift + elevate + accent edge */
+@media (hover: hover) and (pointer: fine) {
+  .card.group:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
+    box-shadow: var(--shadow-lift);
+  }
+}
+.card.group:active {
+  transform: translateY(-1px) scale(0.995);
+  transition-duration: 120ms;
+}
+
+/* The "Read more" affordance slides on hover */
+.card-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--color-accent);
+}
+.card-more::after {
+  content: '→';
+  transition: transform 220ms var(--ease-emphatic);
+}
+.card.group:hover .card-more::after {
+  transform: translateX(4px);
+}
+
+/* ------------------------------------------------------------------ *
+ * Buttons (variant colors live on the component; motion lives here)
+ * ------------------------------------------------------------------ */
+.btn {
+  position: relative;
+  transition:
+    transform 140ms var(--ease-emphatic),
+    background-color 180ms var(--ease-emphatic),
+    border-color 180ms var(--ease-emphatic),
+    color 180ms var(--ease-emphatic),
+    box-shadow 180ms var(--ease-emphatic);
+  will-change: transform;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary:hover {
+  box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--color-accent) 80%, transparent);
+}
+
+/* ------------------------------------------------------------------ *
+ * Header navigation
+ * ------------------------------------------------------------------ */
+.nav-link {
+  position: relative;
+  transition:
+    color 160ms var(--ease-emphatic),
+    background-color 160ms var(--ease-emphatic);
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.28rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 200ms var(--ease-emphatic);
+}
+.nav-link:hover::after {
+  transform: scaleX(0.6);
+}
+.nav-link[data-active]::after {
+  transform: scaleX(1);
+  background: linear-gradient(90deg, var(--color-accent), var(--color-signal));
+}
+.nav-link[data-active] {
+  color: var(--color-accent-strong);
+}
+html.dark .nav-link[data-active] {
+  color: var(--color-accent);
+}
+
+/* ------------------------------------------------------------------ *
+ * Hero
+ * ------------------------------------------------------------------ */
+
+/* Full-bleed hero zone: a quiet tonal panel (warm-paper shift, not a color
+   wash) with a soft halo behind the twisting DNA helix. */
+.hero-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      38% 52% at 82% 22%,
+      color-mix(in srgb, var(--color-accent) 9%, transparent),
+      transparent 62%
+    ),
+    linear-gradient(180deg, var(--color-base-tint) 0%, var(--color-base) 100%);
+}
+
+html.dark .hero-band {
+  background:
+    radial-gradient(38% 52% at 82% 22%, rgba(167, 139, 250, 0.16), transparent 62%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 70%);
+}
+
+/* --- DNA double helix (decorative, right-side background flourish) --- */
+.dna-stage {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  z-index: -1;
+  width: 120px;
+  height: 460px;
+  transform: translateY(-50%);
+  perspective: 900px;
+  pointer-events: none;
+  opacity: 0.85;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+}
+
+.dna {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: dna-spin 13s linear infinite;
+}
+
+.dna__rung {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 92px;
+  height: 3px;
+  margin-left: -46px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-accent) 70%, transparent),
+    color-mix(in srgb, var(--color-signal) 70%, transparent)
+  );
+  transform: translateY(var(--dna-y)) rotateY(var(--dna-r));
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+}
+
+.dna__rung::before,
+.dna__rung::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 11px;
+  height: 11px;
+  margin-top: -5.5px;
+  border-radius: 50%;
+}
+.dna__rung::before {
+  left: -5px;
+  background: var(--color-accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent) 70%, transparent);
+}
+.dna__rung::after {
+  right: -5px;
+  background: var(--color-signal);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-signal) 70%, transparent);
+}
+
+@keyframes dna-spin {
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@media (max-width: 767px) {
+  .dna-stage {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dna {
+    animation: none;
+    transform: rotateY(28deg);
+  }
+}
+
+html.animations-off .dna {
+  animation: none;
+  transform: rotateY(28deg);
+}
+
+/* ------------------------------------------------------------------ *
+ * Home page section layouts (deliberately varied, not a card grid)
+ * ------------------------------------------------------------------ */
+
+/* Full-bleed tonal band, for tonal rhythm between open sections */
+.section-tint {
+  background: var(--color-surface-muted);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Research agenda: numbered rows */
+.agenda-row {
+  transition: background-color 220ms var(--ease-emphatic);
+}
+@media (hover: hover) and (pointer: fine) {
+  .agenda-row:hover {
+    background-color: color-mix(in srgb, var(--color-accent) 5%, transparent);
+  }
+}
+.agenda-num {
+  font-family: Fraunces, ui-serif, Georgia, Cambria, serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.agenda-arrow {
+  color: var(--color-accent);
+  transition: transform 220ms var(--ease-emphatic);
+}
+.agenda-row:hover .agenda-arrow,
+.link-arrow:hover .agenda-arrow {
+  transform: translateX(5px);
+}
+
+/* Index entries: publications / lab notes lists */
+.entry-title {
+  transition: color 160ms var(--ease-emphatic);
+}
+.entry:hover .entry-title {
+  color: var(--color-accent);
+}
+
+/* Living-signal glow (kept in CSS: rgba commas break the class scanner) */
+.signal-glow {
+  box-shadow: 0 0 8px color-mix(in srgb, var(--color-signal) 55%, transparent);
+}
+
+.hero-title {
+  font-family: Fraunces, ui-serif, Georgia, Cambria, serif;
+  font-optical-sizing: auto;
+  font-variation-settings:
+    'SOFT' 0,
+    'WONK' 0;
+  font-weight: 540;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+}
+.hero-accent {
+  position: relative;
+  white-space: nowrap;
+  background-image: linear-gradient(120deg, var(--color-accent) 0%, var(--color-signal) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.hero-accent::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.06em;
+  height: 0.09em;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-signal));
+  opacity: 0.5;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: hero-underline 900ms var(--ease-emphatic) 620ms forwards;
+}
+
+/* ------------------------------------------------------------------ *
+ * Reveal-on-load (progressive; content is visible by default)
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.animations-off) [data-reveal] {
+    opacity: 0;
+    animation: reveal-up 640ms var(--ease-emphatic) forwards;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-underline {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Dark-mode utility remaps (keep pages using slate/white utilities)
+ * ------------------------------------------------------------------ */
 html.dark .bg-white,
 html.dark .bg-white\/90,
 html.dark .bg-slate-50,
@@ -182,7 +486,7 @@ html.dark h3 {
 
 html.dark .hover\:text-draggon-green:hover,
 html.dark .focus-visible\:text-draggon-green:focus-visible {
-  color: #39ff14;
+  color: var(--color-signal);
 }
 
 html.dark .text-slate-700,
@@ -195,7 +499,7 @@ html.dark .prose {
 html.dark .text-draggon-deep,
 html.dark .hover\:text-draggon-deep:hover,
 html.dark .text-draggon-violet {
-  color: #a78bfa;
+  color: var(--color-accent);
 }
 
 html.dark .border-slate-200,
@@ -208,23 +512,17 @@ html.dark .border-violet-200\/70 {
 
 html.dark .card {
   border-color: var(--color-border);
-  background: rgba(15, 23, 42, 0.82);
+  background: var(--color-surface);
 }
 
-html.dark .card:hover {
-  border-color: color-mix(in srgb, #39ff14 28%, var(--color-border));
-  box-shadow: 0 0 0 1px color-mix(in srgb, #39ff14 16%, transparent);
-}
-
-html.dark .prose a {
-  color: #c4b5fd;
-}
-
+/* ------------------------------------------------------------------ *
+ * Toggles (theme + animations)
+ * ------------------------------------------------------------------ */
 .theme-toggle {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid var(--color-border);
   border-radius: 9999px;
   background: color-mix(in srgb, var(--color-surface) 84%, transparent);
   color: var(--color-muted);
@@ -234,18 +532,23 @@ html.dark .prose a {
   line-height: 1;
   padding: 0.48rem 0.68rem;
   transition:
-    background 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease,
-    box-shadow 160ms ease;
+    transform 140ms var(--ease-emphatic),
+    background 160ms var(--ease-emphatic),
+    border-color 160ms var(--ease-emphatic),
+    color 160ms var(--ease-emphatic),
+    box-shadow 160ms var(--ease-emphatic);
 }
 
 .theme-toggle:hover,
 .theme-toggle:focus-visible {
-  border-color: color-mix(in srgb, #39ff14 42%, var(--color-border-strong));
+  border-color: color-mix(in srgb, var(--color-accent) 46%, var(--color-border));
   color: var(--color-text);
-  box-shadow: 0 0 0 1px color-mix(in srgb, #39ff14 14%, transparent);
+  box-shadow: 0 0 0 3px var(--color-accent-tint);
   outline: none;
+}
+
+.theme-toggle:active {
+  transform: scale(0.96);
 }
 
 .theme-toggle__icon,
@@ -254,28 +557,33 @@ html.dark .prose a {
   width: 0.72rem;
   height: 0.72rem;
   border-radius: 9999px;
-  background: linear-gradient(135deg, #7c3aed 0 50%, #39ff14 50% 100%);
+  background: linear-gradient(135deg, var(--color-accent) 0 50%, var(--color-signal) 50% 100%);
   box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 12%, transparent);
+  transition: background 160ms var(--ease-emphatic);
 }
 
 .animation-toggle__icon {
-  background: #39ff14;
+  background: var(--color-signal);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, currentColor 12%, transparent),
+    0 0 8px color-mix(in srgb, var(--color-signal) 55%, transparent);
 }
 
 html[data-animations='off'] .animation-toggle__icon {
   background: #94a3b8;
+  box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 12%, transparent);
 }
 
 html[data-theme='system'] .theme-toggle__icon {
-  background: linear-gradient(135deg, #e2e8f0 0 50%, #0f172a 50% 100%);
+  background: linear-gradient(135deg, #e2e8f0 0 50%, var(--color-text) 50% 100%);
 }
 
 html[data-theme='light'] .theme-toggle__icon {
-  background: #facc15;
+  background: #f5b301;
 }
 
 html[data-theme='dark'] .theme-toggle__icon {
-  background: #a78bfa;
+  background: var(--color-accent);
 }
 
 @media (max-width: 420px) {
@@ -287,4 +595,35 @@ html[data-theme='dark'] .theme-toggle__icon {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
   }
+}
+
+/* ------------------------------------------------------------------ *
+ * Accessibility / preference guards
+ * ------------------------------------------------------------------ */
+@media (forced-colors: active) {
+  .hero-accent {
+    background-image: none;
+    color: CanvasText;
+    -webkit-text-fill-color: CanvasText;
+  }
+  .hero-accent::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .hero-accent::after {
+    transform: scaleX(1);
+    animation: none;
+  }
+}
+
+html.animations-off .hero-accent::after {
+  transform: scaleX(1);
+  animation: none;
 }

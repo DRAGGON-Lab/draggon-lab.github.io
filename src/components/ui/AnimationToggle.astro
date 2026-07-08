@@ -23,12 +23,6 @@
     document.documentElement.dataset.animations = preference;
     document.documentElement.classList.toggle('animations-off', !enabled);
 
-    if (!enabled) {
-      document.querySelectorAll('.hero-neon-text--active').forEach((hero) => {
-        hero.classList.remove('hero-neon-text--active');
-      });
-    }
-
     document.querySelectorAll('[data-animation-toggle]').forEach((toggle) => {
       const label = toggle.querySelector('[data-animation-toggle-label]');
       if (label) label.textContent = 'Animations';

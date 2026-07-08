@@ -1,7 +1,7 @@
 ---
 title: Design - LOICA
 summary: Programmatic genetic network design with mechanistic models across single cells, populations, colonies, and spatial simulations.
-tags: [design automation, genetic networks, modeling]
+tags: [design, genetic networks, modeling]
 draft: false
 ecosystem_group: design
 lifecycle_stage: design

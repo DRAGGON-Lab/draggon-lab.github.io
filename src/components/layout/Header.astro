@@ -23,7 +23,7 @@ const isActiveNavItem = (href: string) => path === href || path.startsWith(`${hr
             class:list={[
               'rounded-full px-3 py-2 text-sm font-medium transition',
               isActiveNavItem(item.href)
-                ? 'nav-link--active text-draggon-deep'
+                ? 'text-draggon-deep bg-violet-50 shadow-[inset_0_-2px_0_#39FF14]'
                 : 'hover:text-draggon-deep text-slate-700 hover:bg-violet-50',
               item.cta && 'ml-2 border border-violet-200',
             ]}

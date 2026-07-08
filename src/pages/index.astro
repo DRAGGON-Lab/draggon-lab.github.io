@@ -4,12 +4,31 @@ import ButtonLink from '../components/ui/ButtonLink.astro';
 import DBTLCycleDisplay from '../components/DBTLCycleDisplay.astro';
 import { siteConfig } from '../data/siteConfig';
 
-const RUNG_COUNT = 22;
-const RUNG_GAP = 18; // px of vertical spacing between base pairs
-const RUNG_STEP = 26; // degrees of twist added per base pair
-const rungs = Array.from({ length: RUNG_COUNT }, (_, i) => ({
-  y: (i - (RUNG_COUNT - 1) / 2) * RUNG_GAP,
-  r: i * RUNG_STEP,
+// B-DNA geometry: 10.5 base pairs per turn, 0.34 nm rise, 2 nm diameter.
+// The backbone radius is 46px (= 1 nm), so 1 bp rise = 0.34 * 46 ~= 15.6px.
+// The two backbones are offset 120deg around the cylinder, which splits the
+// circle into a 120deg (minor groove) and 240deg (major groove) arc.
+const BP_COUNT = 41;
+const RISE = 15.6; // px of vertical rise per base pair
+const TWIST = 360 / 10.5; // degrees of twist per base pair (~34.3)
+const STRAND_OFFSET = 120; // degrees between the two backbones
+const BEADS_PER_BP = 6; // backbone samples per base pair -> smooth ribbons
+const centerY = (bp) => (bp - (BP_COUNT - 1) / 2) * RISE;
+
+// Two continuous backbone strands, densely sampled so each reads as a ribbon.
+const beadCount = (BP_COUNT - 1) * BEADS_PER_BP + 1;
+const strand = (phaseOffset) =>
+  Array.from({ length: beadCount }, (_, i) => {
+    const bp = i / BEADS_PER_BP;
+    return { y: centerY(bp), r: bp * TWIST + phaseOffset };
+  });
+const strandA = strand(0);
+const strandB = strand(STRAND_OFFSET);
+
+// Base-pair rungs bridge the strands as a chord (see .dna__rung in CSS).
+const rungs = Array.from({ length: BP_COUNT }, (_, i) => ({
+  y: centerY(i),
+  r: i * TWIST,
 }));
 
 const researchAreas = [
@@ -88,6 +107,22 @@ const labNotes = [
         {
           rungs.map((rung) => (
             <div class="dna__rung" style={`--dna-y:${rung.y}px;--dna-r:${rung.r}deg`} />
+          ))
+        }
+        {
+          strandA.map((bead) => (
+            <div
+              class="dna__bead dna__bead--a"
+              style={`--dna-y:${bead.y}px;--dna-r:${bead.r}deg`}
+            />
+          ))
+        }
+        {
+          strandB.map((bead) => (
+            <div
+              class="dna__bead dna__bead--b"
+              style={`--dna-y:${bead.y}px;--dna-r:${bead.r}deg`}
+            />
           ))
         }
       </div>

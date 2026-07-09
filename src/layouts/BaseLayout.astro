@@ -3,10 +3,12 @@ import '../styles/global.css';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import { siteConfig } from '../data/siteConfig';
+
 interface Props {
   title?: string;
   description?: string;
 }
+
 const {
   title = siteConfig.labName,
   description = 'AI-aided biodesign platforms for programming biological systems.',
@@ -55,6 +57,7 @@ const shouldRenderAnalytics = deployEnv === 'production';
     {shouldRenderAnalytics && <>{/* Production-only analytics go here. */}</>}
   </head>
   <body>
+    <div class="site-ambient" aria-hidden="true"></div>
     <Header />
     <main id="main-content"><slot /></main>
     <Footer />

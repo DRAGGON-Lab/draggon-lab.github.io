@@ -4,188 +4,423 @@ import ButtonLink from '../components/ui/ButtonLink.astro';
 import SimpleCard from '../components/cards/SimpleCard.astro';
 import DBTLCycleDisplay from '../components/DBTLCycleDisplay.astro';
 import { siteConfig } from '../data/siteConfig';
+
+const heroSignals = [
+  {
+    label: 'Code',
+    value: 'Specifications',
+    detail: 'Models, constraints, and intended biological function.',
+  },
+  {
+    label: 'DNA',
+    value: 'Genetic networks',
+    detail: 'Composed parts, regulatory logic, and context-aware behavior.',
+  },
+  {
+    label: 'Cells',
+    value: 'Intelligent systems',
+    detail: 'Sensing, computing, production, and reporting in living matter.',
+  },
+];
+
+const codeLines = [
+  { prefix: 'compile', copy: 'design.intent -> genetic.program' },
+  { prefix: 'simulate', copy: 'molecules + cells + communities' },
+  { prefix: 'learn', copy: 'standardized.data -> better.designs' },
+];
+
+const signalMetrics = [
+  {
+    stat: '5',
+    label: 'research platforms',
+    detail: 'Foundations, DBTL, AI, digital twins, and genetic networks.',
+  },
+  {
+    stat: '4',
+    label: 'workflow stages',
+    detail: 'Design, Build, Test, and Learn on shared infrastructure.',
+  },
+  {
+    stat: '∞',
+    label: 'scales connected',
+    detail: 'Molecules, cells, communities, hosts, crops, and ecosystems.',
+  },
+];
+
+const researchPillars = [
+  {
+    title: 'Biological Software Foundations',
+    eyebrow: 'Standards',
+    summary:
+      'Reusable standards, data structures, software, and metadata for programmable biology.',
+  },
+  {
+    title: 'Automated DBTL Workflows',
+    eyebrow: 'Automation',
+    summary: 'Programmatic design-build-test-learn loops for genetic network engineering.',
+  },
+  {
+    title: 'AI-Aided Biodesign',
+    eyebrow: 'Prediction',
+    summary:
+      'Machine learning and hybrid models that improve design from standardized biological data.',
+  },
+  {
+    title: 'Digital Twins of Living Systems',
+    eyebrow: 'Simulation',
+    summary:
+      'Biophysical and biochemical simulations across cells, organisms, communities, and environments.',
+  },
+  {
+    title: 'Intelligent Genetic & Genomic Networks',
+    eyebrow: 'Living computation',
+    summary:
+      'Biological architectures for sensing, computing, feedback, and decision-making in living systems.',
+  },
+];
+
+const workflowDetails = [
+  {
+    title: 'Design intent',
+    summary: 'Start from a computational specification, not a disconnected sequence.',
+  },
+  {
+    title: 'Traceable builds',
+    summary: 'Carry SBOL, metadata, and automation context through every handoff.',
+  },
+  {
+    title: 'Measured learning',
+    summary: 'Convert calibrated experiments into reusable datasets and models.',
+  },
+];
+
+const impactCards = [
+  {
+    title: 'Bacteria-as-medicine',
+    summary:
+      'Programmable microbial systems that can sense, respond, and support healthier communities.',
+  },
+  {
+    title: 'Resilient crops',
+    summary: 'Biodesign workflows for more nutritious, robust, and sustainable plant systems.',
+  },
+  {
+    title: 'Open bioengineering infrastructure',
+    summary:
+      'Software and standards that make biological engineering easier to reproduce, share, and extend.',
+  },
+];
+
+const featuredPublications = [
+  {
+    title: 'PhD thesis',
+    summary:
+      'Automated design, build, test, and learn workflows to engineer synthetic genetic networks.',
+  },
+  {
+    title: 'LOICA',
+    summary:
+      'Design automation for genetic networks and mechanistic biological circuit simulation.',
+  },
+  {
+    title: 'SBOL and metadata',
+    summary: 'Standards-enabled infrastructure for reproducible biological engineering.',
+  },
+];
+
+const learningLoops = [
+  {
+    title: 'Research-style teaching',
+    summary: 'Students move from concept to workshop to open-ended design project.',
+    href: '/teaching',
+  },
+  {
+    title: 'Lab notes as public memory',
+    summary: 'Short explainers and logs make the lab ecosystem easier to enter.',
+    href: '/lab-notes',
+  },
+  {
+    title: 'Collaborative entry points',
+    summary:
+      'Students, postdocs, collaborators, and open-source builders can find a clear next step.',
+    href: '/join-collaborate',
+  },
+];
 ---
 
 <BaseLayout
   title="DRAGGON Lab"
   description="AI-aided biodesign platforms for programming biological systems."
 >
-  <section class="mx-auto max-w-7xl px-4 py-20">
-    <p class="text-draggon-violet text-sm font-semibold tracking-wide uppercase">
-      {siteConfig.affiliation}
-    </p>
-    <h1
-      class="hero-neon-text mt-4 max-w-4xl text-5xl font-bold tracking-tight text-slate-950"
-      data-hero-neon
-    >
-      AI-aided biodesign platforms for programming biological systems
-    </h1>
-    <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-      We develop software, data, and automation workflows to engineer organisms with novel
-      capabilities, from more nutritious and resilient crops to microbiome therapeutics.
-    </p>
-    <p class="mt-4 text-sm text-slate-500">
-      Developing, Researching, and Architecting Genetic and GenOmic Networks
-    </p>
-    <div class="mt-8 flex flex-wrap gap-3">
-      <ButtonLink href="/research">Explore Research</ButtonLink>
-      <ButtonLink href="/tools" variant="secondary">Explore Tools</ButtonLink>
-    </div>
-  </section>
-
-  <section class="mx-auto max-w-7xl px-4 py-12">
-    <div class="max-w-3xl">
-      <p class="text-draggon-violet text-sm font-semibold tracking-wide uppercase">
-        Research Vision
-      </p>
-      <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-950">
-        Programming biology with reusable platforms
-      </h2>
-      <p class="mt-4 text-lg leading-8 text-slate-600">
-        DRAGGON Lab builds AI-aided biodesign platforms that connect biological software
-        foundations, automated DBTL workflows, machine learning, digital twins, and genetic network
-        engineering.
-      </p>
-    </div>
-    <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <SimpleCard title="Biological Software Foundations" href="/research">
-        Reusable standards, data structures, software, and metadata for programmable biology.
-      </SimpleCard>
-      <SimpleCard title="Automated DBTL Workflows" href="/research">
-        Programmatic design-build-test-learn workflows for genetic network engineering.
-      </SimpleCard>
-      <SimpleCard title="AI-Aided Biodesign" href="/research">
-        Machine learning and hybrid models that improve design from standardized biological data.
-      </SimpleCard>
-      <SimpleCard title="Digital Twins of Living Systems" href="/research">
-        Simulations connecting engineered systems with cells, organisms, communities, and
-        environments.
-      </SimpleCard>
-      <SimpleCard title="Intelligent Genetic & Genomic Networks" href="/research">
-        Biological architectures for sensing, computing, feedback, and decision-making in living
-        systems.
-      </SimpleCard>
-    </div>
-  </section>
-
-  <section class="mx-auto max-w-7xl px-4 py-12">
-    <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-      <div>
-        <p class="text-draggon-violet text-sm font-semibold tracking-wide uppercase">
-          Tool Ecosystem Preview
+  <section class="relative isolate overflow-hidden px-4 py-16 sm:py-20 lg:py-24">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+      <div data-reveal>
+        <p class="section-eyebrow">
+          {siteConfig.affiliation}
         </p>
-        <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-950">
-          A platform ecosystem for the DBTL cycle
-        </h2>
-        <p class="mt-4 max-w-3xl text-slate-600">
-          We build open, reusable software, standards-enabled metadata, and FAIR data workflows so
-          that biological engineering can become more reproducible, collaborative, and programmable.
+        <h1
+          class="hero-neon-text mt-5 max-w-5xl text-5xl font-black tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
+          data-hero-neon
+        >
+          AI-aided biodesign platforms for programming biological systems
+        </h1>
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
+          DRAGGON Lab builds the software infrastructure, data loops, and simulation engines that
+          help translate computational specifications into genetic and genomic networks.
+        </p>
+        <p class="mt-4 max-w-2xl text-sm leading-6 text-slate-500">
+          {siteConfig.acronym}
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <ButtonLink href="/research">Explore Research</ButtonLink>
+          <ButtonLink href="/tools" variant="secondary">View Platform Ecosystem</ButtonLink>
+        </div>
+      </div>
+
+      <div class="hero-console" data-reveal aria-label="DRAGGON Lab biodesign system diagram">
+        <div class="hero-console__topbar" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <strong>living-systems.compiler</strong>
+        </div>
+        <div class="hero-console__body">
+          <div class="bio-orbit">
+            <div class="bio-orbit__ring bio-orbit__ring--outer" aria-hidden="true"></div>
+            <div class="bio-orbit__ring bio-orbit__ring--middle" aria-hidden="true"></div>
+            <div class="bio-orbit__ring bio-orbit__ring--inner" aria-hidden="true"></div>
+            <div class="bio-orbit__core">
+              <span>DRAGGON</span>
+              <strong>Bio-compiler</strong>
+            </div>
+            {
+              heroSignals.map((signal, index) => (
+                <div class={`bio-node bio-node--${index + 1}`}>
+                  <span>{signal.label}</span>
+                  <strong>{signal.value}</strong>
+                  <small>{signal.detail}</small>
+                </div>
+              ))
+            }
+          </div>
+
+          <div class="compiler-lines" aria-label="Platform loop summary">
+            {
+              codeLines.map((line) => (
+                <p>
+                  <span>{line.prefix}</span>
+                  {line.copy}
+                </p>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-auto mt-12 grid max-w-7xl gap-3 md:grid-cols-3">
+      {
+        signalMetrics.map((metric, index) => (
+          <article class="metric-card" data-reveal style={`--reveal-delay: ${index * 70}ms`}>
+            <p class="metric-card__stat">{metric.stat}</p>
+            <div>
+              <h2>{metric.label}</h2>
+              <p>{metric.detail}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 py-14">
+    <div class="section-heading" data-reveal>
+      <p class="section-eyebrow">Research Vision</p>
+      <h2>From biological software foundations to intelligent organisms</h2>
+      <p>
+        The lab acts like an operating system for biodesign: standards define interfaces, automation
+        creates reliable data, AI models improve prediction, and simulations reveal behavior before
+        physical deployment.
+      </p>
+    </div>
+    <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+      {
+        researchPillars.map((pillar, index) => (
+          <SimpleCard
+            title={pillar.title}
+            eyebrow={pillar.eyebrow}
+            href="/research"
+            data-reveal
+            style={`--reveal-delay: ${index * 55}ms`}
+          >
+            {pillar.summary}
+          </SimpleCard>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 py-14">
+    <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end" data-reveal>
+      <div class="section-heading m-0 max-w-3xl">
+        <p class="section-eyebrow">Platform Ecosystem</p>
+        <h2>Purposeful loops for Design, Build, Test, and Learn</h2>
+        <p>
+          Every tool should make the next step feel obvious: design intent becomes an assembly plan,
+          experiments become structured data, and data becomes the next generation of models.
         </p>
       </div>
-      <ButtonLink href="/tools" variant="secondary">View Platform Ecosystem</ButtonLink>
+      <ButtonLink href="/tools" variant="secondary">Browse Tools</ButtonLink>
     </div>
-    <div class="mt-8">
+    <div class="mt-8" data-reveal>
       <DBTLCycleDisplay />
     </div>
-  </section>
-
-  <section class="mx-auto max-w-7xl px-4 py-12">
-    <p class="text-draggon-violet text-sm font-semibold tracking-wide uppercase">
-      Applications / Impact
-    </p>
-    <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-950">
-      Engineering organisms with useful capabilities
-    </h2>
-    <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <SimpleCard title="Resilient crops"
-        >Biodesign workflows for more nutritious, robust, and sustainable plant systems.</SimpleCard
-      >
-      <SimpleCard title="Microbiome therapeutics"
-        >Programmable living systems that can sense, respond, and support healthier communities.</SimpleCard
-      >
-      <SimpleCard title="Reusable bioengineering infrastructure"
-        >Open tools and standards that make biological engineering easier to reproduce and extend.</SimpleCard
-      >
+    <div class="mt-5 grid gap-4 md:grid-cols-3">
+      {
+        workflowDetails.map((detail, index) => (
+          <SimpleCard
+            title={detail.title}
+            eyebrow={`Loop ${index + 1}`}
+            data-reveal
+            style={`--reveal-delay: ${index * 70}ms`}
+          >
+            {detail.summary}
+          </SimpleCard>
+        ))
+      }
     </div>
   </section>
 
-  <section class="mx-auto max-w-7xl px-4 py-12">
-    <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+  <section class="mx-auto max-w-7xl px-4 py-14">
+    <div class="impact-panel" data-reveal>
       <div>
-        <p class="text-draggon-violet text-sm font-semibold tracking-wide uppercase">
-          Featured Publications
+        <p class="section-eyebrow">Applications / Impact</p>
+        <h2>Futuristic biology, grounded in useful outcomes</h2>
+        <p>
+          DRAGGON Lab focuses on infrastructure that can support medical, agricultural,
+          environmental, and industrial applications without losing scientific traceability.
         </p>
-        <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-950">
-          Selected scholarly outputs
-        </h2>
       </div>
-      <ButtonLink href="/publications" variant="secondary">Browse Publications</ButtonLink>
-    </div>
-    <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <SimpleCard title="PhD thesis" href="/publications"
-        >Automated design, build, test, learn workflows to engineer synthetic genetic networks.</SimpleCard
-      >
-      <SimpleCard title="LOICA" href="/publications"
-        >Design automation for genetic networks.</SimpleCard
-      >
-      <SimpleCard title="SBOL and metadata" href="/publications"
-        >Standards-enabled infrastructure for reproducible biological engineering.</SimpleCard
-      >
+      <div class="impact-panel__grid">
+        {
+          impactCards.map((card, index) => (
+            <article class="impact-card" style={`--reveal-delay: ${index * 70}ms`}>
+              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <h3>{card.title}</h3>
+              <p>{card.summary}</p>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
 
-  <section class="mx-auto max-w-7xl px-4 py-12">
-    <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-      <div>
-        <p class="text-draggon-violet text-sm font-semibold tracking-wide uppercase">
-          Featured Lab Notes
-        </p>
-        <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-950">
-          Research logs and explainers
-        </h2>
+  <section class="mx-auto grid max-w-7xl gap-6 px-4 py-14 lg:grid-cols-[0.9fr_1.1fr]">
+    <div class="section-heading" data-reveal>
+      <p class="section-eyebrow">Scholarly Signal</p>
+      <h2>Outputs that make the platform legible</h2>
+      <p>
+        Publications, lab notes, and teaching resources should help readers move through the
+        ecosystem without feeling lost: first the mission, then the tools, then the ways to
+        contribute.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <ButtonLink href="/publications" variant="secondary">Browse Publications</ButtonLink>
+        <ButtonLink href="/lab-notes" variant="secondary">Read Lab Notes</ButtonLink>
       </div>
-      <ButtonLink href="/lab-notes" variant="secondary">Read Lab Notes</ButtonLink>
     </div>
-    <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <SimpleCard title="Launching the DRAGGON Lab website" href="/lab-notes"
-        >An invitation to build open AI-aided biodesign platforms.</SimpleCard
-      >
-      <SimpleCard title="What is biological software engineering?" href="/lab-notes"
-        >A research explainer for the lab identity.</SimpleCard
-      >
-      <SimpleCard title="From DBTL to AI-aided biodesign" href="/lab-notes"
-        >A software-platform note for the DRAGGON ecosystem.</SimpleCard
-      >
+    <div class="grid gap-4 md:grid-cols-2">
+      {
+        featuredPublications.map((item, index) => (
+          <SimpleCard
+            title={item.title}
+            eyebrow="Publication"
+            href="/publications"
+            data-reveal
+            style={`--reveal-delay: ${index * 60}ms`}
+          >
+            {item.summary}
+          </SimpleCard>
+        ))
+      }
+      {
+        learningLoops.map((item, index) => (
+          <SimpleCard
+            title={item.title}
+            eyebrow="Learning loop"
+            href={item.href}
+            data-reveal
+            style={`--reveal-delay: ${(index + featuredPublications.length) * 60}ms`}
+          >
+            {item.summary}
+          </SimpleCard>
+        ))
+      }
     </div>
   </section>
 
   <section class="mx-auto max-w-7xl px-4 py-16">
-    <div class="bg-draggon-deep rounded-3xl px-6 py-10 text-white md:px-10">
-      <p class="text-sm font-semibold tracking-wide text-violet-200 uppercase">
-        Join / Collaborate
-      </p>
-      <h2 class="mt-2 max-w-3xl text-3xl font-bold tracking-tight">
-        Build open AI-aided biodesign platforms with us
-      </h2>
-      <p class="mt-4 max-w-3xl text-violet-100">
+    <div class="cta-panel" data-reveal>
+      <p class="section-eyebrow">Join / Collaborate</p>
+      <h2>Build open AI-aided biodesign platforms with us</h2>
+      <p>
         We welcome prospective students, postdocs, collaborators, funders, open-source contributors,
         and technically curious partners interested in programmable biological systems.
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
-        <ButtonLink href="/join-collaborate" variant="subtle">Join / Collaborate</ButtonLink>
-        <ButtonLink href="mailto:contact@draggonlab.org" variant="subtle"
-          >Contact DRAGGON Lab</ButtonLink
-        >
+        <ButtonLink href="/join-collaborate" variant="subtle">Find your entry point</ButtonLink>
+        <ButtonLink href={`mailto:${siteConfig.contactEmail}`} variant="subtle">
+          Contact DRAGGON Lab
+        </ButtonLink>
       </div>
     </div>
   </section>
+
   <script>
-    document.querySelectorAll('[data-hero-neon]').forEach((hero) => {
-      hero.addEventListener('pointerenter', () => {
-        if (document.documentElement.dataset.animations === 'off') return;
-        if (hero.classList.contains('hero-neon-text--active')) return;
-        hero.classList.add('hero-neon-text--active');
+    const playHeroScan = () => {
+      const hero = document.querySelector('[data-hero-neon]');
+      if (!hero) return;
+      if (document.documentElement.dataset.animations === 'off') return;
+      if (hero.classList.contains('hero-neon-text--active')) return;
+      hero.classList.add('hero-neon-text--active');
+    };
+
+    const revealItems = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+
+    if (
+      revealItems.length > 0 &&
+      document.documentElement.dataset.animations !== 'off' &&
+      'IntersectionObserver' in window
+    ) {
+      document.documentElement.classList.add('reveal-ready');
+
+      revealItems.forEach((item, index) => {
+        if (!item.style.getPropertyValue('--reveal-delay')) {
+          item.style.setProperty('--reveal-delay', `${Math.min(index * 45, 240)}ms`);
+        }
       });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        },
+        { rootMargin: '0px 0px -12% 0px', threshold: 0.12 },
+      );
+
+      revealItems.forEach((item) => observer.observe(item));
+    } else {
+      revealItems.forEach((item) => item.classList.add('is-visible'));
+    }
+
+    window.setTimeout(playHeroScan, 420);
+
+    document.querySelectorAll('[data-hero-neon]').forEach((hero) => {
+      hero.addEventListener('pointerenter', playHeroScan);
 
       hero.addEventListener('animationend', () => {
         hero.classList.remove('hero-neon-text--active');

@@ -1,76 +1,93 @@
 ---
 import { siteConfig } from '../../data/siteConfig';
+
 const year = new Date().getUTCFullYear();
+
+const footerGroups = [
+  {
+    title: 'Lab',
+    links: [
+      { label: 'Research', href: '/research' },
+      { label: 'Tools', href: '/tools' },
+      { label: 'People', href: '/people' },
+      { label: 'Join / Collaborate', href: '/join-collaborate' },
+    ],
+  },
+  {
+    title: 'Resources',
+    links: [
+      { label: 'Publications', href: '/publications' },
+      { label: 'Lab Notes', href: '/lab-notes' },
+      { label: 'Teaching', href: '/teaching' },
+      { label: 'Project Directions', href: '/project-directions' },
+    ],
+  },
+  {
+    title: 'External',
+    links: [
+      { label: 'GitHub', href: siteConfig.githubOrg, external: true },
+      { label: 'Google Scholar', href: siteConfig.googleScholar, external: true },
+      { label: 'LinkedIn', href: siteConfig.linkedin, external: true },
+      { label: 'RSS', href: '/lab-notes/rss.xml' },
+    ],
+  },
+  {
+    title: 'Technical',
+    links: [
+      { label: 'Privacy', href: '/privacy' },
+      { label: 'Site graph JSON', href: '/site-graph.json', external: true },
+      { label: 'Source on GitHub', href: siteConfig.websiteSource, external: true },
+    ],
+  },
+];
 ---
 
-<footer class="mt-20 border-t border-slate-200 bg-white">
-  <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 md:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
+<footer class="footer-shell mt-20">
+  <div class="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
     <div>
-      <p class="font-bold text-slate-950">{siteConfig.labName}</p>
-      <p class="mt-2 text-sm text-slate-600">{siteConfig.acronym}</p>
-      <p class="mt-2 text-sm text-slate-600">
-        AI-aided biodesign platforms for programming biological systems
+      <a href="/" class="brand-lockup">
+        <span class="brand-mark" aria-hidden="true">D</span>
+        <span>
+          <strong>{siteConfig.labName}</strong>
+          <small>BioDesign OS</small>
+        </span>
+      </a>
+      <p class="mt-4 text-sm leading-6 text-slate-600">{siteConfig.acronym}</p>
+      <p class="mt-3 text-sm leading-6 text-slate-600">
+        AI-aided biodesign platforms for programming biological systems.
       </p>
-      <p class="mt-2 text-sm text-slate-600">{siteConfig.affiliation}</p>
-      <p class="mt-2 text-sm text-slate-600">
-        Contact: <a class="underline" href={`mailto:${siteConfig.contactEmail}`}
+      <p class="mt-3 text-sm leading-6 text-slate-600">{siteConfig.affiliation}</p>
+      <p class="mt-3 text-sm leading-6 text-slate-600">
+        Contact: <a class="underline underline-offset-4" href={`mailto:${siteConfig.contactEmail}`}
           >{siteConfig.contactEmail}</a
         >
       </p>
     </div>
-    <div>
-      <h2 class="text-sm font-semibold">Lab</h2><ul class="mt-3 space-y-2 text-sm text-slate-600">
-        <li><a href="/research">Research</a></li><li><a href="/tools">Tools</a></li><li>
-          <a href="/people">People</a>
-        </li><li><a href="/join-collaborate">Join / Collaborate</a></li>
-      </ul>
-    </div>
-    <div>
-      <h2 class="text-sm font-semibold">Resources</h2><ul
-        class="mt-3 space-y-2 text-sm text-slate-600"
-      >
-        <li><a href="/publications">Publications</a></li><li>
-          <a href="/lab-notes">Lab Notes</a>
-        </li><li><a href="/teaching">Teaching</a></li><li>
-          <a href="/project-directions">Project Directions</a>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <h2 class="text-sm font-semibold">External</h2><ul
-        class="mt-3 space-y-2 text-sm text-slate-600"
-      >
-        <li>
-          <a href={siteConfig.githubOrg} target="_blank" rel="noopener noreferrer">GitHub</a>
-        </li><li>
-          <a href={siteConfig.googleScholar} target="_blank" rel="noopener noreferrer"
-            >Google Scholar</a
-          >
-        </li><li>
-          <a href={siteConfig.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </li><li>
-          <a href="https://draggonlab.org/lab-notes/" target="_blank" rel="noopener noreferrer"
-            >Lab Notes</a
-          >
-        </li>
-      </ul>
-    </div>
-    <div>
-      <h2 class="text-sm font-semibold">Legal / Technical</h2><ul
-        class="mt-3 space-y-2 text-sm text-slate-600"
-      >
-        <li><a href="/privacy">Privacy</a></li><li>
-          <a href="/site-graph.json" target="_blank" rel="noopener noreferrer">Site graph JSON</a>
-        </li>
-      </ul>
-    </div>
+
+    {
+      footerGroups.map((group) => (
+        <div>
+          <h2 class="text-sm font-semibold text-slate-950">{group.title}</h2>
+          <ul class="mt-3 space-y-2 text-sm text-slate-600">
+            {group.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  target={link.external ? '_blank' : undefined}
+                  rel={link.external ? 'noopener noreferrer' : undefined}
+                  class="footer-link focus-visible:outline-draggon-violet rounded focus-visible:outline-2 focus-visible:outline-offset-4"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
   </div>
-  <div class="mx-auto max-w-7xl border-t border-slate-200 px-4 py-5 text-xs text-slate-500">
-    © {year} DRAGGON Lab. Built with Astro, TypeScript, MDX, and GitHub Pages. <a
-      class="underline"
-      href={siteConfig.websiteSource}
-      target="_blank"
-      rel="noopener noreferrer">Source available on GitHub</a
-    >. Code MIT · Content CC BY 4.0 · Logos reserved.
+  <div class="mx-auto max-w-7xl border-t border-slate-200/80 px-4 py-5 text-xs text-slate-500">
+    © {year} DRAGGON Lab. Built with Astro, TypeScript, MDX, and GitHub Pages. Code MIT · Content CC BY
+    4.0 · Logos reserved.
   </div>
 </footer>

@@ -3,45 +3,66 @@ import { mainNav } from '../../data/navigation';
 import { siteConfig } from '../../data/siteConfig';
 import AnimationToggle from '../ui/AnimationToggle.astro';
 import ThemeToggle from '../ui/ThemeToggle.astro';
+
 const path = Astro.url.pathname;
 const isActiveNavItem = (href: string) => path === href || path.startsWith(`${href}/`);
 ---
 
-<header class="sticky top-0 z-30 border-b border-slate-200/70 bg-white/90 backdrop-blur">
-  <a class="sr-only focus:not-sr-only" href="#main-content">Skip to content</a>
-  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+<header class="glass-header sticky top-0 z-30">
+  <a
+    class="sr-only rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-950 focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50"
+    href="#main-content"
+  >
+    Skip to content
+  </a>
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3">
     <a
       href="/"
-      class="hover:text-draggon-green focus-visible:text-draggon-green font-bold tracking-tight text-slate-950 transition-colors"
-      >{siteConfig.labName}</a
+      class="brand-lockup focus-visible:outline-draggon-violet rounded-full focus-visible:outline-2 focus-visible:outline-offset-4"
+      aria-label="DRAGGON Lab home"
     >
+      <span class="brand-mark" aria-hidden="true">D</span>
+      <span>
+        <strong>{siteConfig.labName}</strong>
+        <small>BioDesign OS</small>
+      </span>
+    </a>
+
     <nav class="hidden items-center gap-1 md:flex" aria-label="Main navigation">
       {
-        mainNav.map((item) => (
-          <a
-            href={item.href}
-            class:list={[
-              'rounded-full px-3 py-2 text-sm font-medium transition',
-              isActiveNavItem(item.href)
-                ? 'text-draggon-deep bg-violet-50 shadow-[inset_0_-2px_0_#39FF14]'
-                : 'hover:text-draggon-deep text-slate-700 hover:bg-violet-50',
-              item.cta && 'ml-2 border border-violet-200',
-            ]}
-          >
-            {item.label}
-          </a>
-        ))
+        mainNav.map((item) => {
+          const active = isActiveNavItem(item.href);
+
+          return (
+            <a
+              href={item.href}
+              aria-current={active ? 'page' : undefined}
+              class:list={[
+                'nav-pill rounded-full px-3 py-2 text-sm font-medium',
+                active
+                  ? 'nav-pill--active text-draggon-deep bg-violet-50 shadow-[inset_0_-2px_0_#39FF14]'
+                  : 'hover:text-draggon-deep text-slate-700 hover:bg-violet-50/80',
+                item.cta && 'ml-2 border border-violet-200/80 bg-white/60',
+              ]}
+            >
+              {item.label}
+            </a>
+          );
+        })
       }
     </nav>
+
     <div class="flex items-center gap-2">
       <AnimationToggle />
       <ThemeToggle />
-      <details class="md:hidden">
-        <summary class="cursor-pointer rounded-full border border-slate-200 px-3 py-2 text-sm"
-          >Menu</summary
+      <details class="relative md:hidden">
+        <summary
+          class="menu-summary cursor-pointer rounded-full border border-slate-200 bg-white/70 px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm"
         >
+          Menu
+        </summary>
         <nav
-          class="absolute top-14 right-4 left-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl"
+          class="mobile-menu absolute top-12 right-0 w-[min(22rem,calc(100vw-2rem))] rounded-3xl border border-slate-200 bg-white/95 p-3 shadow-2xl shadow-violet-950/10 backdrop-blur"
           aria-label="Mobile navigation"
         >
           <div class="grid gap-2">
@@ -49,13 +70,14 @@ const isActiveNavItem = (href: string) => path === href || path.startsWith(`${hr
               mainNav.map((item) => (
                 <a
                   href={item.href}
+                  aria-current={isActiveNavItem(item.href) ? 'page' : undefined}
                   class:list={[
-                    'rounded-xl p-3',
+                    'rounded-2xl p-3 transition',
                     item.cta ? 'border border-violet-200 bg-violet-50' : 'hover:bg-slate-50',
                   ]}
                 >
                   <span class="block font-semibold text-slate-950">{item.label}</span>
-                  <span class="block text-sm text-slate-600">{item.description}</span>
+                  <span class="block text-sm leading-6 text-slate-600">{item.description}</span>
                 </a>
               ))
             }

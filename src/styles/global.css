@@ -647,6 +647,9 @@ main {
 .infrastructure-band {
   position: relative;
   overflow: hidden;
+  background:
+    radial-gradient(circle at 92% 12%, rgba(57, 255, 20, 0.12), transparent 12rem),
+    rgba(255, 255, 255, 0.82);
 }
 
 .infrastructure-band::after {
@@ -943,9 +946,30 @@ html.dark .prose a {
 }
 
 html.dark .mobile-menu,
-html.dark .menu-summary,
-html.dark .tool-stack {
+html.dark .menu-summary {
   background-color: color-mix(in srgb, var(--color-surface) 92%, transparent);
+}
+
+html.dark .tool-stack {
+  border-color: rgba(167, 139, 250, 0.28);
+  background:
+    radial-gradient(circle at 88% 8%, rgba(57, 255, 20, 0.08), transparent 7rem),
+    linear-gradient(180deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.86));
+}
+
+html.dark .tool-stack .bg-white {
+  background-color: rgba(2, 6, 23, 0.52);
+}
+
+html.dark .infrastructure-band {
+  background:
+    radial-gradient(circle at 92% 12%, rgba(57, 255, 20, 0.12), transparent 12rem),
+    rgba(15, 23, 42, 0.82);
+}
+
+html.dark .infrastructure-band .bg-white {
+  border-color: rgba(57, 255, 20, 0.18);
+  background-color: rgba(2, 6, 23, 0.42);
 }
 
 html.dark .metric-card__stat {

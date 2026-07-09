@@ -5,11 +5,10 @@
   color-scheme: light;
   --color-base: #f8fafc;
   --color-surface: #ffffff;
-  --color-surface-muted: #f8fafc;
   --color-text: #0f172a;
   --color-muted: #475569;
   --color-border: rgba(15, 23, 42, 0.1);
-  --color-border-strong: rgba(124, 58, 237, 0.2);
+  --color-border-strong: rgba(124, 58, 237, 0.22);
   --color-violet-soft: #f5f3ff;
   --motion-fast: 160ms;
   --motion-medium: 240ms;
@@ -82,7 +81,12 @@ main {
   inset: -20% 12% auto;
   height: 24rem;
   content: '';
-  background: linear-gradient(100deg, transparent 0%, rgba(57, 255, 20, 0.14) 50%, transparent 100%);
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(57, 255, 20, 0.14) 50%,
+    transparent 100%
+  );
   filter: blur(48px);
   transform: rotate(-8deg);
   opacity: 0.7;
@@ -129,8 +133,8 @@ main {
   border: 1px solid rgba(124, 58, 237, 0.28);
   border-radius: 0.85rem;
   background:
-    linear-gradient(135deg, rgba(124, 58, 237, 0.92), rgba(76, 29, 149, 0.92)),
-    radial-gradient(circle at 70% 20%, rgba(57, 255, 20, 0.9), transparent 46%);
+    radial-gradient(circle at 70% 20%, rgba(57, 255, 20, 0.9), transparent 46%),
+    linear-gradient(135deg, rgba(124, 58, 237, 0.92), rgba(76, 29, 149, 0.92));
   color: white;
   font-size: 0.9rem;
   font-weight: 900;
@@ -139,13 +143,20 @@ main {
     0 0 0 1px rgba(255, 255, 255, 0.35) inset;
 }
 
-.nav-pill {
-  position: relative;
+.nav-pill,
+.menu-summary,
+.button-link,
+.theme-toggle {
   transition:
-    color var(--motion-fast) var(--ease-out),
+    transform var(--motion-fast) var(--ease-spring),
     background var(--motion-fast) var(--ease-out),
     border-color var(--motion-fast) var(--ease-out),
-    box-shadow var(--motion-fast) var(--ease-out);
+    box-shadow var(--motion-fast) var(--ease-out),
+    color var(--motion-fast) var(--ease-out);
+}
+
+.nav-pill {
+  position: relative;
 }
 
 .nav-pill::after {
@@ -167,14 +178,9 @@ main {
   transform: scaleX(1);
 }
 
-.menu-summary {
-  transition:
-    border-color var(--motion-fast) var(--ease-out),
-    box-shadow var(--motion-fast) var(--ease-out),
-    transform var(--motion-fast) var(--ease-out);
-}
-
-.menu-summary:active {
+.menu-summary:active,
+.button-link:active,
+.theme-toggle:active {
   transform: scale(0.98);
 }
 
@@ -262,7 +268,13 @@ main {
   border-radius: 2rem;
   background:
     linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
-    linear-gradient(135deg, rgba(124, 58, 237, 0.44), rgba(57, 255, 20, 0.28), rgba(6, 182, 212, 0.34)) border-box;
+    linear-gradient(
+        135deg,
+        rgba(124, 58, 237, 0.44),
+        rgba(57, 255, 20, 0.28),
+        rgba(6, 182, 212, 0.34)
+      )
+      border-box;
   box-shadow:
     0 32px 90px -55px rgba(76, 29, 149, 0.7),
     0 1px 0 rgba(255, 255, 255, 0.75) inset;
@@ -389,7 +401,8 @@ main {
   backdrop-filter: blur(16px);
 }
 
-.bio-orbit__core span {
+.bio-orbit__core span,
+.bio-node span {
   color: #7c3aed;
   font-size: 0.7rem;
   font-weight: 900;
@@ -410,6 +423,7 @@ main {
   position: absolute;
   display: grid;
   gap: 0.2rem;
+  max-width: 12rem;
   min-width: 9rem;
   padding: 0.8rem 0.9rem;
   border: 1px solid rgba(124, 58, 237, 0.18);
@@ -419,19 +433,18 @@ main {
   backdrop-filter: blur(12px);
 }
 
-.bio-node span {
-  color: #7c3aed;
-  font-size: 0.68rem;
-  font-weight: 850;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-}
-
 .bio-node strong {
   color: var(--color-text);
   font-size: 0.95rem;
   font-weight: 800;
   line-height: 1.2;
+}
+
+.bio-node small {
+  color: var(--color-muted);
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .bio-node--1 {
@@ -445,8 +458,8 @@ main {
 }
 
 .bio-node--3 {
-  right: 8%;
   top: 10%;
+  right: 8%;
 }
 
 .compiler-lines {
@@ -465,14 +478,7 @@ main {
   border-radius: 1rem;
   background: rgba(248, 250, 252, 0.76);
   color: var(--color-muted);
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Monaco,
-    Consolas,
-    'Liberation Mono',
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
   font-size: 0.78rem;
 }
 
@@ -523,17 +529,7 @@ main {
 .button-link {
   position: relative;
   text-decoration: none;
-  transition:
-    transform var(--motion-fast) var(--ease-spring),
-    border-color var(--motion-fast) var(--ease-out),
-    background var(--motion-fast) var(--ease-out),
-    box-shadow var(--motion-fast) var(--ease-out),
-    color var(--motion-fast) var(--ease-out);
   will-change: transform;
-}
-
-.button-link:active {
-  transform: scale(0.98);
 }
 
 .button-link:focus-visible {
@@ -645,9 +641,7 @@ main {
 }
 
 .tool-stack {
-  background:
-    linear-gradient(180deg, rgba(245, 243, 255, 0.92), rgba(236, 253, 245, 0.5)),
-    #f5f3ff;
+  background: linear-gradient(180deg, rgba(245, 243, 255, 0.92), rgba(236, 253, 245, 0.5)), #f5f3ff;
 }
 
 .infrastructure-band {
@@ -772,12 +766,6 @@ main {
   font-weight: 650;
   line-height: 1;
   padding: 0.48rem 0.68rem;
-  transition:
-    transform var(--motion-fast) var(--ease-spring),
-    background var(--motion-fast) var(--ease-out),
-    border-color var(--motion-fast) var(--ease-out),
-    color var(--motion-fast) var(--ease-out),
-    box-shadow var(--motion-fast) var(--ease-out);
 }
 
 .theme-toggle:hover,
@@ -786,10 +774,6 @@ main {
   color: var(--color-text);
   box-shadow: 0 0 0 1px color-mix(in srgb, #39ff14 14%, transparent);
   outline: none;
-}
-
-.theme-toggle:active {
-  transform: scale(0.98);
 }
 
 .theme-toggle__icon,
@@ -822,7 +806,6 @@ html.reveal-ready [data-reveal].is-visible {
 html.dark {
   --color-base: #020617;
   --color-surface: #0f172a;
-  --color-surface-muted: #111827;
   --color-text: #e2e8f0;
   --color-muted: #94a3b8;
   --color-border: rgba(226, 232, 240, 0.14);
@@ -920,11 +903,6 @@ html.dark h4 {
   color: var(--color-text);
 }
 
-html.dark .hover\:text-draggon-green:hover,
-html.dark .focus-visible\:text-draggon-green:focus-visible {
-  color: #39ff14;
-}
-
 html.dark .text-slate-700,
 html.dark .text-slate-600,
 html.dark .text-slate-500,
@@ -936,6 +914,11 @@ html.dark .text-draggon-deep,
 html.dark .hover\:text-draggon-deep:hover,
 html.dark .text-draggon-violet {
   color: #a78bfa;
+}
+
+html.dark .hover\:text-draggon-green:hover,
+html.dark .focus-visible\:text-draggon-green:focus-visible {
+  color: #39ff14;
 }
 
 html.dark .border-slate-200,

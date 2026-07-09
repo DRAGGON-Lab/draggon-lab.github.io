@@ -251,25 +251,35 @@ main {
 
 .hero-neon-text--active {
   background-image:
+    radial-gradient(
+      ellipse at 50% 50%,
+      #022c22 0 5%,
+      #39ff14 6% 12%,
+      #a7f3d0 13% 22%,
+      rgba(57, 255, 20, 0.46) 24%,
+      transparent 42%
+    ),
     linear-gradient(
       100deg,
-      transparent 0%,
-      transparent 38%,
-      #a7f3d0 46%,
+      var(--hero-neon-ink) 0%,
+      var(--hero-neon-ink) 37%,
+      #a7f3d0 45%,
       #39ff14 50%,
-      #a7f3d0 54%,
-      transparent 62%,
-      transparent 100%
+      #a7f3d0 55%,
+      var(--hero-neon-ink) 63%,
+      var(--hero-neon-ink) 100%
     ),
     linear-gradient(100deg, var(--hero-neon-ink), var(--hero-neon-ink));
   background-size:
+    0% 0%,
     240% 100%,
     100% 100%;
   background-position:
+    50% 50%,
     120% 50%,
     50% 50%;
   background-repeat: no-repeat;
-  animation: hero-scan-horizontal-close 3.2s var(--ease-out) 1;
+  animation: hero-dragon-eye-close 3.2s var(--ease-out) 1;
   will-change: background-size, background-position, filter;
 }
 
@@ -955,54 +965,95 @@ html.dark .metric-card__stat {
   background: #140a2b;
 }
 
-@keyframes hero-scan-horizontal-close {
+@keyframes hero-dragon-eye-close {
   0% {
     background-size:
+      0% 0%,
       240% 100%,
       100% 100%;
     background-position:
+      50% 50%,
       120% 50%,
       50% 50%;
     filter: drop-shadow(0 0 0 rgba(57, 255, 20, 0));
   }
 
-  45% {
+  20% {
     background-size:
+      0% 0%,
       240% 100%,
       100% 100%;
     background-position:
-      -120% 50%,
-      50% 50%;
-    filter: drop-shadow(0 0 0.28rem rgba(57, 255, 20, 0.42));
-  }
-
-  64% {
-    background-size:
-      240% 100%,
-      100% 100%;
-    background-position:
+      50% 50%,
       -120% 50%,
       50% 50%;
     filter: drop-shadow(0 0 0.2rem rgba(57, 255, 20, 0.32));
   }
 
-  86% {
-    background-size:
-      240% 100%,
-      100% 18%;
+  21% {
     background-position:
-      -120% 50%,
-      50% 75%;
-    filter: drop-shadow(0 0 0.14rem rgba(57, 255, 20, 0.28));
+      50% 50%,
+      120% 50%,
+      50% 50%;
+  }
+
+  42% {
+    background-size:
+      0% 0%,
+      240% 100%,
+      100% 100%;
+    background-position:
+      50% 50%,
+      50% 50%,
+      50% 50%;
+    filter: drop-shadow(0 0 0.35rem rgba(57, 255, 20, 0.46));
+  }
+
+  52% {
+    background-size:
+      50% 150%,
+      240% 100%,
+      100% 100%;
+    background-position:
+      50% 50%,
+      50% 50%,
+      50% 50%;
+    filter: drop-shadow(0 0 0.55rem rgba(57, 255, 20, 0.72));
+  }
+
+  70% {
+    background-size:
+      46% 120%,
+      240% 100%,
+      100% 100%;
+    background-position:
+      50% 50%,
+      50% 50%,
+      50% 50%;
+    filter: drop-shadow(0 0 0.5rem rgba(57, 255, 20, 0.66));
+  }
+
+  88% {
+    background-size:
+      48% 10%,
+      240% 100%,
+      100% 100%;
+    background-position:
+      50% 50%,
+      50% 50%,
+      50% 50%;
+    filter: drop-shadow(0 0 0.18rem rgba(57, 255, 20, 0.4));
   }
 
   100% {
     background-size:
+      0% 0%,
       240% 100%,
-      100% 0%;
+      100% 100%;
     background-position:
+      50% 50%,
       -120% 50%,
-      50% 75%;
+      50% 50%;
     filter: drop-shadow(0 0 0 rgba(57, 255, 20, 0));
   }
 }

@@ -178,10 +178,10 @@ const learningLoops = [
           <strong>living-systems.compiler</strong>
         </div>
         <div class="hero-console__body">
-          <div class="bio-orbit" aria-hidden="true">
-            <div class="bio-orbit__ring bio-orbit__ring--outer"></div>
-            <div class="bio-orbit__ring bio-orbit__ring--middle"></div>
-            <div class="bio-orbit__ring bio-orbit__ring--inner"></div>
+          <div class="bio-orbit">
+            <div class="bio-orbit__ring bio-orbit__ring--outer" aria-hidden="true"></div>
+            <div class="bio-orbit__ring bio-orbit__ring--middle" aria-hidden="true"></div>
+            <div class="bio-orbit__ring bio-orbit__ring--inner" aria-hidden="true"></div>
             <div class="bio-orbit__core">
               <span>DRAGGON</span>
               <strong>Bio-compiler</strong>
@@ -191,6 +191,7 @@ const learningLoops = [
                 <div class={`bio-node bio-node--${index + 1}`}>
                   <span>{signal.label}</span>
                   <strong>{signal.value}</strong>
+                  <p>{signal.detail}</p>
                 </div>
               ))
             }

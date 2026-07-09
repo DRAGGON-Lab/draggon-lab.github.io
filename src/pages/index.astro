@@ -378,11 +378,15 @@ const learningLoops = [
   </section>
 
   <script>
+    let hasPlayedHeroScan = false;
+
     const playHeroScan = () => {
       const hero = document.querySelector('[data-hero-neon]');
       if (!hero) return;
+      if (hasPlayedHeroScan) return;
       if (document.documentElement.dataset.animations === 'off') return;
       if (hero.classList.contains('hero-neon-text--active')) return;
+      hasPlayedHeroScan = true;
       hero.classList.add('hero-neon-text--active');
     };
 
@@ -420,8 +424,6 @@ const learningLoops = [
     window.setTimeout(playHeroScan, 420);
 
     document.querySelectorAll('[data-hero-neon]').forEach((hero) => {
-      hero.addEventListener('pointerenter', playHeroScan);
-
       hero.addEventListener('animationend', () => {
         hero.classList.remove('hero-neon-text--active');
       });

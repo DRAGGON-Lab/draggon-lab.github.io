@@ -7,20 +7,27 @@ type Props = {
 };
 
 const { href, variant = 'primary' } = Astro.props as Props;
+const isExternalWeb = href.startsWith('http');
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-draggon-violet text-white hover:bg-draggon-deep',
-  secondary: 'border border-violet-200 text-draggon-deep hover:bg-violet-50',
-  subtle: 'border border-violet-200/70 text-white hover:border-white/80 hover:bg-white/10',
+  primary:
+    'bg-draggon-violet text-white shadow-[0_18px_45px_-22px_rgba(76,29,149,0.75)] hover:bg-draggon-deep hover:shadow-[0_18px_40px_-18px_rgba(57,255,20,0.22)]',
+  secondary:
+    'border border-violet-200/80 bg-white/70 text-draggon-deep hover:border-draggon-green/50 hover:bg-violet-50',
+  subtle:
+    'border border-white/25 bg-white/10 text-white hover:border-white/70 hover:bg-white/15',
 };
 ---
 
 <a
   href={href}
+  target={isExternalWeb ? '_blank' : undefined}
+  rel={isExternalWeb ? 'noopener noreferrer' : undefined}
   class:list={[
-    'inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold transition',
+    'button-link inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold',
     variants[variant] ?? variants.primary,
   ]}
 >
-  <slot />
+  <span><slot /></span>
+  <span class="button-link__arrow" aria-hidden="true">→</span>
 </a>

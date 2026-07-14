@@ -259,7 +259,7 @@ main {
 }
 
 .hero-neon-text--active {
-  animation: hero-neon-scan 2.4s var(--ease-out) 2;
+  animation: hero-neon-scan 7.2s var(--ease-out) 2;
   will-change: background-position, filter;
 }
 

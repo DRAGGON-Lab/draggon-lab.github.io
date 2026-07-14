@@ -160,11 +160,10 @@ const learningLoops = [
           {siteConfig.affiliation}
         </p>
         <h1
-          class="mt-5 max-w-5xl text-5xl font-black tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
+          class="hero-neon-text mt-5 max-w-5xl text-5xl font-black tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
+          data-hero-neon
         >
-          AI-aided biodesign platforms for <span class="hero-neon-text" data-hero-neon
-            >programming</span
-          > biological systems
+          AI-aided biodesign platforms for programming biological systems
         </h1>
         <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
           DRAGGON Lab builds the software infrastructure, data loops, and simulation engines that
@@ -383,9 +382,8 @@ const learningLoops = [
       const hero = document.querySelector('[data-hero-neon]');
       if (!hero) return;
       if (document.documentElement.dataset.animations === 'off') return;
-      if (hero instanceof HTMLElement && hero.dataset.heroNeonPlayed === 'true') return;
+      if (hero.classList.contains('hero-neon-text--active')) return;
       hero.classList.add('hero-neon-text--active');
-      if (hero instanceof HTMLElement) hero.dataset.heroNeonPlayed = 'true';
     };
 
     const revealItems = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
@@ -422,6 +420,8 @@ const learningLoops = [
     window.setTimeout(playHeroScan, 420);
 
     document.querySelectorAll('[data-hero-neon]').forEach((hero) => {
+      hero.addEventListener('pointerenter', playHeroScan);
+
       hero.addEventListener('animationend', () => {
         hero.classList.remove('hero-neon-text--active');
       });

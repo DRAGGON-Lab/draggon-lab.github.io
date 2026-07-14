@@ -235,31 +235,43 @@ main {
 
 .hero-neon-text {
   position: relative;
+  display: inline-block;
   overflow: visible;
   line-height: 1.08;
   padding-bottom: 0.06em;
-  background-image: linear-gradient(
-    100deg,
-    #0f172a 0%,
-    #0f172a 37%,
-    #a7f3d0 45%,
-    #39ff14 50%,
-    #a7f3d0 55%,
-    #0f172a 63%,
-    #0f172a 100%
-  );
-  background-size: 240% 100%;
-  background-position: 120% 0;
-  color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 0 0 rgba(57, 255, 20, 0));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: inherit;
 }
 
-.hero-neon-text--active {
-  animation: hero-neon-scan 1.6s var(--ease-out) 1;
-  will-change: background-position, filter;
+.hero-neon-text::after {
+  position: absolute;
+  inset: -0.04em -0.08em -0.08em;
+  pointer-events: none;
+  content: '';
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(167, 243, 208, 0.3) 44%,
+      rgba(57, 255, 20, 0.82) 50%,
+      rgba(124, 58, 237, 0.4) 58%,
+      transparent 72%
+    ),
+    radial-gradient(circle at var(--scan-x, 0%) 50%, rgba(57, 255, 20, 0.28), transparent 38%);
+  background-size:
+    220% 100%,
+    100% 100%;
+  background-position:
+    125% 0,
+    0 0;
+  border-radius: 0.22em;
+  mix-blend-mode: screen;
+  opacity: 0;
+  filter: blur(0.01rem) drop-shadow(0 0 0 rgba(57, 255, 20, 0));
+}
+
+.hero-neon-text--active::after {
+  animation: hero-neon-scan 3.8s cubic-bezier(0.22, 0.8, 0.18, 1) 1;
+  will-change: background-position, filter, opacity;
 }
 
 .hero-console {
@@ -837,17 +849,17 @@ html.dark .footer-shell {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
 }
 
-html.dark .hero-neon-text {
-  background-image: linear-gradient(
-    100deg,
-    var(--color-text) 0%,
-    var(--color-text) 37%,
-    #a7f3d0 45%,
-    #39ff14 50%,
-    #a7f3d0 55%,
-    var(--color-text) 63%,
-    var(--color-text) 100%
-  );
+html.dark .hero-neon-text::after {
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(167, 243, 208, 0.36) 44%,
+      rgba(57, 255, 20, 0.9) 50%,
+      rgba(124, 58, 237, 0.48) 58%,
+      transparent 72%
+    ),
+    radial-gradient(circle at var(--scan-x, 0%) 50%, rgba(57, 255, 20, 0.34), transparent 38%);
 }
 
 html.dark .hero-console,
@@ -978,18 +990,36 @@ html.dark .metric-card__stat {
 }
 
 @keyframes hero-neon-scan {
-  from {
-    background-position: 120% 0;
-    filter: drop-shadow(0 0 0 rgba(57, 255, 20, 0));
+  0% {
+    --scan-x: 0%;
+    background-position:
+      125% 0,
+      0 0;
+    opacity: 0;
+    filter: blur(0.01rem) drop-shadow(0 0 0 rgba(57, 255, 20, 0));
   }
 
-  45% {
-    filter: drop-shadow(0 0 0.22rem rgba(57, 255, 20, 0.42));
+  18% {
+    opacity: 0.72;
   }
 
-  to {
-    background-position: -120% 0;
-    filter: drop-shadow(0 0 0 rgba(57, 255, 20, 0));
+  42% {
+    opacity: 1;
+    filter: blur(0.012rem) drop-shadow(0 0 0.32rem rgba(57, 255, 20, 0.46));
+  }
+
+  74% {
+    opacity: 0.8;
+    filter: blur(0.01rem) drop-shadow(0 0 0.2rem rgba(124, 58, 237, 0.34));
+  }
+
+  100% {
+    --scan-x: 100%;
+    background-position:
+      -125% 0,
+      0 0;
+    opacity: 0;
+    filter: blur(0.01rem) drop-shadow(0 0 0 rgba(57, 255, 20, 0));
   }
 }
 
@@ -1068,11 +1098,11 @@ html.dark .metric-card__stat {
 
 @media (forced-colors: active) {
   .hero-neon-text {
-    background-image: none;
     color: CanvasText;
-    animation: none;
-    filter: none;
-    -webkit-text-fill-color: CanvasText;
+  }
+
+  .hero-neon-text::after {
+    display: none;
   }
 
   .site-ambient,
@@ -1091,21 +1121,16 @@ html.dark .metric-card__stat {
     animation-duration: 0.01ms !important;
   }
 
-  .hero-neon-text {
+  .hero-neon-text::after {
     animation: none !important;
-    background-position: 50% 0;
   }
 }
 
-html.animations-off .hero-neon-text {
-  background-image: none;
-  background-position: 50% 0;
-  color: inherit;
-  filter: none;
-  -webkit-text-fill-color: currentColor;
+html.animations-off .hero-neon-text::after {
+  display: none;
 }
 
-html.animations-off .hero-neon-text--active,
+html.animations-off .hero-neon-text--active::after,
 html.animations-off .hero-console::before,
 html.animations-off .bio-orbit__ring {
   animation: none;

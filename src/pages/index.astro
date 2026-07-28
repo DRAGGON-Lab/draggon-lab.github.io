@@ -142,7 +142,8 @@ const labNotes = [
         data-reveal
         style="--reveal-delay: 80ms"
       >
-        AI-aided biodesign platforms for <span class="hero-accent">programming</span> biological systems
+        AI-aided biodesign platforms for<br />
+        <span class="hero-accent hero-accent--animate" data-hero-accent>programming</span> biological systems
       </h1>
       <p
         class="mt-7 max-w-2xl text-lg leading-8 text-slate-600"
@@ -351,3 +352,26 @@ const labNotes = [
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  const heroAccent = document.querySelector<HTMLElement>('[data-hero-accent]');
+  let heroWaveRestarting = false;
+
+  heroAccent?.addEventListener('mouseenter', () => {
+    const heroWaveIsActive = heroAccent.getAnimations().some((animation) => {
+      return animation.playState === 'running' || animation.playState === 'pending';
+    });
+
+    if (heroWaveRestarting || heroWaveIsActive) return;
+
+    heroWaveRestarting = true;
+    heroAccent.style.setProperty('--hero-wave-delay', '0ms');
+    heroAccent.classList.remove('hero-accent--animate');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        heroAccent.classList.add('hero-accent--animate');
+        heroWaveRestarting = false;
+      });
+    });
+  });
+</script>

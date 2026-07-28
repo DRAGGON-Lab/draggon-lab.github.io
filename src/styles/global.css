@@ -6,6 +6,7 @@
  * ------------------------------------------------------------------ */
 :root {
   color-scheme: light;
+  --font-heading: Futura, 'Futura PT', 'Century Gothic', ui-sans-serif, sans-serif;
 
   /* Surfaces & ink (light / "paper") */
   --color-base: #faf8f4;
@@ -92,13 +93,9 @@ html.dark body {
    Subheads (h3+) stay in Inter for legibility in dense grids. */
 h1,
 h2 {
-  font-family: Fraunces, ui-serif, Georgia, Cambria, serif;
-  font-optical-sizing: auto;
-  font-variation-settings:
-    'SOFT' 0,
-    'WONK' 0;
-  letter-spacing: -0.022em;
-  font-weight: 560;
+  font-family: var(--font-heading);
+  letter-spacing: -0.018em;
+  font-weight: 500;
 }
 
 a {
@@ -202,6 +199,10 @@ html.dark .prose a {
 }
 .btn-primary:hover {
   box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--color-accent) 80%, transparent);
+}
+/* Keep primary-action labels readable even if utility ordering changes. */
+.btn.btn-primary {
+  color: #fff;
 }
 
 /* ------------------------------------------------------------------ *
@@ -405,7 +406,7 @@ html.animations-off .dna {
   }
 }
 .agenda-num {
-  font-family: Fraunces, ui-serif, Georgia, Cambria, serif;
+  font-family: var(--font-heading);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
 }
@@ -432,37 +433,47 @@ html.animations-off .dna {
 }
 
 .hero-title {
-  font-family: Fraunces, ui-serif, Georgia, Cambria, serif;
-  font-optical-sizing: auto;
-  font-variation-settings:
-    'SOFT' 0,
-    'WONK' 0;
-  font-weight: 540;
+  font-family: var(--font-heading);
+  font-weight: 500;
   letter-spacing: -0.03em;
   line-height: 1.06;
 }
 .hero-accent {
-  position: relative;
   white-space: nowrap;
-  background-image: linear-gradient(120deg, var(--color-accent) 0%, var(--color-signal) 100%);
+  /*
+   * The color field is a sampled cosine wave:
+   *   wave(x, t) = cos((πx / W) - ωt)
+   * where W is the word width. Thus W is half a period: at rest, wave is +1
+   * (purple) at the left edge and -1 (green) at the right. Each stop mixes
+   * purple by (wave + 1) / 2 and green by (1 - wave) / 2. A 16-step gradient
+   * gives the smooth field without a per-frame script.
+   */
+  background-image: linear-gradient(
+    90deg,
+    var(--color-accent) 0%,
+    color-mix(in srgb, var(--color-accent) 96.2%, var(--color-signal)) 6.25%,
+    color-mix(in srgb, var(--color-accent) 85.4%, var(--color-signal)) 12.5%,
+    color-mix(in srgb, var(--color-accent) 69.1%, var(--color-signal)) 18.75%,
+    color-mix(in srgb, var(--color-accent) 50%, var(--color-signal)) 25%,
+    color-mix(in srgb, var(--color-accent) 30.9%, var(--color-signal)) 31.25%,
+    color-mix(in srgb, var(--color-accent) 14.6%, var(--color-signal)) 37.5%,
+    color-mix(in srgb, var(--color-accent) 3.8%, var(--color-signal)) 43.75%,
+    var(--color-signal) 50%,
+    color-mix(in srgb, var(--color-accent) 3.8%, var(--color-signal)) 56.25%,
+    color-mix(in srgb, var(--color-accent) 14.6%, var(--color-signal)) 62.5%,
+    color-mix(in srgb, var(--color-accent) 30.9%, var(--color-signal)) 68.75%,
+    color-mix(in srgb, var(--color-accent) 50%, var(--color-signal)) 75%,
+    color-mix(in srgb, var(--color-accent) 69.1%, var(--color-signal)) 81.25%,
+    color-mix(in srgb, var(--color-accent) 85.4%, var(--color-signal)) 87.5%,
+    color-mix(in srgb, var(--color-accent) 96.2%, var(--color-signal)) 93.75%,
+    var(--color-accent) 100%
+  );
+  background-position: 0 0;
+  background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-}
-.hero-accent::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.06em;
-  height: 0.09em;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--color-accent), var(--color-signal));
-  opacity: 0.5;
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: hero-underline 900ms var(--ease-emphatic) 620ms forwards;
 }
 
 /* ------------------------------------------------------------------ *
@@ -473,6 +484,10 @@ html.animations-off .dna {
     opacity: 0;
     animation: reveal-up 640ms var(--ease-emphatic) forwards;
     animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  html:not(.animations-off) .hero-accent--animate {
+    animation: hero-accent-flow 3.6s linear var(--hero-wave-delay, 760ms) forwards;
   }
 }
 
@@ -487,9 +502,13 @@ html.animations-off .dna {
   }
 }
 
-@keyframes hero-underline {
+@keyframes hero-accent-flow {
+  from {
+    background-position: 0 0;
+  }
   to {
-    transform: scaleX(1);
+    /* Three complete waves travelling left-to-right, ending at the start state. */
+    background-position: -600% 0;
   }
 }
 
@@ -546,6 +565,87 @@ html.dark .border-violet-200\/70 {
 html.dark .card {
   border-color: var(--color-border);
   background: var(--color-surface);
+}
+
+/* Header: keep the glass treatment in dark mode, but tint it toward the
+   violet brand rather than allowing the light panel utilities to turn gray. */
+html.dark .site-header {
+  border-color: rgba(196, 181, 253, 0.2);
+  /* Both layers retain alpha. The former opaque base color prevented the
+     backdrop-filter from showing through the dark header at all. */
+  background-color: rgba(15, 10, 29, 0.48);
+  background-image: linear-gradient(110deg, rgba(68, 38, 112, 0.36), rgba(22, 14, 43, 0.28));
+  box-shadow: 0 1px 0 rgba(52, 211, 153, 0.05);
+}
+
+html.dark .site-header__brand {
+  color: var(--color-text);
+}
+
+html.dark .site-header__nav .nav-link {
+  color: color-mix(in srgb, var(--color-text) 80%, var(--color-muted));
+}
+
+html.dark .site-header__nav .nav-link:hover,
+html.dark .site-header__nav .nav-link[data-active] {
+  color: var(--color-accent);
+}
+
+html.dark .site-header__cta {
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 20%, transparent);
+  color: var(--color-text);
+}
+
+html.dark .site-header__cta:hover {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 34%, transparent);
+  color: #fff;
+}
+
+html.dark .site-header .theme-toggle {
+  border-color: rgba(196, 181, 253, 0.24);
+  background: rgba(255, 255, 255, 0.06);
+  color: color-mix(in srgb, var(--color-text) 78%, var(--color-muted));
+}
+
+html.dark .site-header .theme-toggle:hover,
+html.dark .site-header .theme-toggle:focus-visible {
+  border-color: color-mix(in srgb, var(--color-accent) 70%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  color: var(--color-text);
+}
+
+html.dark .site-header__mobile-menu {
+  border-color: rgba(196, 181, 253, 0.24);
+  background: linear-gradient(150deg, #24163c, #120e22);
+  box-shadow: 0 20px 48px -22px rgba(0, 0, 0, 0.8);
+}
+
+html.dark .site-header__mobile-link {
+  color: var(--color-text);
+}
+
+html.dark .site-header__mobile-link .text-slate-950 {
+  color: var(--color-text);
+}
+
+html.dark .site-header__mobile-link .text-slate-600,
+html.dark .site-header__mobile-menu .text-slate-700 {
+  color: color-mix(in srgb, var(--color-text) 68%, var(--color-muted));
+}
+
+html.dark .site-header__mobile-link:hover {
+  background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+}
+
+html.dark .site-header__mobile-cta {
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+html.dark .site-header__mobile-menu > div:last-child {
+  border-color: rgba(196, 181, 253, 0.2);
 }
 
 /* ------------------------------------------------------------------ *
@@ -639,9 +739,6 @@ html[data-theme='dark'] .theme-toggle__icon {
     color: CanvasText;
     -webkit-text-fill-color: CanvasText;
   }
-  .hero-accent::after {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -650,13 +747,8 @@ html[data-theme='dark'] .theme-toggle__icon {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
-  .hero-accent::after {
-    transform: scaleX(1);
-    animation: none;
-  }
 }
 
-html.animations-off .hero-accent::after {
-  transform: scaleX(1);
+html.animations-off .hero-accent--animate {
   animation: none;
 }

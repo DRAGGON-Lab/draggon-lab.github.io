@@ -13,11 +13,11 @@ const RISE = 15.6; // px of vertical rise per base pair
 const TWIST = 360 / 10.5; // degrees of twist per base pair (~34.3)
 const STRAND_OFFSET = 120; // degrees between the two backbones
 const BEADS_PER_BP = 6; // backbone samples per base pair -> smooth ribbons
-const centerY = (bp) => (bp - (BP_COUNT - 1) / 2) * RISE;
+const centerY = (bp: number) => (bp - (BP_COUNT - 1) / 2) * RISE;
 
 // Two continuous backbone strands, densely sampled so each reads as a ribbon.
 const beadCount = (BP_COUNT - 1) * BEADS_PER_BP + 1;
-const strand = (phaseOffset) =>
+const strand = (phaseOffset: number) =>
   Array.from({ length: beadCount }, (_, i) => {
     const bp = i / BEADS_PER_BP;
     return { y: centerY(bp), r: bp * TWIST + phaseOffset };
@@ -359,7 +359,7 @@ const labNotes = [
 
   heroAccent?.addEventListener('mouseenter', () => {
     const heroWaveIsActive = heroAccent.getAnimations().some((animation) => {
-      return animation.playState === 'running' || animation.playState === 'pending';
+      return animation.playState === 'running';
     });
 
     if (heroWaveRestarting || heroWaveIsActive) return;

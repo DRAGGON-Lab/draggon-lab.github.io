@@ -6,7 +6,9 @@ export const researchHierarchy = [
   { slug: 'intelligent-genetic-genomic-networks', order: 5 },
 ] as const;
 
-const hierarchyBySlug = new Map(researchHierarchy.map((item) => [item.slug, item]));
+const hierarchyBySlug: ReadonlyMap<string, (typeof researchHierarchy)[number]> = new Map(
+  researchHierarchy.map((item) => [item.slug, item]),
+);
 
 export function getResearchHierarchy(slug: string) {
   const item = hierarchyBySlug.get(slug);
@@ -26,7 +28,8 @@ export function sortResearchByHierarchy<T extends { id: string; data: { title: s
     const secondHierarchy = getResearchHierarchy(second.id);
 
     return (
-      firstHierarchy.order - secondHierarchy.order || first.data.title.localeCompare(second.data.title)
+      firstHierarchy.order - secondHierarchy.order ||
+      first.data.title.localeCompare(second.data.title)
     );
   });
 }

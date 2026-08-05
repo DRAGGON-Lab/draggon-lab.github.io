@@ -1,0 +1,48 @@
+---
+export type ResearchAscentItem = {
+  order: number;
+  title: string;
+  summary?: string;
+  href: string;
+};
+
+interface Props {
+  items: ResearchAscentItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="research-ascent">
+  <p class="research-ascent__key">
+    <span><strong>01</strong> Foundations</span>
+    <span class="research-ascent__key-line" aria-hidden="true"></span>
+    <span><strong>05</strong> Capabilities</span>
+  </p>
+  <ol
+    class="research-ascent__stack"
+    aria-label="Research progression from foundations to capabilities"
+  >
+    {
+      items.map((item) => (
+        <li
+          class="research-ascent__tier"
+          style={`--ascent-order:${item.order};--ascent-width:${52 + (6 - item.order) * 9}%`}
+        >
+          <a href={item.href} class="research-ascent__link group">
+            <span class="research-ascent__number">{String(item.order).padStart(2, '0')}</span>
+            <span class="research-ascent__copy">
+              <span class="group-hover:text-draggon-violet research-ascent__title">
+                {item.title}
+              </span>
+              {item.summary && <span class="research-ascent__summary">{item.summary}</span>}
+            </span>
+            <span class="research-ascent__arrow" aria-hidden="true">
+              →
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</div>

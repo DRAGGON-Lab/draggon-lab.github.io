@@ -133,7 +133,8 @@ const labNotes = [
         style="--reveal-delay: 80ms"
       >
         AI-aided biodesign platforms for<br />
-        <span class="hero-accent hero-accent--animate" data-hero-accent>programming</span> biological systems
+        <span class="hero-accent hero-accent--animate" data-hero-accent>programming</span> biological
+        systems
       </h1>
       <p
         class="mt-7 max-w-2xl text-lg leading-8 text-slate-600"
@@ -178,20 +179,22 @@ const labNotes = [
 
   {/* Platform — the rich DBTL widget carries this section */}
   <section class="mx-auto max-w-7xl px-4 py-16">
-    <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-      <div class="max-w-2xl">
+    <div class="dbtl-platform-layout">
+      <div class="dbtl-platform-intro">
         <h2 class="text-3xl tracking-tight text-slate-950">
-          A platform ecosystem for the DBTL cycle
+          A software ecosystem for the DBTL cycle
         </h2>
-        <p class="mt-4 text-slate-600">
-          We build open, reusable software, standards-enabled metadata, and FAIR data workflows so
-          that biological engineering can become more reproducible, collaborative, and programmable.
+        <p class="mt-4 leading-7 text-slate-600">
+          We build open source software, standards-enabled metadata, and FAIR data workflows so that
+          biological engineering can become more reproducible, collaborative, and programmable.
         </p>
+        <div class="mt-6">
+          <ButtonLink href="/tools" variant="secondary">View software ecosystem</ButtonLink>
+        </div>
       </div>
-      <ButtonLink href="/tools" variant="secondary">View platform ecosystem</ButtonLink>
-    </div>
-    <div class="mt-8">
-      <DBTLCycleDisplay />
+      <div class="dbtl-platform-display">
+        <DBTLCycleDisplay />
+      </div>
     </div>
   </section>
 

@@ -39,6 +39,7 @@ const cycleCenter = 250;
 const outerRadius = 205;
 const innerRadius = 105;
 const middleRadius = (outerRadius + innerRadius) / 2;
+const dividerAngles = [180, 270, 0, 90];
 const degreesToRadians = (degrees: number) => (degrees * Math.PI) / 180;
 const pointOnCycle = (radius: number, angle: number) => {
   const radians = degreesToRadians(angle);
@@ -48,32 +49,93 @@ const pointOnCycle = (radius: number, angle: number) => {
   };
 };
 const point = ({ x, y }: { x: number; y: number }) => `${x.toFixed(2)} ${y.toFixed(2)}`;
-const createArrowPath = (startAngle: number, endAngle: number) => {
-  const tailAngle = startAngle + 0.5;
-  const headBaseAngle = endAngle - 3.75;
-  const arrowTipAngle = endAngle - 0.25;
-  const notchTipAngle = startAngle + 3.5;
-
+const createAnnulusPath = (startAngle: number, endAngle: number) => {
   return [
-    `M ${point(pointOnCycle(outerRadius, tailAngle))}`,
-    `A ${outerRadius} ${outerRadius} 0 0 1 ${point(pointOnCycle(outerRadius, headBaseAngle))}`,
-    `L ${point(pointOnCycle(middleRadius, arrowTipAngle))}`,
-    `L ${point(pointOnCycle(innerRadius, headBaseAngle))}`,
-    `A ${innerRadius} ${innerRadius} 0 0 0 ${point(pointOnCycle(innerRadius, tailAngle))}`,
-    `L ${point(pointOnCycle(middleRadius, notchTipAngle))}`,
+    `M ${point(pointOnCycle(outerRadius, startAngle))}`,
+    `A ${outerRadius} ${outerRadius} 0 0 1 ${point(pointOnCycle(outerRadius, endAngle))}`,
+    `L ${point(pointOnCycle(innerRadius, endAngle))}`,
+    `A ${innerRadius} ${innerRadius} 0 0 0 ${point(pointOnCycle(innerRadius, startAngle))}`,
     'Z',
   ].join(' ');
 };
+const createOuterArcPath = (startAngle: number, endAngle: number) => {
+  return [
+    `M ${point(pointOnCycle(outerRadius, startAngle))}`,
+    `A ${outerRadius} ${outerRadius} 0 0 1 ${point(pointOnCycle(outerRadius, endAngle))}`,
+  ].join(' ');
+};
+
+const createGlassDividerPath = (angle: number) => {
+  const outer = pointOnCycle(outerRadius, angle);
+  const tip = pointOnCycle(middleRadius, angle + 8);
+  const inner = pointOnCycle(innerRadius, angle);
+  return `M ${point(outer)} L ${point(tip)} L ${point(inner)}`;
+};
+/* Nested strokes approximate a linear 30% → 90% opacity profile across the crystal. */
+const crystalChevronLayers = [
+  { width: 20, opacity: 0.3 },
+  { width: 16, opacity: 0.21 },
+  { width: 12, opacity: 0.27 },
+  { width: 8, opacity: 0.38 },
+  { width: 4, opacity: 0.6 },
+];
+
+const ringColorStart = [139, 92, 246];
+const ringColorEnd = [59, 26, 122];
+const interpolateRingColor = (progress: number) => {
+  const color = ringColorStart.map((channel, index) =>
+    Math.round(channel + (ringColorEnd[index] - channel) * progress),
+  );
+  return `rgb(${color.join(' ')})`;
+};
+const ringSliceCount = 72;
+const ringSliceOverlap = 0.08;
+const transitionSpan = 8;
+const gradientStartAngle = 180 + transitionSpan;
+const gradientEndAngle = 180 + 360 - transitionSpan;
+const ringSlices = Array.from({ length: ringSliceCount }, (_, index) => {
+  const startAngle = 180 + (index * 360) / ringSliceCount;
+  const endAngle = 180 + ((index + 1) * 360) / ringSliceCount;
+  const middleAngle = (startAngle + endAngle) / 2;
+  const progress = Math.min(
+    1,
+    Math.max(0, (middleAngle - gradientStartAngle) / (gradientEndAngle - gradientStartAngle)),
+  );
+  return {
+    path: createAnnulusPath(startAngle, endAngle + ringSliceOverlap),
+    color: interpolateRingColor(progress),
+  };
+});
+const learnDesignBoundaryAngle = 180;
+const learnDesignTriangleOuter = pointOnCycle(outerRadius, learnDesignBoundaryAngle);
+const learnDesignTriangleInner = pointOnCycle(innerRadius, learnDesignBoundaryAngle);
+const learnDesignTriangleBase = pointOnCycle(middleRadius, learnDesignBoundaryAngle);
+const learnDesignTriangleTip = pointOnCycle(middleRadius, learnDesignBoundaryAngle + 8);
+const learnDesignTrianglePath = `M ${point(learnDesignTriangleOuter)} L ${point(learnDesignTriangleInner)} L ${point(learnDesignTriangleTip)} Z`;
+const learnDesignTriangleStartColor = interpolateRingColor(0.94);
+const learnDesignTriangleEndColor = interpolateRingColor(1);
 
 const positionedStages = stages.map((stage) => {
   const middleAngle = (stage.startAngle + stage.endAngle) / 2;
   return {
     ...stage,
-    path: createArrowPath(stage.startAngle, stage.endAngle),
+    path: createAnnulusPath(stage.startAngle, stage.endAngle),
+    outlinePath: createOuterArcPath(stage.startAngle, stage.endAngle),
     label: pointOnCycle(middleRadius, middleAngle),
   };
 });
-const learnPath = positionedStages.find((stage) => stage.name === 'Learn')?.path ?? '';
+const learnRayEnd = pointOnCycle(outerRadius + 30, 135);
+const learnRayCenter = pointOnCycle(middleRadius, 135);
+const waveRayHalfWidth = 72;
+const learnRayNormal = degreesToRadians(225);
+const learnRayGradientStart = {
+  x: learnRayCenter.x - Math.cos(learnRayNormal) * waveRayHalfWidth,
+  y: learnRayCenter.y - Math.sin(learnRayNormal) * waveRayHalfWidth,
+};
+const learnRayGradientEnd = {
+  x: learnRayCenter.x + Math.cos(learnRayNormal) * waveRayHalfWidth,
+  y: learnRayCenter.y + Math.sin(learnRayNormal) * waveRayHalfWidth,
+};
 ---
 
 <section
@@ -96,63 +158,64 @@ const learnPath = positionedStages.find((stage) => stage.name === 'Learn')?.path
     <div class="dbtl-diagram">
       <svg class="dbtl-ring" viewBox="0 0 500 500" role="group" aria-label="DBTL cycle stages">
         <defs>
-          <mask id="dbtl-ring-mask">
-            <rect width="500" height="500" fill="black"></rect>
-            {positionedStages.map((stage) => <path d={stage.path} fill="white" />)}
-          </mask>
-          <linearGradient id="dbtl-green-wave" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="var(--color-signal)" stop-opacity="0"></stop>
-            <stop offset="0.45" stop-color="var(--color-signal)" stop-opacity="0.95"></stop>
-            <stop offset="1" stop-color="var(--color-signal)" stop-opacity="0"></stop>
+          <clipPath id="dbtl-ring-clip" clipPathUnits="userSpaceOnUse">
+            {ringSlices.map((slice) => <path d={slice.path} />)}
+          </clipPath>
+          {
+            /* α(u) = exp(-((u - 0.5)² / (2 × 0.6²))); u spans -1…2 here,
+              so the ray reaches its background before its visible edges. */
+          }
+          <linearGradient
+            id="dbtl-green-wave"
+            gradientUnits="userSpaceOnUse"
+            x1={learnRayGradientStart.x}
+            y1={learnRayGradientStart.y}
+            x2={learnRayGradientEnd.x}
+            y2={learnRayGradientEnd.y}
+          >
+            <stop offset="0" stop-color="var(--color-signal)" stop-opacity="0.04"></stop>
+            <stop offset="0.1" stop-color="var(--color-signal)" stop-opacity="0.14"></stop>
+            <stop offset="0.2" stop-color="var(--color-signal)" stop-opacity="0.32"></stop>
+            <stop offset="0.3" stop-color="var(--color-signal)" stop-opacity="0.61"></stop>
+            <stop offset="0.4" stop-color="var(--color-signal)" stop-opacity="0.88"></stop>
+            <stop offset="0.5" stop-color="var(--color-signal)" stop-opacity="1"></stop>
+            <stop offset="0.6" stop-color="var(--color-signal)" stop-opacity="0.88"></stop>
+            <stop offset="0.7" stop-color="var(--color-signal)" stop-opacity="0.61"></stop>
+            <stop offset="0.8" stop-color="var(--color-signal)" stop-opacity="0.32"></stop>
+            <stop offset="0.9" stop-color="var(--color-signal)" stop-opacity="0.14"></stop>
+            <stop offset="1" stop-color="var(--color-signal)" stop-opacity="0.04"></stop>
           </linearGradient>
           <linearGradient
-            id="dbtl-stage-design"
+            id="dbtl-learn-design-transition"
             gradientUnits="userSpaceOnUse"
-            x1="45"
-            y1="250"
-            x2="250"
-            y2="45"
+            x1={learnDesignTriangleBase.x}
+            y1={learnDesignTriangleBase.y}
+            x2={learnDesignTriangleTip.x}
+            y2={learnDesignTriangleTip.y}
           >
-            <stop offset="0" stop-color="var(--dbtl-ring-color-1)"></stop>
-            <stop offset="1" stop-color="var(--dbtl-ring-color-2)"></stop>
+            <stop offset="0" stop-color={learnDesignTriangleStartColor}></stop>
+            <stop offset="1" stop-color={learnDesignTriangleEndColor}></stop>
           </linearGradient>
-          <linearGradient
-            id="dbtl-stage-build"
-            gradientUnits="userSpaceOnUse"
-            x1="250"
-            y1="45"
-            x2="455"
-            y2="250"
-          >
-            <stop offset="0" stop-color="var(--dbtl-ring-color-2)"></stop>
-            <stop offset="1" stop-color="var(--dbtl-ring-color-3)"></stop>
-          </linearGradient>
-          <linearGradient
-            id="dbtl-stage-test"
-            gradientUnits="userSpaceOnUse"
-            x1="455"
-            y1="250"
-            x2="250"
-            y2="455"
-          >
-            <stop offset="0" stop-color="var(--dbtl-ring-color-3)"></stop>
-            <stop offset="1" stop-color="var(--dbtl-ring-color-4)"></stop>
-          </linearGradient>
-          <linearGradient
-            id="dbtl-stage-learn"
-            gradientUnits="userSpaceOnUse"
-            x1="250"
-            y1="455"
-            x2="45"
-            y2="250"
-          >
-            <stop offset="0" stop-color="var(--dbtl-ring-color-4)"></stop>
-            <stop offset="1" stop-color="var(--dbtl-ring-color-4)"></stop>
-          </linearGradient>
-          <filter id="dbtl-wave-glow" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="5"></feGaussianBlur>
-          </filter>
         </defs>
+
+        {
+          ringSlices.map((slice) => (
+            <path class="dbtl-ring-slice" d={slice.path} fill={slice.color} />
+          ))
+        }
+        <path
+          class="dbtl-ring-transition"
+          d={learnDesignTrianglePath}
+          fill="url(#dbtl-learn-design-transition)"></path>
+
+        <g class="dbtl-wave" clip-path="url(#dbtl-ring-clip)">
+          <line
+            class="dbtl-wave__shape"
+            x1={cycleCenter}
+            y1={cycleCenter}
+            x2={learnRayEnd.x}
+            y2={learnRayEnd.y}></line>
+        </g>
 
         {
           positionedStages.map((stage) => (
@@ -165,24 +228,32 @@ const learnPath = positionedStages.find((stage) => stage.name === 'Learn')?.path
               aria-controls={`dbtl-panel-${stage.name.toLowerCase()}`}
               aria-expanded="false"
             >
-              <path
-                class="dbtl-segment__shape"
-                d={stage.path}
-                fill={`url(#dbtl-stage-${stage.name.toLowerCase()})`}
-              />
-              <path class="dbtl-segment__outline" d={stage.path} />
+              <path class="dbtl-segment__hit-area" d={stage.path} />
+              <path class="dbtl-segment__outline" d={stage.outlinePath} />
             </g>
           ))
         }
 
-        <g class="dbtl-wave" mask="url(#dbtl-ring-mask)">
-          <path class="dbtl-wave__glow" d={learnPath}></path>
-          <path class="dbtl-wave__shape" d={learnPath}></path>
-        </g>
-
         {/* This masks sector growth so the core keeps the page-surface channel around it. */}
         <circle class="dbtl-core-channel" cx={cycleCenter} cy={cycleCenter} r={innerRadius}
         ></circle>
+
+        <g class="dbtl-glass-dividers" clip-path="url(#dbtl-ring-clip)" aria-hidden="true">
+          {
+            dividerAngles.map((angle) => (
+              <>
+                {crystalChevronLayers.map((layer) => (
+                  <path
+                    class="dbtl-glass-divider"
+                    d={createGlassDividerPath(angle)}
+                    stroke-width={layer.width}
+                    stroke-opacity={layer.opacity}
+                  />
+                ))}
+              </>
+            ))
+          }
+        </g>
 
         <g class="dbtl-labels">
           {
@@ -243,12 +314,6 @@ const learnPath = positionedStages.find((stage) => stage.name === 'Learn')?.path
                   </span>
                   <h4>{stage.name}</h4>
                 </div>
-                <button type="button" class="dbtl-close" data-dbtl-close>
-                  <>
-                    <span aria-hidden="true">×</span>
-                    <span class="sr-only">Close {stage.name} details</span>
-                  </>
-                </button>
               </div>
               <p class="dbtl-detail__summary">{stage.summary}</p>
               <div class="dbtl-tools">
@@ -302,10 +367,6 @@ const learnPath = positionedStages.find((stage) => stage.name === 'Learn')?.path
           }
         });
       }
-    });
-
-    cycle.querySelectorAll<HTMLElement>('[data-dbtl-close]').forEach((close) => {
-      close.addEventListener('click', () => setActive(active));
     });
 
     document.addEventListener('click', (event) => {

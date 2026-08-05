@@ -19,7 +19,10 @@ const { items } = Astro.props;
     <span class="research-ascent__key-line" aria-hidden="true"></span>
     <span><strong>05</strong> Capabilities</span>
   </p>
-  <ol class="research-ascent__stack" aria-label="Research progression from foundations to capabilities">
+  <ol
+    class="research-ascent__stack"
+    aria-label="Research progression from foundations to capabilities"
+  >
     {
       items.map((item) => (
         <li
@@ -34,7 +37,9 @@ const { items } = Astro.props;
               </span>
               {item.summary && <span class="research-ascent__summary">{item.summary}</span>}
             </span>
-            <span class="research-ascent__arrow" aria-hidden="true">→</span>
+            <span class="research-ascent__arrow" aria-hidden="true">
+              →
+            </span>
           </a>
         </li>
       ))

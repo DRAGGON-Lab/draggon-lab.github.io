@@ -25,10 +25,6 @@
   --color-signal: #16b364;
   --color-signal-tint: rgba(22, 179, 100, 0.12);
   --color-violet-soft: #f4f0ff;
-  --dbtl-ring-color-1: #8b5cf6;
-  --dbtl-ring-color-2: #6d28d9;
-  --dbtl-ring-color-3: #5522ad;
-  --dbtl-ring-color-4: #3b1a7a;
 
   /* Elevation */
   --shadow-card: 0 1px 2px rgba(23, 21, 38, 0.04);
@@ -58,10 +54,6 @@ html.dark {
   --color-signal: #34d399;
   --color-signal-tint: rgba(52, 211, 153, 0.16);
   --color-violet-soft: rgba(76, 29, 149, 0.28);
-  --dbtl-ring-color-1: #8b5cf6;
-  --dbtl-ring-color-2: #6d28d9;
-  --dbtl-ring-color-3: #5522ad;
-  --dbtl-ring-color-4: #3b1a7a;
 
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-lift: 0 22px 48px -24px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.35);
@@ -405,6 +397,13 @@ html.animations-off .dna {
 }
 
 /* Interactive DBTL mental model: minimal by default, explanatory on selection. */
+.dbtl-platform-layout {
+  display: grid;
+  gap: 2rem;
+}
+.dbtl-platform-intro {
+  max-width: 32rem;
+}
 .dbtl-interactive {
   position: relative;
 }
@@ -428,18 +427,28 @@ html.animations-off .dna {
   fill: var(--color-base);
   pointer-events: none;
 }
+.dbtl-glass-dividers {
+  pointer-events: none;
+}
+.dbtl-glass-divider {
+  fill: none;
+  stroke: var(--color-signal);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .dbtl-segment {
   cursor: pointer;
   outline: none;
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 220ms var(--ease-emphatic);
 }
-.dbtl-segment__shape {
+.dbtl-ring-slice {
   stroke: none;
-  transition:
-    fill 220ms var(--ease-emphatic),
-    filter 220ms var(--ease-emphatic);
+}
+.dbtl-ring-transition {
+  stroke: none;
+}
+.dbtl-segment__hit-area {
+  fill: transparent;
+  pointer-events: all;
 }
 .dbtl-segment__outline {
   fill: none;
@@ -456,17 +465,9 @@ html.animations-off .dna {
 .dbtl-segment:focus-visible {
   outline: none;
 }
-.dbtl-segment:hover,
-.dbtl-segment:focus-visible,
-.dbtl-segment[aria-expanded='true'] {
-  transform: scale(1.012);
-}
 .dbtl-segment:hover .dbtl-segment__outline,
 .dbtl-segment:focus-visible .dbtl-segment__outline {
   opacity: 1;
-}
-.dbtl-segment[aria-expanded='true'] .dbtl-segment__shape {
-  filter: drop-shadow(0 0 13px color-mix(in srgb, var(--color-signal) 42%, transparent));
 }
 .dbtl-segment[aria-expanded='true'] .dbtl-segment__outline {
   stroke: var(--color-signal);
@@ -512,16 +513,14 @@ html.animations-off .dna {
 .dbtl-cycle[data-active='test'] .dbtl-wave {
   --dbtl-wave-start: 270deg;
 }
-.dbtl-wave__glow,
 .dbtl-wave__shape {
-  fill: url('#dbtl-green-wave');
-}
-.dbtl-wave__glow {
-  filter: url('#dbtl-wave-glow');
-  opacity: 0.45;
+  fill: none;
+  stroke: url('#dbtl-green-wave');
+  stroke-linecap: round;
+  stroke-width: 144;
 }
 .dbtl-wave__shape {
-  opacity: 0.38;
+  opacity: 0.52;
 }
 .dbtl-core-shell {
   position: absolute;
@@ -656,31 +655,6 @@ html.animations-off .dna {
   font-size: 0.66rem;
   font-weight: 650;
 }
-.dbtl-close {
-  display: grid;
-  width: 1.7rem;
-  height: 1.7rem;
-  place-items: center;
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
-  background: var(--color-surface);
-  color: var(--color-muted);
-  cursor: pointer;
-  font-size: 1rem;
-  line-height: 1;
-  transition:
-    border-color 160ms var(--ease-emphatic),
-    color 160ms var(--ease-emphatic),
-    transform 160ms var(--ease-emphatic);
-}
-.dbtl-close:hover,
-.dbtl-close:focus-visible {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-}
-.dbtl-close:active {
-  transform: scale(0.94);
-}
 .dbtl-detail-layer {
   position: relative;
   z-index: 5;
@@ -767,6 +741,23 @@ html.animations-off .dna {
 }
 
 @media (min-width: 1180px) {
+  .dbtl-platform-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 20rem);
+    align-items: start;
+    gap: clamp(2.5rem, 5vw, 5rem);
+  }
+  .dbtl-platform-intro {
+    grid-column: 2;
+    grid-row: 1;
+    position: sticky;
+    top: 6rem;
+    padding-top: 2.3rem;
+  }
+  .dbtl-platform-display {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
   .dbtl-interactive {
     height: min(48rem, calc(62vw - 1.24rem));
     min-height: 0;
@@ -775,7 +766,7 @@ html.animations-off .dna {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: min(48rem, 62%);
+    width: min(48rem, 92%);
     transform: translate(-50%, -50%);
   }
   .dbtl-detail-layer {
@@ -785,7 +776,7 @@ html.animations-off .dna {
   }
   .dbtl-detail {
     position: absolute;
-    width: min(12rem, 17%);
+    width: min(14rem, 20%);
     max-width: none;
     margin: 0;
     padding: 0;
@@ -883,7 +874,6 @@ html.animations-off .dna {
     opacity: 1;
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .dbtl-wave,
   .dbtl-segment__outline,
@@ -900,7 +890,6 @@ html.animations-off .dbtl-core-details,
 html.animations-off .dbtl-detail {
   animation: none;
 }
-
 @media (forced-colors: active) {
   .dbtl-segment__shape,
   .dbtl-segment__outline {
@@ -962,9 +951,9 @@ html.animations-off .dbtl-detail {
   content: '';
   clip-path: polygon(50% 0, 100% 100%, 0 100%);
   background: linear-gradient(
-    160deg,
-    color-mix(in srgb, var(--color-accent) 16%, transparent),
-    color-mix(in srgb, var(--color-signal) 9%, transparent)
+    to bottom,
+    color-mix(in srgb, var(--color-signal) 16%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent) 16%, transparent) 100%
   );
   filter: blur(1px);
   opacity: 0.8;

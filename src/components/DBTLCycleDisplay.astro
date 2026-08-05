@@ -58,6 +58,21 @@ const createAnnulusPath = (startAngle: number, endAngle: number) => {
     'Z',
   ].join(' ');
 };
+const createFullAnnulusPath = () => {
+  const outerStart = pointOnCycle(outerRadius, 0);
+  const outerOpposite = pointOnCycle(outerRadius, 180);
+  const innerStart = pointOnCycle(innerRadius, 0);
+  const innerOpposite = pointOnCycle(innerRadius, 180);
+  return [
+    `M ${point(outerStart)}`,
+    `A ${outerRadius} ${outerRadius} 0 1 1 ${point(outerOpposite)}`,
+    `A ${outerRadius} ${outerRadius} 0 1 1 ${point(outerStart)}`,
+    `L ${point(innerStart)}`,
+    `A ${innerRadius} ${innerRadius} 0 1 0 ${point(innerOpposite)}`,
+    `A ${innerRadius} ${innerRadius} 0 1 0 ${point(innerStart)}`,
+    'Z',
+  ].join(' ');
+};
 const createOuterArcPath = (startAngle: number, endAngle: number) => {
   return [
     `M ${point(pointOnCycle(outerRadius, startAngle))}`,
@@ -88,32 +103,17 @@ const interpolateRingColor = (progress: number) => {
   );
   return `rgb(${color.join(' ')})`;
 };
-const ringSliceCount = 72;
-const ringSliceOverlap = 0.08;
-const transitionSpan = 8;
-const gradientStartAngle = 180 + transitionSpan;
-const gradientEndAngle = 180 + 360 - transitionSpan;
-const ringSlices = Array.from({ length: ringSliceCount }, (_, index) => {
-  const startAngle = 180 + (index * 360) / ringSliceCount;
-  const endAngle = 180 + ((index + 1) * 360) / ringSliceCount;
-  const middleAngle = (startAngle + endAngle) / 2;
-  const progress = Math.min(
-    1,
-    Math.max(0, (middleAngle - gradientStartAngle) / (gradientEndAngle - gradientStartAngle)),
-  );
-  return {
-    path: createAnnulusPath(startAngle, endAngle + ringSliceOverlap),
-    color: interpolateRingColor(progress),
-  };
-});
+const ringClipPath = createFullAnnulusPath();
 const learnDesignBoundaryAngle = 180;
 const learnDesignTriangleOuter = pointOnCycle(outerRadius, learnDesignBoundaryAngle);
 const learnDesignTriangleInner = pointOnCycle(innerRadius, learnDesignBoundaryAngle);
 const learnDesignTriangleBase = pointOnCycle(middleRadius, learnDesignBoundaryAngle);
 const learnDesignTriangleTip = pointOnCycle(middleRadius, learnDesignBoundaryAngle + 8);
 const learnDesignTrianglePath = `M ${point(learnDesignTriangleOuter)} L ${point(learnDesignTriangleInner)} L ${point(learnDesignTriangleTip)} Z`;
-const learnDesignTriangleStartColor = interpolateRingColor(0.94);
-const learnDesignTriangleEndColor = interpolateRingColor(1);
+const learnDesignTriangleStartColor = interpolateRingColor(1);
+const learnDesignTriangleEndColor = `rgb(${ringColorEnd
+  .map((channel) => Math.round(channel * 0.78))
+  .join(' ')})`;
 
 const positionedStages = stages.map((stage) => {
   const middleAngle = (stage.startAngle + stage.endAngle) / 2;
@@ -159,7 +159,7 @@ const learnRayGradientEnd = {
       <svg class="dbtl-ring" viewBox="0 0 500 500" role="group" aria-label="DBTL cycle stages">
         <defs>
           <clipPath id="dbtl-ring-clip" clipPathUnits="userSpaceOnUse">
-            {ringSlices.map((slice) => <path d={slice.path} />)}
+            <path d={ringClipPath}></path>
           </clipPath>
           {
             /* α(u) = exp(-((u - 0.5)² / (2 × 0.6²))); u spans -1…2 here,
@@ -198,11 +198,14 @@ const learnRayGradientEnd = {
           </linearGradient>
         </defs>
 
-        {
-          ringSlices.map((slice) => (
-            <path class="dbtl-ring-slice" d={slice.path} fill={slice.color} />
-          ))
-        }
+        <foreignObject
+          x={cycleCenter - outerRadius}
+          y={cycleCenter - outerRadius}
+          width="410"
+          height="410"
+        >
+          <div class="dbtl-polar-gradient"></div>
+        </foreignObject>
         <path
           class="dbtl-ring-transition"
           d={learnDesignTrianglePath}

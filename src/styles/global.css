@@ -404,6 +404,22 @@ html.animations-off .dna {
 .dbtl-platform-intro {
   max-width: 32rem;
 }
+.dbtl-platform-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0 0 1rem;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.dbtl-platform-eyebrow__line {
+  width: 2.3rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-signal), var(--color-accent));
+}
 .dbtl-interactive {
   position: relative;
 }

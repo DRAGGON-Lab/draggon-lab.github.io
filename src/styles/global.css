@@ -456,8 +456,12 @@ html.animations-off .dna {
   cursor: pointer;
   outline: none;
 }
-.dbtl-ring-slice {
-  stroke: none;
+.dbtl-polar-gradient {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(from 270deg, #8b5cf6 0deg, #3b1a7a 360deg);
+  pointer-events: none;
 }
 .dbtl-ring-transition {
   stroke: none;

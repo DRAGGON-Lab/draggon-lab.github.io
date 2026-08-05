@@ -2,15 +2,13 @@
 import { getCollection } from 'astro:content';
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import SimpleCard from '../../components/cards/SimpleCard.astro';
-import DraftBadge from '../../components/ui/DraftBadge.astro';
+import ResearchAscent from '../../components/ResearchAscent.astro';
 import {
   includeEntryInEnvironment,
-  shouldShowDraftBadge,
-  sortEntriesByTitle,
 } from '../../lib/contentFilters';
+import { getResearchHierarchy, sortResearchByHierarchy } from '../../data/researchHierarchy';
 
-const entries = sortEntriesByTitle(
+const entries = sortResearchByHierarchy(
   (await getCollection('research')).filter(includeEntryInEnvironment),
 );
 ---
@@ -22,19 +20,15 @@ const entries = sortEntriesByTitle(
       DRAGGON Lab builds AI-aided biodesign platforms across biological software foundations, DBTL
       workflows, machine learning, digital twins, and intelligent genetic networks.
     </p>
-    <div class="mt-8 grid gap-4 md:grid-cols-3">
-      {
-        entries.map((entry) => (
-          <SimpleCard
-            title={entry.data.title}
-            eyebrow={entry.data.tags[0]}
-            href={`/research/${entry.id}/`}
-          >
-            {shouldShowDraftBadge(entry) && <DraftBadge slot="titleSuffix" />}
-            {entry.data.summary}
-          </SimpleCard>
-        ))
-      }
+    <div class="mt-10">
+      <ResearchAscent
+        items={entries.map((entry) => ({
+          order: getResearchHierarchy(entry.id).order,
+          title: entry.data.title,
+          summary: entry.data.summary,
+          href: `/research/${entry.id}/`,
+        }))}
+      />
     </div>
   </section>
 </BaseLayout>

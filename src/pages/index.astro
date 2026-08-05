@@ -2,7 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ButtonLink from '../components/ui/ButtonLink.astro';
 import DBTLCycleDisplay from '../components/DBTLCycleDisplay.astro';
+import ResearchAscent from '../components/ResearchAscent.astro';
 import { siteConfig } from '../data/siteConfig';
+import { getResearchHierarchy, sortResearchByHierarchy } from '../data/researchHierarchy';
+import { getCollection } from 'astro:content';
+import { includeEntryInEnvironment } from '../lib/contentFilters';
 
 // B-DNA geometry: 10.5 base pairs per turn, 0.34 nm rise, 2 nm diameter.
 // The backbone radius is 46px (= 1 nm), so 1 bp rise = 0.34 * 46 ~= 15.6px.
@@ -31,28 +35,14 @@ const rungs = Array.from({ length: BP_COUNT }, (_, i) => ({
   r: i * TWIST,
 }));
 
-const researchAreas = [
-  {
-    title: 'Biological Software Foundations',
-    desc: 'Reusable standards, data structures, software, and metadata for programmable biology.',
-  },
-  {
-    title: 'Automated DBTL Workflows',
-    desc: 'Programmatic design-build-test-learn workflows for genetic network engineering.',
-  },
-  {
-    title: 'AI-Aided Biodesign',
-    desc: 'Machine learning and hybrid models that improve design from standardized biological data.',
-  },
-  {
-    title: 'Digital Twins of Living Systems',
-    desc: 'Simulations connecting engineered systems with cells, organisms, communities, and environments.',
-  },
-  {
-    title: 'Intelligent Genetic & Genomic Networks',
-    desc: 'Biological architectures for sensing, computing, feedback, and decision-making in living systems.',
-  },
-];
+const researchAreas = sortResearchByHierarchy(
+  (await getCollection('research')).filter(includeEntryInEnvironment),
+).map((entry) => ({
+  order: getResearchHierarchy(entry.id).order,
+  title: entry.data.title,
+  summary: entry.data.summary,
+  href: `/research/${entry.id}/`,
+}));
 
 const applications = [
   {
@@ -163,12 +153,12 @@ const labNotes = [
     </section>
   </div>
 
-  {/* Research — sticky intro + numbered agenda rows (not cards) */}
+  {/* Research — the visual ascent makes the platform dependency explicit. */}
   <section class="mx-auto max-w-7xl px-4 py-16 md:py-24">
     <div class="grid gap-10 md:grid-cols-[20rem_1fr] md:gap-16">
       <div class="md:sticky md:top-24 md:self-start">
         <h2 class="text-3xl tracking-tight text-slate-950">
-          Programming biology with reusable platforms
+          Programming biology with modern platforms
         </h2>
         <p class="mt-4 leading-7 text-slate-600">
           DRAGGON Lab builds AI-aided biodesign platforms that connect biological software
@@ -182,31 +172,7 @@ const labNotes = [
           Explore all research <span class="agenda-arrow" aria-hidden="true">→</span>
         </a>
       </div>
-      <ol class="border-t border-slate-200">
-        {
-          researchAreas.map((area, i) => (
-            <li>
-              <a
-                href="/research"
-                class="agenda-row group grid grid-cols-[auto_1fr_auto] items-baseline gap-x-5 gap-y-1 border-b border-slate-200 px-2 py-6"
-              >
-                <span class="agenda-num text-2xl text-slate-400">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <span>
-                  <span class="group-hover:text-draggon-violet block text-lg font-semibold text-slate-950 transition-colors duration-200">
-                    {area.title}
-                  </span>
-                  <span class="mt-1 block text-sm leading-6 text-slate-600">{area.desc}</span>
-                </span>
-                <span class="agenda-arrow text-lg" aria-hidden="true">
-                  →
-                </span>
-              </a>
-            </li>
-          ))
-        }
-      </ol>
+      <ResearchAscent items={researchAreas} />
     </div>
   </section>
 

@@ -5,104 +5,322 @@ const stages = [
     name: 'Design',
     summary: 'Model biological functions and compose genetic network designs.',
     tools: ['LOICA'],
+    startAngle: 180,
+    endAngle: 270,
   },
   {
     letter: 'B',
     name: 'Build',
     summary: 'Translate designs into reproducible assembly and automation plans.',
     tools: ['PUDU', 'BuildCompiler'],
+    startAngle: 270,
+    endAngle: 360,
   },
   {
     letter: 'T',
     name: 'Test',
     summary: 'Capture measurements, metadata, and characterization workflows.',
     tools: ['Flapjack', 'Tricahue'],
+    startAngle: 0,
+    endAngle: 90,
   },
   {
     letter: 'L',
     name: 'Learn',
     summary: 'Turn standardized results into datasets, models, and next designs.',
     tools: ['SeqTrainer', 'AI/ML'],
+    startAngle: 90,
+    endAngle: 180,
   },
 ];
+
+const infrastructureTools = ['SynBioSuite', 'SynBioHub', 'SBOL'];
+const cycleCenter = 250;
+const outerRadius = 205;
+const innerRadius = 105;
+const middleRadius = (outerRadius + innerRadius) / 2;
+const degreesToRadians = (degrees: number) => (degrees * Math.PI) / 180;
+const pointOnCycle = (radius: number, angle: number) => {
+  const radians = degreesToRadians(angle);
+  return {
+    x: cycleCenter + radius * Math.cos(radians),
+    y: cycleCenter + radius * Math.sin(radians),
+  };
+};
+const point = ({ x, y }: { x: number; y: number }) => `${x.toFixed(2)} ${y.toFixed(2)}`;
+const createArrowPath = (startAngle: number, endAngle: number) => {
+  const tailAngle = startAngle + 0.5;
+  const headBaseAngle = endAngle - 3.75;
+  const arrowTipAngle = endAngle - 0.25;
+  const notchTipAngle = startAngle + 3.5;
+
+  return [
+    `M ${point(pointOnCycle(outerRadius, tailAngle))}`,
+    `A ${outerRadius} ${outerRadius} 0 0 1 ${point(pointOnCycle(outerRadius, headBaseAngle))}`,
+    `L ${point(pointOnCycle(middleRadius, arrowTipAngle))}`,
+    `L ${point(pointOnCycle(innerRadius, headBaseAngle))}`,
+    `A ${innerRadius} ${innerRadius} 0 0 0 ${point(pointOnCycle(innerRadius, tailAngle))}`,
+    `L ${point(pointOnCycle(middleRadius, notchTipAngle))}`,
+    'Z',
+  ].join(' ');
+};
+
+const positionedStages = stages.map((stage) => {
+  const middleAngle = (stage.startAngle + stage.endAngle) / 2;
+  return {
+    ...stage,
+    path: createArrowPath(stage.startAngle, stage.endAngle),
+    label: pointOnCycle(middleRadius, middleAngle),
+  };
+});
+const learnPath = positionedStages.find((stage) => stage.name === 'Learn')?.path ?? '';
 ---
 
-<div class="dbtl-cycle rounded-3xl border border-violet-200/70 bg-white/90 p-5 shadow-sm md:p-6">
-  <div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-    <div>
-      <p class="text-draggon-violet text-sm font-semibold tracking-wide uppercase">DBTL Cycle</p>
-      <h3 class="mt-1 text-2xl font-bold tracking-tight text-slate-950">
-        Design, Build, Test, and Learn on shared infrastructure
-      </h3>
-    </div>
-    <p class="max-w-xl text-sm leading-6 text-slate-600">
-      A modular workflow view for connecting biological software, lab automation, data capture, and
-      learning systems.
-    </p>
-  </div>
+<section
+  class="dbtl-cycle rounded-3xl border border-violet-200/70 bg-transparent p-5 shadow-sm md:p-6"
+  aria-labelledby="dbtl-cycle-title"
+  data-dbtl-cycle
+  data-active=""
+>
+  <p
+    id="dbtl-cycle-title"
+    class="text-draggon-violet text-sm font-semibold tracking-wide uppercase"
+  >
+    DBTL Cycle
+  </p>
+  <p class="sr-only">
+    Select a workflow stage or the infrastructure core to reveal more information.
+  </p>
 
-  <div class="relative mt-8">
-    <div class="grid gap-4 md:grid-cols-4">
+  <div class="dbtl-interactive mt-5">
+    <div class="dbtl-diagram">
+      <svg class="dbtl-ring" viewBox="0 0 500 500" role="group" aria-label="DBTL cycle stages">
+        <defs>
+          <mask id="dbtl-ring-mask">
+            <rect width="500" height="500" fill="black"></rect>
+            {positionedStages.map((stage) => <path d={stage.path} fill="white" />)}
+          </mask>
+          <linearGradient id="dbtl-green-wave" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="var(--color-signal)" stop-opacity="0"></stop>
+            <stop offset="0.45" stop-color="var(--color-signal)" stop-opacity="0.95"></stop>
+            <stop offset="1" stop-color="var(--color-signal)" stop-opacity="0"></stop>
+          </linearGradient>
+          <linearGradient
+            id="dbtl-stage-design"
+            gradientUnits="userSpaceOnUse"
+            x1="45"
+            y1="250"
+            x2="250"
+            y2="45"
+          >
+            <stop offset="0" stop-color="var(--dbtl-ring-color-1)"></stop>
+            <stop offset="1" stop-color="var(--dbtl-ring-color-2)"></stop>
+          </linearGradient>
+          <linearGradient
+            id="dbtl-stage-build"
+            gradientUnits="userSpaceOnUse"
+            x1="250"
+            y1="45"
+            x2="455"
+            y2="250"
+          >
+            <stop offset="0" stop-color="var(--dbtl-ring-color-2)"></stop>
+            <stop offset="1" stop-color="var(--dbtl-ring-color-3)"></stop>
+          </linearGradient>
+          <linearGradient
+            id="dbtl-stage-test"
+            gradientUnits="userSpaceOnUse"
+            x1="455"
+            y1="250"
+            x2="250"
+            y2="455"
+          >
+            <stop offset="0" stop-color="var(--dbtl-ring-color-3)"></stop>
+            <stop offset="1" stop-color="var(--dbtl-ring-color-4)"></stop>
+          </linearGradient>
+          <linearGradient
+            id="dbtl-stage-learn"
+            gradientUnits="userSpaceOnUse"
+            x1="250"
+            y1="455"
+            x2="45"
+            y2="250"
+          >
+            <stop offset="0" stop-color="var(--dbtl-ring-color-4)"></stop>
+            <stop offset="1" stop-color="var(--dbtl-ring-color-4)"></stop>
+          </linearGradient>
+          <filter id="dbtl-wave-glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="5"></feGaussianBlur>
+          </filter>
+        </defs>
+
+        {
+          positionedStages.map((stage) => (
+            <g
+              class="dbtl-segment"
+              data-dbtl-control={stage.name.toLowerCase()}
+              role="button"
+              tabindex="0"
+              aria-label={`Show ${stage.name} details`}
+              aria-controls={`dbtl-panel-${stage.name.toLowerCase()}`}
+              aria-expanded="false"
+            >
+              <path
+                class="dbtl-segment__shape"
+                d={stage.path}
+                fill={`url(#dbtl-stage-${stage.name.toLowerCase()})`}
+              />
+              <path class="dbtl-segment__outline" d={stage.path} />
+            </g>
+          ))
+        }
+
+        <g class="dbtl-wave" mask="url(#dbtl-ring-mask)">
+          <path class="dbtl-wave__glow" d={learnPath}></path>
+          <path class="dbtl-wave__shape" d={learnPath}></path>
+        </g>
+
+        {/* This masks sector growth so the core keeps the page-surface channel around it. */}
+        <circle class="dbtl-core-channel" cx={cycleCenter} cy={cycleCenter} r={innerRadius}
+        ></circle>
+
+        <g class="dbtl-labels">
+          {
+            positionedStages.map((stage) => (
+              <text
+                x={stage.label.x}
+                y={stage.label.y}
+                dy="0.35em"
+                data-stage={stage.name.toLowerCase()}
+              >
+                {stage.name}
+              </text>
+            ))
+          }
+        </g>
+      </svg>
+
+      <div class="dbtl-core-shell" data-dbtl-core-shell>
+        <button
+          type="button"
+          class="dbtl-core-trigger"
+          data-dbtl-control="infrastructure"
+          aria-controls="dbtl-panel-infrastructure"
+          aria-expanded="false"
+        >
+          <span class="dbtl-core-trigger__label">Infrastructure</span>
+        </button>
+        <div id="dbtl-panel-infrastructure" class="dbtl-core-details" hidden>
+          <p>Standards, repositories, metadata, automation, and FAIR data across every stage.</p>
+          <div class="dbtl-tools">
+            <p>Selected tools</p>
+            <ul>
+              {infrastructureTools.map((tool) => <li>{tool}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dbtl-detail-layer" aria-live="polite">
       {
         stages.map((stage) => (
-          <article class="card relative flex min-h-80 flex-col rounded-2xl p-4 md:min-h-96">
-            <div class="flex items-center gap-3">
-              <div
-                class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-xl font-black text-white shadow-lg shadow-violet-900/15"
-                style="background-color:#4c1d95"
-              >
-                {stage.letter}
-              </div>
-              <div>
-                <h4 class="text-lg font-bold text-slate-950">{stage.name}</h4>
-                <p class="text-draggon-violet text-xs font-semibold tracking-wide uppercase">
-                  Workflow stage
-                </p>
-              </div>
-            </div>
-            <p class="mt-4 text-sm leading-6 text-slate-600">{stage.summary}</p>
-            <div class="mt-auto pt-8">
-              <div class="rounded-2xl border border-violet-200 bg-violet-50 p-3">
-                <p class="text-draggon-violet text-xs font-semibold tracking-wide uppercase">
-                  Tools
-                </p>
-                <div class="mt-3 flex flex-col-reverse gap-2">
-                  {stage.tools.map((tool) => (
-                    <span class="text-draggon-deep rounded-full border border-violet-200 bg-white px-2.5 py-1 text-xs font-semibold shadow-sm">
-                      {tool}
-                    </span>
-                  ))}
+          <div
+            id={`dbtl-panel-${stage.name.toLowerCase()}`}
+            class="dbtl-detail"
+            data-dbtl-panel={stage.name.toLowerCase()}
+            data-stage={stage.name.toLowerCase()}
+            hidden
+          >
+            <span class="dbtl-detail__connector" aria-hidden="true">
+              <span />
+            </span>
+            <article class="dbtl-detail__card">
+              <div class="dbtl-detail__header">
+                <div class="dbtl-detail__title">
+                  <span class="dbtl-detail__badge" aria-hidden="true">
+                    {stage.letter}
+                  </span>
+                  <h4>{stage.name}</h4>
                 </div>
+                <button type="button" class="dbtl-close" data-dbtl-close>
+                  <>
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close {stage.name} details</span>
+                  </>
+                </button>
               </div>
-            </div>
-          </article>
+              <p class="dbtl-detail__summary">{stage.summary}</p>
+              <div class="dbtl-tools">
+                <p>Selected tools</p>
+                <ul aria-label={`${stage.name} tools`}>
+                  {stage.tools.map((tool) => (
+                    <li>{tool}</li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          </div>
         ))
       }
     </div>
   </div>
+</section>
 
-  <div class="border-draggon-green/40 bg-draggon-green/10 mt-4 rounded-2xl border p-4 md:p-5">
-    <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-      <div>
-        <p class="text-draggon-deep text-xs font-semibold tracking-wide uppercase">
-          Infrastructure
-        </p>
-        <h4 class="mt-1 text-xl font-bold text-slate-950">
-          Standards, repositories, metadata, automation, and FAIR data across every stage
-        </h4>
-      </div>
-      <div class="border-draggon-green/30 rounded-2xl border bg-white p-3">
-        <p class="text-draggon-deep text-xs font-semibold tracking-wide uppercase">Tools</p>
-        <div class="mt-3 flex flex-wrap gap-2 md:justify-end">
-          {
-            ['SynBioSuite', 'SynBioHub', 'SBOL'].map((tool) => (
-              <span class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 ring-1 ring-violet-200/80">
-                {tool}
-              </span>
-            ))
+<script>
+  document.querySelectorAll<HTMLElement>('[data-dbtl-cycle]').forEach((cycle) => {
+    const controls = Array.from(cycle.querySelectorAll<HTMLElement>('[data-dbtl-control]'));
+    const panels = Array.from(cycle.querySelectorAll<HTMLElement>('[data-dbtl-panel]'));
+    const coreDetails = cycle.querySelector<HTMLElement>('#dbtl-panel-infrastructure');
+    const coreShell = cycle.querySelector<HTMLElement>('[data-dbtl-core-shell]');
+    let active = '';
+
+    const setActive = (requested: string) => {
+      active = requested === active ? '' : requested;
+      cycle.dataset.active = active;
+
+      controls.forEach((control) => {
+        control.setAttribute('aria-expanded', String(control.dataset.dbtlControl === active));
+      });
+
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.dbtlPanel !== active;
+      });
+
+      const infrastructureActive = active === 'infrastructure';
+      if (coreDetails) coreDetails.hidden = !infrastructureActive;
+      coreShell?.classList.toggle('is-expanded', infrastructureActive);
+    };
+
+    controls.forEach((control) => {
+      control.addEventListener('click', () => setActive(control.dataset.dbtlControl ?? ''));
+      if (control.getAttribute('role') === 'button') {
+        control.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            setActive(control.dataset.dbtlControl ?? '');
           }
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+        });
+      }
+    });
+
+    cycle.querySelectorAll<HTMLElement>('[data-dbtl-close]').forEach((close) => {
+      close.addEventListener('click', () => setActive(active));
+    });
+
+    document.addEventListener('click', (event) => {
+      if (active !== 'infrastructure') return;
+      const target = event.target;
+      if (target instanceof Node && coreShell?.contains(target)) return;
+      setActive(active);
+    });
+
+    cycle.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && active) {
+        const previous = active;
+        setActive(previous);
+        controls.find((control) => control.dataset.dbtlControl === previous)?.focus();
+      }
+    });
+  });
+</script>

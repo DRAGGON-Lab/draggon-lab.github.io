@@ -1,0 +1,18 @@
+---
+interface Props {
+  class?: string;
+  decorative?: boolean;
+  label?: string;
+}
+
+const { class: className, decorative = true, label = 'DRAGGON Lab dragon-G mark' } = Astro.props;
+---
+
+<img
+  class:list={['brand-mark', className]}
+  src="/branding/draggon-logo.svg"
+  alt={decorative ? '' : label}
+  aria-hidden={decorative ? 'true' : undefined}
+  width="2000"
+  height="2000"
+/>

@@ -1,0 +1,22 @@
+---
+import BrandMark from './BrandMark.astro';
+
+interface Props {
+  class?: string;
+  decorative?: boolean;
+  label?: string;
+}
+
+const { class: className, decorative = false, label = 'DRAGGON Lab' } = Astro.props;
+---
+
+<span
+  class:list={['brand-wordmark', className]}
+  role={decorative ? undefined : 'img'}
+  aria-label={decorative ? undefined : label}
+  aria-hidden={decorative ? 'true' : undefined}
+>
+  <span>DRA</span>
+  <BrandMark class="brand-wordmark__mark" />
+  <span>ON Lab</span>
+</span>

@@ -8,6 +8,10 @@
   color-scheme: light;
   --font-heading: Futura, 'Futura PT', 'Century Gothic', ui-sans-serif, sans-serif;
 
+  /* Canonical identity colors from the DRAGGON mark. */
+  --color-brand-violet: #995cd0;
+  --color-brand-green: #8edf5f;
+
   /* Surfaces & ink (light / "paper") */
   --color-base: #faf8f4;
   --color-base-tint: #f4f1ea;
@@ -19,11 +23,11 @@
   --color-border-strong: rgba(109, 40, 217, 0.24);
 
   /* Accents */
-  --color-accent: #6d28d9;
+  --color-accent: #9250ca;
   --color-accent-strong: #3b1a7a;
-  --color-accent-tint: rgba(109, 40, 217, 0.08);
-  --color-signal: #16b364;
-  --color-signal-tint: rgba(22, 179, 100, 0.12);
+  --color-accent-tint: rgba(153, 92, 208, 0.1);
+  --color-signal: #8edf5f;
+  --color-signal-tint: rgba(142, 223, 95, 0.16);
   --color-violet-soft: #f4f0ff;
 
   /* Elevation */
@@ -48,11 +52,11 @@ html.dark {
   --color-border: rgba(232, 229, 242, 0.12);
   --color-border-strong: rgba(167, 139, 250, 0.34);
 
-  --color-accent: #a78bfa;
+  --color-accent: #b99ae0;
   --color-accent-strong: #c4b5fd;
-  --color-accent-tint: rgba(167, 139, 250, 0.16);
-  --color-signal: #34d399;
-  --color-signal-tint: rgba(52, 211, 153, 0.16);
+  --color-accent-tint: rgba(153, 92, 208, 0.2);
+  --color-signal: #8edf5f;
+  --color-signal-tint: rgba(142, 223, 95, 0.18);
   --color-violet-soft: rgba(76, 29, 149, 0.28);
 
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -105,6 +109,32 @@ a {
 ::selection {
   background: var(--color-signal-tint);
   color: var(--color-text);
+}
+
+/* Reusable identity primitives. The wordmark inherits its display size from
+   --brand-wordmark-size so it stays optically consistent in every placement. */
+.brand-mark {
+  display: block;
+  object-fit: contain;
+}
+
+.brand-wordmark {
+  --brand-wordmark-size: 1.95rem;
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  font-family: var(--font-heading);
+  font-size: var(--brand-wordmark-size);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.brand-wordmark__mark {
+  width: 1.1em;
+  height: 1.1em;
+  margin-inline: 0.08em;
 }
 
 /* One consistent, crisp focus ring across interactive elements */
@@ -208,6 +238,32 @@ html.dark .prose a {
 /* ------------------------------------------------------------------ *
  * Header navigation
  * ------------------------------------------------------------------ */
+.site-header__brand {
+  font-family: var(--font-heading);
+  font-size: 1.95rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  white-space: nowrap;
+  transition: color 160ms var(--ease-emphatic);
+}
+
+.site-header__wordmark {
+  --brand-wordmark-size: 1.95rem;
+}
+
+.site-header__wordmark .brand-wordmark__mark {
+  transition: transform 220ms var(--ease-emphatic);
+}
+
+.site-header__brand:hover {
+  color: var(--color-accent-strong);
+}
+
+.site-header__brand:hover .brand-wordmark__mark {
+  transform: scale(1.06);
+}
+
 .nav-link {
   position: relative;
   transition:
@@ -260,10 +316,88 @@ html.dark .nav-link[data-active] {
     linear-gradient(180deg, var(--color-base-tint) 0%, var(--color-base) 100%);
 }
 
+/* Twin, offset arcs lift the double-G geometry into the hero without repeating
+   the literal mark. They frame the scientific helix as part of one system. */
+.hero-band::before,
+.hero-band::after {
+  position: absolute;
+  z-index: -2;
+  top: -20rem;
+  right: -17rem;
+  width: 49rem;
+  height: 49rem;
+  border: 2px solid var(--color-brand-violet);
+  border-radius: 50%;
+  content: '';
+  opacity: 0.13;
+  pointer-events: none;
+}
+
+.hero-band::after {
+  top: -17.5rem;
+  right: -14.5rem;
+  border-color: var(--color-brand-green);
+  opacity: 0.16;
+}
+
 html.dark .hero-band {
   background:
     radial-gradient(38% 52% at 82% 22%, rgba(167, 139, 250, 0.16), transparent 62%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 70%);
+}
+
+html.dark .hero-band::before,
+html.dark .hero-band::after {
+  opacity: 0.22;
+}
+
+/* Interior-page signature: cropped double arcs derived from the two offset
+   dragon-G silhouettes. Content stays above the purely decorative flourish. */
+.brand-page-intro {
+  position: relative;
+  isolation: isolate;
+}
+
+.brand-page-intro::before,
+.brand-page-intro::after {
+  position: absolute;
+  z-index: -1;
+  top: -6rem;
+  right: 1rem;
+  width: 21rem;
+  height: 21rem;
+  border: 1.5px solid var(--color-brand-violet);
+  border-radius: 50%;
+  content: '';
+  clip-path: inset(38% 0 0 34%);
+  opacity: 0.13;
+  pointer-events: none;
+}
+
+.brand-page-intro::after {
+  top: -4.6rem;
+  right: 2.4rem;
+  border-color: var(--color-brand-green);
+  opacity: 0.19;
+}
+
+html.dark .brand-page-intro::before,
+html.dark .brand-page-intro::after {
+  opacity: 0.24;
+}
+
+@media (max-width: 640px) {
+  .brand-page-intro::before,
+  .brand-page-intro::after {
+    width: 15rem;
+    height: 15rem;
+  }
+
+  .hero-band::before,
+  .hero-band::after {
+    width: 34rem;
+    height: 34rem;
+  }
 }
 
 /* --- DNA double helix (decorative, right-side background flourish) --- */
@@ -1388,7 +1522,7 @@ html[data-theme='dark'] .theme-toggle__icon {
   background: var(--color-accent);
 }
 
-@media (max-width: 420px) {
+@media (max-width: 620px) {
   .theme-toggle__text {
     position: absolute;
     width: 1px;

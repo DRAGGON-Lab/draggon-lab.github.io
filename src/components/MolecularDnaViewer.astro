@@ -1,0 +1,322 @@
+---
+const title = 'J23101 promoter · 35 bp · idealized B-DNA model';
+const chainA = 'Chain A, 5′-TTTACAGCTAGCTCAGTCCTAGGTATTATGCTAGC-3′.';
+const chainB = 'Chain B, 3′-AAATGTCGATCGAGTCAGGATCCATAATACGATCG-5′.';
+---
+
+<figure
+  class="molecular-dna"
+  data-molecular-dna
+  data-state="poster"
+  data-gated="unknown"
+  data-interacted="false"
+  aria-describedby="j23101-description"
+>
+  <div class="molecular-dna__viewport">
+    <picture class="molecular-dna__poster" data-molecular-poster>
+      <source
+        media="(min-width: 420px)"
+        srcset="/molecules/j23101-b-dna-520.webp"
+        width="520"
+        height="526"
+      />
+      <img
+        src="/molecules/j23101-b-dna-320.webp"
+        width="320"
+        height="501"
+        alt="Two colored strands of an idealized J23101 B-DNA double helix."
+        decoding="async"
+        fetchpriority="high"
+      />
+    </picture>
+    <div class="molecular-dna__canvas" data-molecular-canvas aria-hidden="true"></div>
+    <div
+      class="molecular-dna__status sr-only"
+      data-molecular-status
+      role="status"
+      aria-live="polite"
+    >
+    </div>
+    <button class="molecular-dna__control" type="button" data-molecular-control>
+      <span aria-hidden="true">↻</span>
+      <span data-molecular-control-label>Activate 3D model</span>
+    </button>
+    <div class="molecular-dna__interaction-controls" data-molecular-interaction-controls>
+      <span>Drag to rotate · scroll or pinch to zoom</span>
+      <button type="button" data-molecular-reset>
+        <span data-molecular-reset-label>Reset view</span>
+      </button>
+    </div>
+  </div>
+  <figcaption class="molecular-dna__caption">{title}</figcaption>
+  <p id="j23101-description" class="sr-only">{title}. {chainA} {chainB}</p>
+</figure>
+
+<script>
+  import type { GLViewer } from '3dmol';
+
+  interface NavigatorWithConnection extends Navigator {
+    connection?: { saveData?: boolean };
+  }
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const coarsePointer = window.matchMedia('(pointer: coarse)');
+  const mobileViewport = window.matchMedia('(max-width: 767px)');
+
+  document.querySelectorAll<HTMLElement>('[data-molecular-dna]').forEach((root) => {
+    const canvasHost = root.querySelector<HTMLElement>('[data-molecular-canvas]');
+    const control = root.querySelector<HTMLButtonElement>('[data-molecular-control]');
+    const controlLabel = root.querySelector<HTMLElement>('[data-molecular-control-label]');
+    const reset = root.querySelector<HTMLButtonElement>('[data-molecular-reset]');
+    const resetLabel = root.querySelector<HTMLElement>('[data-molecular-reset-label]');
+    const status = root.querySelector<HTMLElement>('[data-molecular-status]');
+    if (!canvasHost || !control || !controlLabel || !reset || !resetLabel || !status) return;
+
+    const saveData = Boolean((navigator as NavigatorWithConnection).connection?.saveData);
+    const gated = coarsePointer.matches || mobileViewport.matches || saveData;
+    root.dataset.gated = String(gated);
+
+    let viewer: GLViewer | undefined;
+    let modelPromise: Promise<void> | undefined;
+    let isOnscreen = false;
+    let active = !gated;
+    let interacting = false;
+    let hasInteracted = false;
+    let resumeTimer = 0;
+    let spinning = false;
+    let homeView: number[] | undefined;
+
+    const updateControl = () => {
+      const state = root.dataset.state;
+      control.disabled = state === 'loading' || state === 'fallback';
+      if (state === 'loading') {
+        controlLabel.textContent = 'Loading 3D model…';
+      } else if (state === 'fallback') {
+        controlLabel.textContent = '3D model unavailable';
+      } else if (!active) {
+        controlLabel.textContent = 'Activate 3D model';
+      } else {
+        controlLabel.textContent = '3D model active';
+      }
+      resetLabel.textContent = gated ? 'Done · reset' : 'Reset view';
+    };
+
+    const motionAllowed = () =>
+      !reduceMotion.matches &&
+      document.documentElement.dataset.animations !== 'off' &&
+      document.visibilityState === 'visible' &&
+      isOnscreen &&
+      active &&
+      !interacting &&
+      !hasInteracted;
+
+    const updateSpin = () => {
+      if (!viewer) return;
+      const shouldSpin = motionAllowed();
+      if (shouldSpin === spinning) return;
+      // X3DNA builds the duplex along model z. 3Dmol's unprefixed axes are
+      // model-relative, so z remains the longitudinal axis after the initial
+      // presentation turn and produces a tornado-like axial twist.
+      viewer.spin(shouldSpin ? 'z' : false, shouldSpin ? 0.2 : undefined, true);
+      spinning = shouldSpin;
+    };
+
+    const setInteractionPause = () => {
+      interacting = true;
+      hasInteracted = true;
+      root.dataset.interacted = 'true';
+      updateControl();
+      window.clearTimeout(resumeTimer);
+      updateSpin();
+      resumeTimer = window.setTimeout(() => {
+        interacting = false;
+        updateSpin();
+      }, 2000);
+    };
+
+    const webglAvailable = () => {
+      try {
+        const probe = document.createElement('canvas');
+        return Boolean(probe.getContext('webgl2') || probe.getContext('webgl'));
+      } catch {
+        return false;
+      }
+    };
+
+    const markCanvasInaccessible = () => {
+      canvasHost.querySelectorAll('canvas').forEach((canvas) => {
+        canvas.tabIndex = -1;
+        canvas.setAttribute('aria-hidden', 'true');
+      });
+    };
+
+    const showLoadedViewer = () => {
+      root.dataset.state = active ? 'active' : 'ready';
+      status.textContent = '';
+      updateControl();
+      markCanvasInaccessible();
+      viewer?.resize().render();
+      requestAnimationFrame(() => requestAnimationFrame(updateSpin));
+    };
+
+    const loadModel = () => {
+      if (viewer) {
+        showLoadedViewer();
+        return Promise.resolve();
+      }
+      if (modelPromise) return modelPromise;
+      if (!webglAvailable()) {
+        root.dataset.state = 'fallback';
+        status.textContent = '';
+        updateControl();
+        return Promise.resolve();
+      }
+
+      root.dataset.state = 'loading';
+      status.textContent = 'Loading 3D model…';
+      updateControl();
+      modelPromise = Promise.all([
+        import('3dmol'),
+        fetch('/molecules/j23101-b-dna.pdb').then((response) => {
+          if (!response.ok) throw new Error(`PDB request failed: ${response.status}`);
+          return response.text();
+        }),
+      ])
+        .then(async ([mol, pdb]) => {
+          viewer = mol.createViewer(canvasHost, {
+            antialias: true,
+            orthographic: true,
+          });
+          viewer.setBackgroundColor(0x000000, 0);
+          viewer.addModel(pdb, 'pdb');
+          const brandViolet = 0x995cd0;
+          const brandGreen = 0x8edf5f;
+          viewer.setStyle(
+            { chain: 'A' },
+            {
+              cartoon: {
+                color: brandViolet,
+                style: 'oval',
+                thickness: 0.24,
+                opacity: 0.72,
+              },
+            },
+          );
+          viewer.setStyle(
+            { chain: 'B' },
+            {
+              cartoon: {
+                color: brandGreen,
+                style: 'oval',
+                thickness: 0.24,
+                opacity: 0.72,
+              },
+            },
+          );
+          viewer.zoomTo();
+          // Show the opposite face from the former -90° view, then tilt the
+          // top toward the left while preserving model z as the spin axis.
+          viewer.rotate(90, 'x');
+          viewer.rotate(30, 'vz');
+          viewer.zoom(1.82);
+
+          // Keep the strand identity visible through a softly translucent
+          // molecular surface, with the oval cartoons acting as an inner core.
+          await Promise.all([
+            viewer.addSurface(
+              mol.SurfaceType.MS,
+              { color: brandViolet, opacity: 0.9 },
+              { chain: 'A' },
+            ),
+            viewer.addSurface(
+              mol.SurfaceType.MS,
+              { color: brandGreen, opacity: 0.9 },
+              { chain: 'B' },
+            ),
+          ]);
+          homeView = viewer.getView();
+          viewer.render(showLoadedViewer);
+        })
+        .catch((error: unknown) => {
+          console.warn('J23101 molecular viewer unavailable:', error);
+          root.dataset.state = 'fallback';
+          status.textContent = '';
+          updateControl();
+          modelPromise = undefined;
+        });
+      return modelPromise;
+    };
+
+    const activateViewer = () => {
+      active = true;
+      hasInteracted = false;
+      root.dataset.interacted = 'false';
+      loadModel();
+    };
+
+    const resetViewerPose = () => {
+      if (!viewer || !homeView) return;
+      viewer.spin(false);
+      spinning = false;
+      viewer.setView([...homeView]);
+      viewer.render();
+      interacting = false;
+      hasInteracted = false;
+      root.dataset.interacted = 'false';
+      window.clearTimeout(resumeTimer);
+      updateControl();
+      requestAnimationFrame(updateSpin);
+    };
+
+    const deactivateViewer = () => {
+      resetViewerPose();
+      active = false;
+      interacting = false;
+      hasInteracted = false;
+      window.clearTimeout(resumeTimer);
+      updateSpin();
+      root.dataset.state = 'ready';
+      updateControl();
+      control.focus();
+    };
+
+    control.addEventListener('click', () => {
+      if (!active) {
+        activateViewer();
+      }
+    });
+    reset.addEventListener('click', () => {
+      if (gated) {
+        deactivateViewer();
+      } else {
+        resetViewerPose();
+      }
+    });
+    canvasHost.addEventListener('pointerdown', setInteractionPause, { passive: true });
+    canvasHost.addEventListener('pointerup', setInteractionPause, { passive: true });
+    canvasHost.addEventListener('pointercancel', setInteractionPause, { passive: true });
+    canvasHost.addEventListener('wheel', setInteractionPause, { passive: true });
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isOnscreen = entry?.isIntersecting ?? false;
+        updateSpin();
+        if (!gated && isOnscreen && !modelPromise && !viewer) {
+          const schedule =
+            window.requestIdleCallback ?? ((callback) => window.setTimeout(callback, 1));
+          requestAnimationFrame(() => schedule(loadModel, { timeout: 1200 }));
+        }
+      },
+      { rootMargin: '160px 0px', threshold: 0.01 },
+    );
+    observer.observe(root);
+
+    document.addEventListener('visibilitychange', updateSpin);
+    reduceMotion.addEventListener('change', updateSpin);
+    new MutationObserver(updateSpin).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class', 'data-animations'],
+    });
+    new ResizeObserver(() => viewer?.resize().render()).observe(canvasHost);
+  });
+</script>

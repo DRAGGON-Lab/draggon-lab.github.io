@@ -400,123 +400,228 @@ html.dark .brand-page-intro::after {
   }
 }
 
-/* --- DNA double helix (decorative, right-side background flourish) --- */
-.dna-stage {
+/* Exact, interactive J23101 B-DNA model. On desktop the WebGL window remains a
+   fixed right-hand panel while the molecule twists within it. */
+.molecular-dna {
   position: absolute;
-  top: 50%;
-  right: 5%;
-  z-index: -1;
-  width: 120px;
-  height: 620px;
-  transform: translateY(-50%);
-  perspective: 900px;
-  pointer-events: none;
-  opacity: 0.85;
-  /* Long, eased dissolve at both ends: the extra stops approximate an
-     ease-in-out ramp so the strands melt into the page instead of stopping at
-     a hard line. The outermost transparent band absorbs the hero clip. */
-  --dna-fade: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0) 5%,
-    rgba(0, 0, 0, 0.25) 12%,
-    rgba(0, 0, 0, 0.7) 19%,
-    rgba(0, 0, 0, 1) 27%,
-    rgba(0, 0, 0, 1) 73%,
-    rgba(0, 0, 0, 0.7) 81%,
-    rgba(0, 0, 0, 0.25) 88%,
-    rgba(0, 0, 0, 0) 95%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  -webkit-mask-image: var(--dna-fade);
-  mask-image: var(--dna-fade);
+  z-index: 20;
+  top: 0.5rem;
+  right: clamp(0.75rem, 2vw, 2rem);
+  bottom: 0.5rem;
+  width: clamp(25rem, 36vw, 36rem);
+  margin: 0;
+  color: var(--color-muted);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.dna {
+.molecular-dna__viewport {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 1.1rem);
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 14%, transparent);
+  background:
+    radial-gradient(
+      70% 60% at 50% 46%,
+      color-mix(in srgb, var(--color-accent) 7%, transparent),
+      transparent 72%
+    ),
+    color-mix(in srgb, var(--color-surface) 12%, transparent);
+}
+
+.molecular-dna__poster,
+.molecular-dna__canvas {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
-  animation: dna-spin 13s linear infinite;
 }
 
-/* Backbone beads, densely sampled along each strand so the two ribbons read as
-   continuous helices. Sitting 120deg apart on the cylinder, they cross tightly
-   through the minor groove and bow open across the major groove of B-DNA. */
-.dna__bead {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  margin: -4px 0 0 -4px;
-  border-radius: 50%;
-  transform: translateY(var(--dna-y)) rotateY(var(--dna-r)) translateZ(46px);
-  transform-style: preserve-3d;
-  backface-visibility: visible;
-}
-/* Glossy highlight + soft glow so the overlapping samples fuse into one
-   polished tube rather than reading as discrete beads. */
-.dna__bead--a {
-  background: radial-gradient(
-    circle at 34% 30%,
-    color-mix(in srgb, white 60%, var(--color-accent)),
-    var(--color-accent) 62%
-  );
-  box-shadow: 0 0 9px color-mix(in srgb, var(--color-accent) 55%, transparent);
-}
-.dna__bead--b {
-  background: radial-gradient(
-    circle at 34% 30%,
-    color-mix(in srgb, white 60%, var(--color-signal)),
-    var(--color-signal) 62%
-  );
-  box-shadow: 0 0 9px color-mix(in srgb, var(--color-signal) 55%, transparent);
+.molecular-dna__poster {
+  display: grid;
+  place-items: center;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 220ms var(--ease-emphatic);
 }
 
-/* Base pairs span the two backbones as a chord, not a diameter: with the strands
-   120deg apart the rung midpoint is offset from the axis (radius R*cos60 = 23px,
-   phase +60deg) and its length is the chord 2*R*sin60 ~= 80px. Kept faint so the
-   backbones dominate the silhouette. */
-.dna__rung {
+.molecular-dna__poster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.molecular-dna__canvas {
+  opacity: 0;
+  pointer-events: none;
+  touch-action: auto;
+  transition: opacity 220ms var(--ease-emphatic);
+}
+
+.molecular-dna__canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.molecular-dna[data-state='active'] .molecular-dna__canvas,
+.molecular-dna[data-state='ready'][data-gated='false'] .molecular-dna__canvas {
+  opacity: 1;
+  pointer-events: auto;
+  cursor: grab;
+}
+
+.molecular-dna[data-state='active'] .molecular-dna__canvas:active,
+.molecular-dna[data-state='ready'][data-gated='false'] .molecular-dna__canvas:active {
+  cursor: grabbing;
+}
+
+.molecular-dna[data-state='active'] .molecular-dna__canvas {
+  touch-action: none;
+}
+
+.molecular-dna[data-state='active'] .molecular-dna__poster,
+.molecular-dna[data-state='ready'][data-gated='false'] .molecular-dna__poster {
+  opacity: 0;
+}
+
+.molecular-dna__control {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 80px;
-  height: 2px;
-  margin-left: -40px;
+  z-index: 4;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  display: none;
+  align-items: center;
+  gap: 0.42rem;
+  max-width: calc(100% - 1.5rem);
+  padding: 0.52rem 0.72rem;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 42%, var(--color-border));
   border-radius: 999px;
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--color-accent) 45%, transparent),
-    color-mix(in srgb, var(--color-signal) 45%, transparent)
-  );
-  transform: translateY(var(--dna-y)) rotateY(calc(var(--dna-r) + 60deg)) translateZ(23px);
-  transform-style: preserve-3d;
-  backface-visibility: visible;
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  box-shadow: var(--shadow-card);
+  color: var(--color-accent-strong);
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transform-origin: bottom left;
+  transition:
+    opacity 180ms var(--ease-emphatic),
+    transform 220ms var(--ease-emphatic),
+    background-color 180ms var(--ease-emphatic);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
-@keyframes dna-spin {
-  to {
-    transform: rotateY(360deg);
+.molecular-dna__control:hover,
+.molecular-dna__control:focus-visible {
+  background: var(--color-surface);
+}
+
+.molecular-dna[data-state='loading'] .molecular-dna__control,
+.molecular-dna[data-gated='true'][data-state='poster'] .molecular-dna__control,
+.molecular-dna[data-gated='true'][data-state='ready'] .molecular-dna__control,
+.molecular-dna[data-state='fallback'] .molecular-dna__control {
+  display: inline-flex;
+}
+
+.molecular-dna__interaction-controls {
+  position: absolute;
+  z-index: 4;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: calc(100% - 1.5rem);
+  padding: 0.3rem 0.32rem 0.3rem 0.72rem;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 30%, var(--color-border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  box-shadow: var(--shadow-card);
+  color: var(--color-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(calc(100% + 1rem)) scale(0.97);
+  transition:
+    opacity 180ms var(--ease-emphatic),
+    transform 220ms var(--ease-emphatic);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.molecular-dna[data-state='active'][data-interacted='true'] .molecular-dna__interaction-controls {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+.molecular-dna__interaction-controls button {
+  padding: 0.4rem 0.58rem;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+  color: var(--color-accent-strong);
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    background-color 160ms var(--ease-emphatic),
+    border-color 160ms var(--ease-emphatic);
+}
+
+.molecular-dna__interaction-controls button:hover,
+.molecular-dna__interaction-controls button:focus-visible {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 20%, var(--color-surface));
+}
+
+.molecular-dna__caption {
+  margin-top: 0.25rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+}
+
+@media (max-width: 960px) and (min-width: 768px) {
+  .molecular-dna {
+    width: 38vw;
   }
 }
 
 @media (max-width: 767px) {
-  .dna-stage {
-    display: none;
+  .molecular-dna {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    width: min(17rem, calc(100% - 2rem));
+    margin: -2.5rem auto 2rem;
+  }
+
+  .molecular-dna__viewport {
+    aspect-ratio: 0.64;
+    height: auto;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dna {
-    animation: none;
-    transform: rotateY(28deg);
+  .molecular-dna__poster,
+  .molecular-dna__canvas {
+    transition: none;
   }
 }
 
-html.animations-off .dna {
-  animation: none;
-  transform: rotateY(28deg);
+html.animations-off .molecular-dna__poster,
+html.animations-off .molecular-dna__canvas {
+  transition: none;
 }
 
 /* ------------------------------------------------------------------ *

@@ -5,41 +5,46 @@ const stages = [
     name: 'Design',
     summary: 'Model biological functions and compose genetic network designs.',
     tools: ['LOICA'],
-    startAngle: 180,
-    endAngle: 270,
+    startAngle: 225,
+    endAngle: 315,
   },
   {
     letter: 'B',
     name: 'Build',
     summary: 'Translate designs into reproducible assembly and automation plans.',
     tools: ['PUDU', 'BuildCompiler'],
-    startAngle: 270,
-    endAngle: 360,
+    startAngle: 315,
+    endAngle: 405,
   },
   {
     letter: 'T',
     name: 'Test',
     summary: 'Capture measurements, metadata, and characterization workflows.',
     tools: ['Flapjack', 'Tricahue'],
-    startAngle: 0,
-    endAngle: 90,
+    startAngle: 45,
+    endAngle: 135,
   },
   {
     letter: 'L',
     name: 'Learn',
     summary: 'Turn standardized results into datasets, models, and next designs.',
     tools: ['SeqTrainer', 'AI/ML'],
-    startAngle: 90,
-    endAngle: 180,
+    startAngle: 135,
+    endAngle: 225,
   },
 ];
 
-const infrastructureTools = ['SynBioSuite', 'SynBioHub', 'SBOL'];
+const infrastructure = {
+  letter: 'I',
+  name: 'Infrastructure',
+  summary: 'Standards, repositories, metadata, automation, and FAIR data across every stage.',
+  tools: ['SynBioSuite', 'SynBioHub', 'SBOL'],
+};
+
 const cycleCenter = 250;
-const outerRadius = 205;
-const innerRadius = 105;
-const middleRadius = (outerRadius + innerRadius) / 2;
-const dividerAngles = [180, 270, 0, 90];
+const outerRadius = 210;
+const innerRadius = 92;
+const labelRadius = 151;
 const degreesToRadians = (degrees: number) => (degrees * Math.PI) / 180;
 const pointOnCycle = (radius: number, angle: number) => {
   const radians = degreesToRadians(angle);
@@ -49,93 +54,44 @@ const pointOnCycle = (radius: number, angle: number) => {
   };
 };
 const point = ({ x, y }: { x: number; y: number }) => `${x.toFixed(2)} ${y.toFixed(2)}`;
-const createAnnulusPath = (startAngle: number, endAngle: number) => {
-  return [
+const createSectorPath = (startAngle: number, endAngle: number) =>
+  [
     `M ${point(pointOnCycle(outerRadius, startAngle))}`,
     `A ${outerRadius} ${outerRadius} 0 0 1 ${point(pointOnCycle(outerRadius, endAngle))}`,
     `L ${point(pointOnCycle(innerRadius, endAngle))}`,
     `A ${innerRadius} ${innerRadius} 0 0 0 ${point(pointOnCycle(innerRadius, startAngle))}`,
     'Z',
   ].join(' ');
-};
-const createFullAnnulusPath = () => {
+const createAnnulusPath = () => {
   const outerStart = pointOnCycle(outerRadius, 0);
   const outerOpposite = pointOnCycle(outerRadius, 180);
   const innerStart = pointOnCycle(innerRadius, 0);
   const innerOpposite = pointOnCycle(innerRadius, 180);
+
   return [
     `M ${point(outerStart)}`,
     `A ${outerRadius} ${outerRadius} 0 1 1 ${point(outerOpposite)}`,
     `A ${outerRadius} ${outerRadius} 0 1 1 ${point(outerStart)}`,
-    `L ${point(innerStart)}`,
+    'Z',
+    `M ${point(innerStart)}`,
     `A ${innerRadius} ${innerRadius} 0 1 0 ${point(innerOpposite)}`,
     `A ${innerRadius} ${innerRadius} 0 1 0 ${point(innerStart)}`,
     'Z',
   ].join(' ');
 };
-const createOuterArcPath = (startAngle: number, endAngle: number) => {
-  return [
-    `M ${point(pointOnCycle(outerRadius, startAngle))}`,
-    `A ${outerRadius} ${outerRadius} 0 0 1 ${point(pointOnCycle(outerRadius, endAngle))}`,
-  ].join(' ');
-};
-
-const createGlassDividerPath = (angle: number) => {
-  const outer = pointOnCycle(outerRadius, angle);
-  const tip = pointOnCycle(middleRadius, angle + 8);
-  const inner = pointOnCycle(innerRadius, angle);
-  return `M ${point(outer)} L ${point(tip)} L ${point(inner)}`;
-};
-/* Nested strokes approximate a linear 30% → 90% opacity profile across the crystal. */
-const crystalChevronLayers = [
-  { width: 20, opacity: 0.3 },
-  { width: 16, opacity: 0.21 },
-  { width: 12, opacity: 0.27 },
-  { width: 8, opacity: 0.38 },
-  { width: 4, opacity: 0.6 },
-];
-
-const ringColorStart = [139, 92, 246];
-const ringColorEnd = [59, 26, 122];
-const interpolateRingColor = (progress: number) => {
-  const color = ringColorStart.map((channel, index) =>
-    Math.round(channel + (ringColorEnd[index] - channel) * progress),
-  );
-  return `rgb(${color.join(' ')})`;
-};
-const ringClipPath = createFullAnnulusPath();
-const learnDesignBoundaryAngle = 180;
-const learnDesignTriangleOuter = pointOnCycle(outerRadius, learnDesignBoundaryAngle);
-const learnDesignTriangleInner = pointOnCycle(innerRadius, learnDesignBoundaryAngle);
-const learnDesignTriangleBase = pointOnCycle(middleRadius, learnDesignBoundaryAngle);
-const learnDesignTriangleTip = pointOnCycle(middleRadius, learnDesignBoundaryAngle + 8);
-const learnDesignTrianglePath = `M ${point(learnDesignTriangleOuter)} L ${point(learnDesignTriangleInner)} L ${point(learnDesignTriangleTip)} Z`;
-const learnDesignTriangleStartColor = interpolateRingColor(1);
-const learnDesignTriangleEndColor = `rgb(${ringColorEnd
-  .map((channel) => Math.round(channel * 0.78))
-  .join(' ')})`;
 
 const positionedStages = stages.map((stage) => {
   const middleAngle = (stage.startAngle + stage.endAngle) / 2;
   return {
     ...stage,
-    path: createAnnulusPath(stage.startAngle, stage.endAngle),
-    outlinePath: createOuterArcPath(stage.startAngle, stage.endAngle),
-    label: pointOnCycle(middleRadius, middleAngle),
+    id: stage.name.toLowerCase(),
+    path: createSectorPath(stage.startAngle, stage.endAngle),
+    label: pointOnCycle(labelRadius, middleAngle),
   };
 });
-const learnRayEnd = pointOnCycle(outerRadius + 30, 135);
-const learnRayCenter = pointOnCycle(middleRadius, 135);
-const waveRayHalfWidth = 72;
-const learnRayNormal = degreesToRadians(225);
-const learnRayGradientStart = {
-  x: learnRayCenter.x - Math.cos(learnRayNormal) * waveRayHalfWidth,
-  y: learnRayCenter.y - Math.sin(learnRayNormal) * waveRayHalfWidth,
-};
-const learnRayGradientEnd = {
-  x: learnRayCenter.x + Math.cos(learnRayNormal) * waveRayHalfWidth,
-  y: learnRayCenter.y + Math.sin(learnRayNormal) * waveRayHalfWidth,
-};
+
+const panels = [...stages, infrastructure];
+const annulusPath = createAnnulusPath();
 ---
 
 <section
@@ -144,10 +100,20 @@ const learnRayGradientEnd = {
   data-dbtl-cycle
   data-active=""
 >
-  <p
-    id="dbtl-cycle-title"
-    class="text-draggon-violet text-sm font-semibold tracking-wide uppercase"
-  >
+  <div class="dbtl-card-backdrop" aria-hidden="true">
+    <img
+      class="dbtl-photo"
+      src="/images/photo-51.webp"
+      alt=""
+      width="900"
+      height="900"
+      loading="lazy"
+      decoding="async"
+    />
+    <div class="dbtl-photo-treatment"></div>
+  </div>
+
+  <p id="dbtl-cycle-title" class="dbtl-cycle__title text-sm font-semibold tracking-wide uppercase">
     DBTL Cycle
   </p>
   <p class="sr-only">
@@ -155,126 +121,90 @@ const learnRayGradientEnd = {
   </p>
 
   <div class="dbtl-interactive mt-5">
-    <div class="dbtl-diagram">
-      <svg class="dbtl-ring" viewBox="0 0 500 500" role="group" aria-label="DBTL cycle stages">
-        <defs>
-          <clipPath id="dbtl-ring-clip" clipPathUnits="userSpaceOnUse">
-            <path d={ringClipPath}></path>
-          </clipPath>
-          {
-            /* α(u) = exp(-((u - 0.5)² / (2 × 0.6²))); u spans -1…2 here,
-              so the ray reaches its background before its visible edges. */
-          }
-          <linearGradient
-            id="dbtl-green-wave"
-            gradientUnits="userSpaceOnUse"
-            x1={learnRayGradientStart.x}
-            y1={learnRayGradientStart.y}
-            x2={learnRayGradientEnd.x}
-            y2={learnRayGradientEnd.y}
-          >
-            <stop offset="0" stop-color="var(--color-signal)" stop-opacity="0.04"></stop>
-            <stop offset="0.1" stop-color="var(--color-signal)" stop-opacity="0.14"></stop>
-            <stop offset="0.2" stop-color="var(--color-signal)" stop-opacity="0.32"></stop>
-            <stop offset="0.3" stop-color="var(--color-signal)" stop-opacity="0.61"></stop>
-            <stop offset="0.4" stop-color="var(--color-signal)" stop-opacity="0.88"></stop>
-            <stop offset="0.5" stop-color="var(--color-signal)" stop-opacity="1"></stop>
-            <stop offset="0.6" stop-color="var(--color-signal)" stop-opacity="0.88"></stop>
-            <stop offset="0.7" stop-color="var(--color-signal)" stop-opacity="0.61"></stop>
-            <stop offset="0.8" stop-color="var(--color-signal)" stop-opacity="0.32"></stop>
-            <stop offset="0.9" stop-color="var(--color-signal)" stop-opacity="0.14"></stop>
-            <stop offset="1" stop-color="var(--color-signal)" stop-opacity="0.04"></stop>
-          </linearGradient>
-          <linearGradient
-            id="dbtl-learn-design-transition"
-            gradientUnits="userSpaceOnUse"
-            x1={learnDesignTriangleBase.x}
-            y1={learnDesignTriangleBase.y}
-            x2={learnDesignTriangleTip.x}
-            y2={learnDesignTriangleTip.y}
-          >
-            <stop offset="0" stop-color={learnDesignTriangleStartColor}></stop>
-            <stop offset="1" stop-color={learnDesignTriangleEndColor}></stop>
-          </linearGradient>
-        </defs>
+    <figure class="dbtl-figure">
+      <div class="dbtl-diagram">
+        <div class="dbtl-glass-surface" aria-hidden="true"></div>
 
-        <foreignObject
-          x={cycleCenter - outerRadius}
-          y={cycleCenter - outerRadius}
-          width="410"
-          height="410"
-        >
-          <div class="dbtl-polar-gradient"></div>
-        </foreignObject>
-        <path
-          class="dbtl-ring-transition"
-          d={learnDesignTrianglePath}
-          fill="url(#dbtl-learn-design-transition)"></path>
+        <svg class="dbtl-ring" viewBox="0 0 500 500" role="group" aria-label="DBTL cycle stages">
+          <defs>
+            <linearGradient id="dbtl-glass-fill" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="var(--dbtl-glass-edge)" stop-opacity="0.12"></stop>
+              <stop offset="0.46" stop-color="var(--dbtl-glass-edge)" stop-opacity="0.025"></stop>
+              <stop offset="1" stop-color="var(--dbtl-glass-tint)" stop-opacity="0.07"></stop>
+            </linearGradient>
+            <linearGradient id="dbtl-glass-rim" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="var(--dbtl-glass-edge)" stop-opacity="0.72"></stop>
+              <stop offset="0.26" stop-color="var(--dbtl-glass-tint)" stop-opacity="0.16"></stop>
+              <stop offset="0.58" stop-color="var(--dbtl-glass-edge)" stop-opacity="0.42"></stop>
+              <stop offset="1" stop-color="var(--dbtl-glass-tint)" stop-opacity="0.28"></stop>
+            </linearGradient>
+            {
+              positionedStages.map((stage) => (
+                <>
+                  <radialGradient
+                    id={`dbtl-${stage.id}-hover`}
+                    gradientUnits="userSpaceOnUse"
+                    cx={stage.label.x}
+                    cy={stage.label.y}
+                    r="82"
+                  >
+                    <stop offset="0" stop-color="var(--dbtl-glow)" stop-opacity="0.28" />
+                    <stop offset="0.42" stop-color="var(--dbtl-glow)" stop-opacity="0.1" />
+                    <stop offset="1" stop-color="var(--dbtl-glow)" stop-opacity="0" />
+                  </radialGradient>
+                  <radialGradient
+                    id={`dbtl-${stage.id}-active`}
+                    gradientUnits="userSpaceOnUse"
+                    cx={stage.label.x}
+                    cy={stage.label.y}
+                    r="148"
+                  >
+                    <stop offset="0" stop-color="var(--dbtl-glow)" stop-opacity="0.42" />
+                    <stop offset="0.46" stop-color="var(--dbtl-glow)" stop-opacity="0.2" />
+                    <stop offset="1" stop-color="var(--dbtl-glow)" stop-opacity="0" />
+                  </radialGradient>
+                </>
+              ))
+            }
+          </defs>
 
-        <g class="dbtl-wave" clip-path="url(#dbtl-ring-clip)">
-          <line
-            class="dbtl-wave__shape"
-            x1={cycleCenter}
-            y1={cycleCenter}
-            x2={learnRayEnd.x}
-            y2={learnRayEnd.y}></line>
-        </g>
+          <path
+            class="dbtl-ring__glass"
+            d={annulusPath}
+            fill="url(#dbtl-glass-fill)"
+            fill-rule="evenodd"
+            stroke="url(#dbtl-glass-rim)"></path>
 
-        {
-          positionedStages.map((stage) => (
-            <g
-              class="dbtl-segment"
-              data-dbtl-control={stage.name.toLowerCase()}
-              role="button"
-              tabindex="0"
-              aria-label={`Show ${stage.name} details`}
-              aria-controls={`dbtl-panel-${stage.name.toLowerCase()}`}
-              aria-expanded="false"
-            >
-              <path class="dbtl-segment__hit-area" d={stage.path} />
-              <path class="dbtl-segment__outline" d={stage.outlinePath} />
-            </g>
-          ))
-        }
-
-        {/* This masks sector growth so the core keeps the page-surface channel around it. */}
-        <circle class="dbtl-core-channel" cx={cycleCenter} cy={cycleCenter} r={innerRadius}
-        ></circle>
-
-        <g class="dbtl-glass-dividers" clip-path="url(#dbtl-ring-clip)" aria-hidden="true">
-          {
-            dividerAngles.map((angle) => (
-              <>
-                {crystalChevronLayers.map((layer) => (
-                  <path
-                    class="dbtl-glass-divider"
-                    d={createGlassDividerPath(angle)}
-                    stroke-width={layer.width}
-                    stroke-opacity={layer.opacity}
-                  />
-                ))}
-              </>
-            ))
-          }
-        </g>
-
-        <g class="dbtl-labels">
           {
             positionedStages.map((stage) => (
-              <text
-                x={stage.label.x}
-                y={stage.label.y}
-                dy="0.35em"
-                data-stage={stage.name.toLowerCase()}
+              <g
+                class="dbtl-segment"
+                data-dbtl-control={stage.id}
+                role="button"
+                tabindex="0"
+                aria-label={`Show ${stage.name} details`}
+                aria-controls={`dbtl-panel-${stage.id}`}
+                aria-expanded="false"
               >
-                {stage.name}
-              </text>
+                <path
+                  class="dbtl-segment__light dbtl-segment__light--hover"
+                  d={stage.path}
+                  fill={`url(#dbtl-${stage.id}-hover)`}
+                />
+                <path
+                  class="dbtl-segment__light dbtl-segment__light--active"
+                  d={stage.path}
+                  fill={`url(#dbtl-${stage.id}-active)`}
+                />
+                <path class="dbtl-segment__hit-area" d={stage.path} />
+                <text x={stage.label.x} y={stage.label.y} dy="0.35em">
+                  {stage.name}
+                </text>
+              </g>
             ))
           }
-        </g>
-      </svg>
+        </svg>
 
-      <div class="dbtl-core-shell" data-dbtl-core-shell>
         <button
           type="button"
           class="dbtl-core-trigger"
@@ -282,54 +212,41 @@ const learnRayGradientEnd = {
           aria-controls="dbtl-panel-infrastructure"
           aria-expanded="false"
         >
-          <span class="dbtl-core-trigger__label">Infrastructure</span>
+          <span>Infrastructure</span>
         </button>
-        <div id="dbtl-panel-infrastructure" class="dbtl-core-details" hidden>
-          <p>Standards, repositories, metadata, automation, and FAIR data across every stage.</p>
-          <div class="dbtl-tools">
-            <p>Selected tools</p>
-            <ul>
-              {infrastructureTools.map((tool) => <li>{tool}</li>)}
-            </ul>
-          </div>
-        </div>
       </div>
-    </div>
 
-    <div class="dbtl-detail-layer" aria-live="polite">
+      <figcaption class="dbtl-credit">
+        Photo 51, X-ray diffraction of DNA (1952), produced by Raymond Gosling under Rosalind
+        Franklin’s supervision.
+        <a href="https://www.worldhistory.org/image/21344/photograph-51/">Image source</a>.
+      </figcaption>
+    </figure>
+
+    <div class="dbtl-detail-layer" aria-live="polite" aria-atomic="true">
       {
-        stages.map((stage) => (
-          <div
-            id={`dbtl-panel-${stage.name.toLowerCase()}`}
-            class="dbtl-detail"
-            data-dbtl-panel={stage.name.toLowerCase()}
-            data-stage={stage.name.toLowerCase()}
-            hidden
-          >
-            <span class="dbtl-detail__connector" aria-hidden="true">
-              <span />
-            </span>
-            <article class="dbtl-detail__card">
-              <div class="dbtl-detail__header">
-                <div class="dbtl-detail__title">
-                  <span class="dbtl-detail__badge" aria-hidden="true">
-                    {stage.letter}
-                  </span>
-                  <h4>{stage.name}</h4>
-                </div>
+        panels.map((panel) => {
+          const id = panel.name.toLowerCase();
+          return (
+            <article id={`dbtl-panel-${id}`} class="dbtl-detail" data-dbtl-panel={id} hidden>
+              <div class="dbtl-detail__title">
+                <span class="dbtl-detail__badge" aria-hidden="true">
+                  {panel.letter}
+                </span>
+                <h4>{panel.name}</h4>
               </div>
-              <p class="dbtl-detail__summary">{stage.summary}</p>
+              <p class="dbtl-detail__summary">{panel.summary}</p>
               <div class="dbtl-tools">
                 <p>Selected tools</p>
-                <ul aria-label={`${stage.name} tools`}>
-                  {stage.tools.map((tool) => (
+                <ul aria-label={`${panel.name} tools`}>
+                  {panel.tools.map((tool) => (
                     <li>{tool}</li>
                   ))}
                 </ul>
               </div>
             </article>
-          </div>
-        ))
+          );
+        })
       }
     </div>
   </div>
@@ -339,8 +256,6 @@ const learnRayGradientEnd = {
   document.querySelectorAll<HTMLElement>('[data-dbtl-cycle]').forEach((cycle) => {
     const controls = Array.from(cycle.querySelectorAll<HTMLElement>('[data-dbtl-control]'));
     const panels = Array.from(cycle.querySelectorAll<HTMLElement>('[data-dbtl-panel]'));
-    const coreDetails = cycle.querySelector<HTMLElement>('#dbtl-panel-infrastructure');
-    const coreShell = cycle.querySelector<HTMLElement>('[data-dbtl-core-shell]');
     let active = '';
 
     const setActive = (requested: string) => {
@@ -354,14 +269,11 @@ const learnRayGradientEnd = {
       panels.forEach((panel) => {
         panel.hidden = panel.dataset.dbtlPanel !== active;
       });
-
-      const infrastructureActive = active === 'infrastructure';
-      if (coreDetails) coreDetails.hidden = !infrastructureActive;
-      coreShell?.classList.toggle('is-expanded', infrastructureActive);
     };
 
     controls.forEach((control) => {
       control.addEventListener('click', () => setActive(control.dataset.dbtlControl ?? ''));
+
       if (control.getAttribute('role') === 'button') {
         control.addEventListener('keydown', (event) => {
           if (event.key === 'Enter' || event.key === ' ') {
@@ -370,13 +282,6 @@ const learnRayGradientEnd = {
           }
         });
       }
-    });
-
-    document.addEventListener('click', (event) => {
-      if (active !== 'infrastructure') return;
-      const target = event.target;
-      if (target instanceof Node && coreShell?.contains(target)) return;
-      setActive(active);
     });
 
     cycle.addEventListener('keydown', (event) => {

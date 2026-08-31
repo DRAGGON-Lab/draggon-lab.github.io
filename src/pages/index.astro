@@ -20,16 +20,28 @@ const researchAreas = sortResearchByHierarchy(
 
 const applications = [
   {
+    id: 'resilient-crops',
     title: 'Resilient crops',
     desc: 'Biodesign workflows for more nutritious, robust, and sustainable plant systems.',
+    image: '/images/capabilities/resilient-crops.jpg',
+    imageAlt: 'Deep red amaranth growing in a field',
+    imageFit: 'cover',
   },
   {
+    id: 'microbiome-therapeutics',
     title: 'Microbiome therapeutics',
     desc: 'Programmable living systems that can sense, respond, and support healthier communities.',
+    image: '/images/capabilities/microbiome-therapeutics.jpg',
+    imageAlt: 'Glass bottles containing a home-cultured microbial drink',
+    imageFit: 'cover',
   },
   {
+    id: 'reusable-infrastructure',
     title: 'Reusable infrastructure',
     desc: 'Open tools and standards that make biological engineering easier to reproduce and extend.',
+    image: '/images/capabilities/reusable-infrastructure-sbol.svg',
+    imageAlt: 'SBOL, Synthetic Biology Open Language',
+    imageFit: 'contain',
   },
 ];
 
@@ -152,22 +164,65 @@ const labNotes = [
     </div>
   </section>
 
-  {/* Applications — full-bleed tonal band, text columns divided by rules */}
+  {/* Applications — synchronized descriptions and a selectable image stack. */}
   <div class="section-tint">
-    <section class="mx-auto max-w-7xl px-4 py-16 md:py-20">
+    <section class="capabilities mx-auto max-w-7xl px-4 py-16 md:py-20" data-capabilities>
       <h2 class="max-w-2xl text-3xl tracking-tight text-slate-950">
         Engineering organisms with useful capabilities
       </h2>
-      <div class="mt-10 grid gap-10 md:grid-cols-3 md:gap-0 md:divide-x md:divide-slate-200">
-        {
-          applications.map((app) => (
-            <div class="md:px-8 md:first:pl-0 md:last:pr-0">
-              <span class="bg-draggon-green inline-block h-2 w-2 rounded-full" aria-hidden="true" />
-              <h3 class="mt-4 text-lg font-semibold text-slate-950">{app.title}</h3>
-              <p class="mt-2 text-sm leading-6 text-slate-600">{app.desc}</p>
-            </div>
-          ))
-        }
+      <div class="capabilities__layout mt-10">
+        <div class="capability-options" aria-label="Applications">
+          {
+            applications.map((app, index) => (
+              <button
+                class="capability-option"
+                type="button"
+                data-capability-select={app.id}
+                aria-controls={`capability-image-${app.id}`}
+                aria-pressed={index === 0 ? 'true' : 'false'}
+              >
+                <span class="capability-option__marker" aria-hidden="true" />
+                <span>
+                  <span class="capability-option__title" id={`capability-description-${app.id}`}>
+                    {app.title}
+                  </span>
+                  <span class="capability-option__description">{app.desc}</span>
+                </span>
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="capability-stack" aria-label="Application images">
+          <div class="capability-stack__stage">
+            {
+              applications.map((app, index) => (
+                <button
+                  class:list={[
+                    'capability-image-card',
+                    { 'capability-image-card--contained': app.imageFit === 'contain' },
+                  ]}
+                  id={`capability-image-${app.id}`}
+                  type="button"
+                  data-capability-select={app.id}
+                  data-capability-card
+                  data-position={index === 0 ? 'active' : `back-${index}`}
+                  aria-label={`Show ${app.title}`}
+                  aria-pressed={index === 0 ? 'true' : 'false'}
+                >
+                  <img
+                    src={app.image}
+                    alt={app.imageAlt}
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                    style={`object-fit: ${app.imageFit}`}
+                  />
+                </button>
+              ))
+            }
+          </div>
+        </div>
       </div>
     </section>
   </div>
@@ -277,6 +332,38 @@ const labNotes = [
 </BaseLayout>
 
 <script>
+  document.querySelectorAll<HTMLElement>('[data-capabilities]').forEach((section) => {
+    const controls = Array.from(
+      section.querySelectorAll<HTMLButtonElement>('[data-capability-select]'),
+    );
+    const cards = Array.from(section.querySelectorAll<HTMLButtonElement>('[data-capability-card]'));
+
+    const selectCapability = (selectedId: string) => {
+      const selectedIndex = cards.findIndex((card) => card.dataset.capabilitySelect === selectedId);
+
+      if (selectedIndex < 0) return;
+
+      controls.forEach((control) => {
+        control.setAttribute(
+          'aria-pressed',
+          control.dataset.capabilitySelect === selectedId ? 'true' : 'false',
+        );
+      });
+
+      cards.forEach((card, index) => {
+        const distanceFromFront = (index - selectedIndex + cards.length) % cards.length;
+        card.dataset.position = distanceFromFront === 0 ? 'active' : `back-${distanceFromFront}`;
+      });
+    };
+
+    controls.forEach((control) => {
+      control.addEventListener('click', () => {
+        const selectedId = control.dataset.capabilitySelect;
+        if (selectedId) selectCapability(selectedId);
+      });
+    });
+  });
+
   const heroAccent = document.querySelector<HTMLElement>('[data-hero-accent]');
   let heroWaveRestarting = false;
 

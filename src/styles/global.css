@@ -640,6 +640,200 @@ html.animations-off .molecular-dna__canvas {
   border-bottom: 1px solid var(--color-border);
 }
 
+/* Application descriptions and their synchronized, selectable image stack. */
+.capabilities__layout {
+  display: grid;
+  gap: 3rem;
+}
+
+.capability-options {
+  display: grid;
+  align-content: center;
+}
+
+.capability-option {
+  display: grid;
+  grid-template-columns: 0.65rem 1fr;
+  gap: 1rem;
+  width: 100%;
+  min-height: 4.5rem;
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 1.35rem 1rem;
+  text-align: left;
+  transition:
+    background-color 180ms var(--ease-emphatic),
+    color 180ms var(--ease-emphatic),
+    padding 240ms var(--ease-emphatic);
+}
+
+.capability-option:first-child {
+  border-top: 1px solid var(--color-border);
+}
+
+.capability-option:hover {
+  background: color-mix(in srgb, var(--color-surface) 55%, transparent);
+  color: var(--color-text);
+}
+
+.capability-option[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--color-surface) 82%, transparent);
+  color: var(--color-text);
+  padding-inline-start: 1.35rem;
+}
+
+.capability-option__marker {
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-top: 0.42rem;
+  border: 1px solid color-mix(in srgb, var(--color-muted) 55%, transparent);
+  border-radius: 9999px;
+  background: transparent;
+  transition:
+    background-color 180ms var(--ease-emphatic),
+    border-color 180ms var(--ease-emphatic),
+    box-shadow 180ms var(--ease-emphatic),
+    transform 240ms var(--ease-emphatic);
+}
+
+.capability-option[aria-pressed='true'] .capability-option__marker {
+  border-color: var(--color-signal);
+  background: var(--color-signal);
+  box-shadow: 0 0 0 4px var(--color-signal-tint);
+  transform: scale(1.08);
+}
+
+.capability-option__title,
+.capability-option__description {
+  display: block;
+}
+
+.capability-option__title {
+  color: inherit;
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.capability-option__description {
+  max-width: 33rem;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.capability-stack {
+  min-width: 0;
+  padding: 0.75rem 3rem 4rem;
+}
+
+.capability-stack__stage {
+  position: relative;
+  width: min(100%, 24rem);
+  aspect-ratio: 3 / 4;
+  margin-inline: auto;
+  isolation: isolate;
+}
+
+.capability-image-card {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: 1px solid color-mix(in srgb, var(--color-text) 14%, var(--color-border));
+  border-radius: 1rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lift);
+  cursor: pointer;
+  padding: 0;
+  transform-origin: 50% 92%;
+  transition:
+    transform 420ms var(--ease-emphatic),
+    box-shadow 260ms var(--ease-emphatic),
+    border-color 220ms var(--ease-emphatic);
+}
+
+.capability-image-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.capability-image-card--contained {
+  background: #f7f7f4;
+  color-scheme: light;
+}
+
+.capability-image-card--contained img {
+  padding: clamp(1.25rem, 8%, 2.25rem);
+}
+
+.capability-image-card[data-position='active'] {
+  z-index: 3;
+  border-color: color-mix(in srgb, var(--color-accent) 32%, var(--color-border));
+  box-shadow: 0 24px 52px -28px rgba(23, 21, 38, 0.5);
+  transform: translate(0, 0) rotate(0);
+}
+
+.capability-image-card[data-position='back-1'] {
+  z-index: 2;
+  transform: translate(2.8rem, 1.45rem) rotate(2.5deg);
+}
+
+.capability-image-card[data-position='back-2'] {
+  z-index: 1;
+  transform: translate(-2.8rem, 2.6rem) rotate(-3.5deg);
+}
+
+.capability-image-card:hover {
+  border-color: color-mix(in srgb, var(--color-accent) 58%, var(--color-border));
+}
+
+.capability-image-card:focus-visible {
+  border-color: var(--color-accent);
+  outline-offset: 4px;
+}
+
+html.dark .capability-image-card {
+  border-color: color-mix(in srgb, var(--color-text) 18%, var(--color-border));
+  box-shadow: 0 26px 56px -28px rgba(0, 0, 0, 0.86);
+}
+
+html.dark .capability-image-card--contained {
+  background: #f7f7f4;
+}
+
+@media (min-width: 768px) {
+  .capabilities__layout {
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.82fr);
+    align-items: center;
+    gap: clamp(3rem, 7vw, 7rem);
+  }
+
+  .capability-stack {
+    padding-block: 1rem 4.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .capability-option,
+  .capability-option__marker,
+  .capability-image-card {
+    transition: none;
+  }
+}
+
+html.animations-off .capability-option,
+html.animations-off .capability-option__marker,
+html.animations-off .capability-image-card {
+  transition: none;
+}
+
 /* Interactive DBTL mental model: minimal by default, explanatory on selection. */
 .dbtl-platform-layout {
   display: grid;
@@ -1690,6 +1884,23 @@ html[data-theme='dark'] .theme-toggle__icon {
     background-image: none;
     color: CanvasText;
     -webkit-text-fill-color: CanvasText;
+  }
+
+  .capability-option,
+  .capability-image-card {
+    border-color: CanvasText;
+  }
+
+  .capability-option[aria-pressed='true'] {
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .capability-option__marker,
+  .capability-option[aria-pressed='true'] .capability-option__marker {
+    border-color: currentColor;
+    background: currentColor;
+    box-shadow: none;
   }
 }
 

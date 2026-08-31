@@ -24,3 +24,11 @@ image of DNA, produced under Rosalind Franklin's supervision. The source scan wa
 [World History Encyclopedia](https://www.worldhistory.org/image/21344/photograph-51/) under the
 [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 The source identifies the original image as held by Cold Spring Harbor Laboratory Archives.
+
+## SBOL wordmark
+
+`public/images/capabilities/reusable-infrastructure-sbol.svg` is the full Synthetic Biology Open
+Language (SBOL) wordmark downloaded from the [official SBOL FAQ](https://sbolstandard.org/faq/).
+The SBOL FAQ makes the logo free to use under the Creative Commons license and identifies SBOL as
+licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+Use of the logo does not imply endorsement or certification by sbolstandard.org.

@@ -15,12 +15,12 @@ if (!mobileCapture || !desktopCapture) {
 const outputs = [
   {
     input: mobileCapture,
-    output: path.join(root, 'public/molecules/j23101-b-dna-320.webp'),
+    output: path.join(root, 'public/molecules/j23101-b-dna-home-v2-320.webp'),
     width: 320,
   },
   {
     input: desktopCapture,
-    output: path.join(root, 'public/molecules/j23101-b-dna-520.webp'),
+    output: path.join(root, 'public/molecules/j23101-b-dna-home-v2-520.webp'),
     width: 520,
   },
 ];

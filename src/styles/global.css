@@ -136,8 +136,8 @@ a {
 .brand-wordmark__mark {
   position: relative;
   z-index: 2;
-  width: 0.94em;
-  height: 0.94em;
+  width: 0.98em;
+  height: 0.98em;
   flex: 0 0 auto;
   align-self: baseline;
   margin-inline: 0.08em;
@@ -263,15 +263,28 @@ html.dark .prose a {
 }
 
 .site-header__wordmark .brand-wordmark__mark {
-  transition: transform 220ms var(--ease-emphatic);
+  scale: 1;
+  will-change: scale;
+  transition: scale 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .site-header__brand:hover {
   color: var(--color-accent-strong);
 }
 
-.site-header__brand:hover .brand-wordmark__mark {
-  transform: scale(1.06);
+.site-header__brand:hover .brand-wordmark__mark,
+.site-header__brand:focus-visible .brand-wordmark__mark {
+  scale: 1.045;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header__wordmark .brand-wordmark__mark {
+    transition: none;
+  }
+}
+
+html.animations-off .site-header__wordmark .brand-wordmark__mark {
+  transition: none;
 }
 
 .nav-link {

@@ -121,7 +121,9 @@ a {
 .brand-wordmark {
   --brand-wordmark-size: 1.95rem;
   display: inline-flex;
-  align-items: center;
+  position: relative;
+  align-items: baseline;
+  overflow: visible;
   color: inherit;
   font-family: var(--font-heading);
   font-size: var(--brand-wordmark-size);
@@ -132,9 +134,14 @@ a {
 }
 
 .brand-wordmark__mark {
-  width: 1.1em;
-  height: 1.1em;
+  position: relative;
+  z-index: 2;
+  width: 0.94em;
+  height: 0.94em;
+  flex: 0 0 auto;
+  align-self: baseline;
   margin-inline: 0.08em;
+  transform-origin: center;
 }
 
 /* One consistent, crisp focus ring across interactive elements */
@@ -239,6 +246,9 @@ html.dark .prose a {
  * Header navigation
  * ------------------------------------------------------------------ */
 .site-header__brand {
+  position: relative;
+  z-index: 2;
+  overflow: visible;
   font-family: var(--font-heading);
   font-size: 1.95rem;
   font-weight: 500;

@@ -8,7 +8,7 @@ lifecycle_stage: reuse
 status: active
 supports:
   - target: research:biological-software-foundations
-  - target: research:automated-dbtl-workflows
+  - target: research:autonomous-laboratories
 enables:
   - target: project-direction:standards-programmable-biology
 ---

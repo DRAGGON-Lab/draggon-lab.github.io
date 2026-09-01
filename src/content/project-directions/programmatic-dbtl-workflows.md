@@ -4,7 +4,7 @@ summary: Modular workflows that connect LOICA, PUDU, BuildCompiler, Flapjack, Sy
 tags: [DBTL, automation, workflows]
 draft: false
 enables:
-  - target: research:automated-dbtl-workflows
+  - target: research:autonomous-laboratories
 uses:
   - target: tool:loica
   - target: tool:pudu-buildcompiler
@@ -27,3 +27,7 @@ A modular workflow lets collaborators work on different stages without losing co
 ## Early milestones
 
 Early milestones include a complete design-to-data example, sample content for synthetic gene characterization, and documented interfaces between design metadata, build metadata, test outputs, and learning-ready datasets.
+
+## Foundation for autonomy
+
+Programmatic workflows provide the explicit instructions, validation rules, metadata, and interfaces that an autonomous laboratory needs. Facility orchestration and robotics can build on this layer without hiding how biological intent becomes physical work or how experimental evidence returns to the learning cycle.

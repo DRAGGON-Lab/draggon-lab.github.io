@@ -1,6 +1,6 @@
 export const researchHierarchy = [
   { slug: 'biological-software-foundations', order: 1 },
-  { slug: 'automated-dbtl-workflows', order: 2 },
+  { slug: 'autonomous-laboratories', order: 2 },
   { slug: 'ai-aided-biodesign', order: 3 },
   { slug: 'digital-twins-living-systems', order: 4 },
   { slug: 'intelligent-genetic-genomic-networks', order: 5 },

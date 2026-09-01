@@ -86,5 +86,8 @@ export default defineConfig({
   site: 'https://draggonlab.org',
   integrations: [mdx()],
   markdown: { shikiConfig: { theme: 'github-dark' } },
+  redirects: {
+    '/research/automated-dbtl-workflows': '/research/autonomous-laboratories',
+  },
   vite: { plugins: [tailwindBuildPlugin()] },
 });

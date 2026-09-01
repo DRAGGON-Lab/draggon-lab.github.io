@@ -5,7 +5,7 @@ tags: [thesis, DBTL, automation]
 draft: false
 publication_type: thesis
 describes:
-  - target: research:automated-dbtl-workflows
+  - target: research:autonomous-laboratories
   - target: workflow:programmatic-dbtl-workflow
 ---
 
@@ -17,4 +17,4 @@ On the lab website, this publication should anchor the DBTL workflow narrative: 
 
 ## Related content
 
-The thesis connects most strongly to Automated DBTL Workflows, Programmatic DBTL Workflows, Biological Software Foundations, and the planned standardized gene expression and regulation dataset.
+The thesis provides the automation foundation for Autonomous Laboratories and connects strongly to Programmatic DBTL Workflows, Biological Software Foundations, and the planned standardized gene expression and regulation dataset.

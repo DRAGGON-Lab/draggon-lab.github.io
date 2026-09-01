@@ -7,7 +7,7 @@ ecosystem_group: build
 lifecycle_stage: build
 status: active
 supports:
-  - target: research:automated-dbtl-workflows
+  - target: research:autonomous-laboratories
 enables:
   - target: project-direction:programmatic-dbtl-workflows
 ---

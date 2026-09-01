@@ -7,7 +7,7 @@ ecosystem_group: test
 lifecycle_stage: test
 status: active
 supports:
-  - target: research:automated-dbtl-workflows
+  - target: research:autonomous-laboratories
   - target: project-direction:standards-programmable-biology
 produces:
   - target: dataset:standardized-gene-expression-regulation

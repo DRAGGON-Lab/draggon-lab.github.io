@@ -9,7 +9,7 @@ status: planned
 license: CC BY 4.0
 supports:
   - target: research:ai-aided-biodesign
-  - target: research:automated-dbtl-workflows
+  - target: research:autonomous-laboratories
   - target: research:biological-software-foundations
 ---
 

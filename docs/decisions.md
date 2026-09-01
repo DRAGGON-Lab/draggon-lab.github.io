@@ -20,7 +20,7 @@ Primary CTA: Explore Research. Secondary CTA: Explore Tools.
 
 ## Research
 
-Five research interests: Biological Software Foundations; Automated DBTL Workflows; AI-Aided Biodesign; Digital Twins of Living Systems; Intelligent Genetic & Genomic Networks.
+Five research interests: Biological Software Foundations; Autonomous Laboratories; AI-Aided Biodesign; Digital Twins of Living Systems; Intelligent Genetic & Genomic Networks.
 
 ## Tools
 

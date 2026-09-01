@@ -29,7 +29,7 @@ No separate About page is included in Version 1. Identity is distributed through
 ## Research stack
 
 1. Biological Software Foundations
-2. Automated DBTL Workflows
+2. Autonomous Laboratories
 3. AI-Aided Biodesign
 4. Digital Twins of Living Systems
 5. Intelligent Genetic & Genomic Networks

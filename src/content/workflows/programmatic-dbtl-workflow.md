@@ -29,3 +29,5 @@ The programmatic DBTL workflow is the practical expression of the DRAGGON Lab pl
 ## Why it matters
 
 A programmatic workflow makes each stage explicit enough to automate and inspect. It also makes collaboration easier because design decisions, build choices, experimental context, and learning outputs remain connected.
+
+This workflow is also the software foundation for autonomous laboratory operation. Facility managers and robots can coordinate physical execution only when plans, resources, state transitions, measurements, and expected outcomes are represented explicitly.

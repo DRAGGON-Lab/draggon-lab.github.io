@@ -19,8 +19,9 @@ fiber parameters are also preserved in the PDB `REMARK` records.
 
 ## Photo 51
 
-`public/images/photo-51.webp` is an optimized crop of Raymond Gosling's 1952 X-ray diffraction
-image of DNA, produced under Rosalind Franklin's supervision. The source scan was published by
+`public/images/photo-51.webp` and `public/images/photo-51-expanded.webp` are optimized layout
+variants of Raymond Gosling's 1952 X-ray diffraction image of DNA, produced under Rosalind
+Franklin's supervision. The source scan was published by
 [World History Encyclopedia](https://www.worldhistory.org/image/21344/photograph-51/) under the
 [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 The source identifies the original image as held by Cold Spring Harbor Laboratory Archives.

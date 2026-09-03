@@ -1,39 +1,1196 @@
 ---
-import { getCollection } from 'astro:content';
-
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import SimpleCard from '../../components/cards/SimpleCard.astro';
-import DraftBadge from '../../components/ui/DraftBadge.astro';
-import {
-  includeEntryInEnvironment,
-  shouldShowDraftBadge,
-  sortEntriesByTitle,
-} from '../../lib/contentFilters';
+import publicationData from '../../data/publications.generated.json';
+import { sortPublications, type PublicationSnapshot } from '../../lib/publications';
 
-const entries = sortEntriesByTitle(
-  (await getCollection('publications')).filter(includeEntryInEnvironment),
-);
+const snapshot = publicationData as PublicationSnapshot;
+const publications = sortPublications(snapshot.publications, 'newest');
+const synchronizedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  timeZone: 'UTC',
+}).format(new Date(snapshot.generatedAt));
+const serializedSnapshot = JSON.stringify(snapshot).replaceAll('<', '\\u003c');
+const headlineMetrics = [
+  { label: 'Works', value: snapshot.publications.length },
+  { label: 'Citations', value: snapshot.profile.totalCitations },
+  { label: 'h-index', value: snapshot.profile.hIndex },
+  { label: 'i10-index', value: snapshot.profile.i10Index },
+];
 ---
 
 <BaseLayout
   title="Publications"
-  description="Selected publications and scholarly outputs connected to the DRAGGON Lab research program."
+  description="Search Gonzalo Vidal's publications and explore citation relationships between them."
 >
-  <section class="brand-page-intro mx-auto max-w-7xl px-4 py-16">
-    <h1 class="text-4xl font-bold tracking-tight text-slate-950">Publications</h1>
-    <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
-      This page highlights selected publications, thesis work, software papers, and scholarly
-      outputs connected to the DRAGGON Lab research program.
-    </p>
-    <div class="mt-8 grid gap-4 md:grid-cols-3">
-      {
-        entries.map((entry) => (
-          <SimpleCard title={entry.data.title} eyebrow={entry.data.tags[0]}>
-            {shouldShowDraftBadge(entry) && <DraftBadge slot="titleSuffix" />}
-            {entry.data.summary}
-          </SimpleCard>
-        ))
-      }
+  <section class="publication-page mx-auto max-w-7xl px-4 py-16">
+    <div class="publication-summary">
+      <header>
+        <h1 class="text-4xl font-bold tracking-tight text-slate-950">Publications</h1>
+        <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+          Search the complete public profile, compare citation counts, or follow how these works
+          cite one another over time.
+        </p>
+        <a
+          class="profile-link mt-3 inline-block text-sm"
+          href={snapshot.profile.url}
+          target="_blank"
+          rel="noreferrer">View source on Google Scholar <span aria-hidden="true">↗</span></a
+        >
+      </header>
+
+      <div class="metrics-widget">
+        <div class="metrics-interactive">
+          <dl class="metrics" aria-label="Google Scholar profile summary">
+            {
+              headlineMetrics.map((metric) => (
+                <div class="metric-card">
+                  <dt>{metric.label}</dt>
+                  <dd
+                    class="flip-number"
+                    data-metric-value={metric.value}
+                    aria-label={String(metric.value)}
+                  >
+                    {String(metric.value)
+                      .split('')
+                      .map((digit) => (
+                        <span
+                          class="flip-digit"
+                          data-flip-digit
+                          data-target-digit={digit}
+                          data-current-digit={digit}
+                          aria-hidden="true"
+                        >
+                          <span class="flip-half flip-static-top">
+                            <span class="flip-glyph">{digit}</span>
+                          </span>
+                          <span class="flip-half flip-static-bottom">
+                            <span class="flip-glyph">{digit}</span>
+                          </span>
+                          <span class="flip-leaf">
+                            <span class="flip-face flip-front">
+                              <span class="flip-glyph">{digit}</span>
+                            </span>
+                            <span class="flip-face flip-back">
+                              <span class="flip-glyph">{digit}</span>
+                            </span>
+                          </span>
+                        </span>
+                      ))}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+          <button class="metrics-replay" type="button" aria-label="Replay metric animation">
+            <span class="sr-only">Replay metric animation</span>
+          </button>
+        </div>
+        <div class="metric-update-status" data-metric-update hidden aria-live="polite">
+          <span class="update-pulse" aria-hidden="true"></span>
+          <span>Last updated</span>
+          <time datetime={snapshot.generatedAt}>{synchronizedDate}</time>
+        </div>
+      </div>
     </div>
+
+    <section class="explorer" aria-labelledby="explorer-heading">
+      <div class="explorer-heading-row">
+        <h2 id="explorer-heading">Publication explorer</h2>
+        <div class="view-switch" aria-label="Publication view">
+          <button type="button" data-view-button="table" aria-pressed="true">Table</button>
+          <button type="button" data-view-button="graph" aria-pressed="false">Graph</button>
+        </div>
+      </div>
+
+      <div class="explorer-controls">
+        <label class="search-field"
+          ><span>Search publications</span><input
+            id="publication-search"
+            type="search"
+            placeholder="Title, author, venue, year, or type"
+            autocomplete="off"
+          /></label
+        >
+        <label class="sort-field" data-table-control
+          ><span>Sort by</span><select id="publication-sort"
+            ><option value="newest">Newest first</option><option value="oldest">Oldest first</option
+            ><option value="cited">Most cited</option><option value="title">Title</option></select
+          ></label
+        >
+        <div class="direction-control" data-graph-control hidden>
+          <span>Timeline direction</span><div class="direction-buttons">
+            <button type="button" data-direction="oldest" aria-pressed="true"
+              >Oldest → newest</button
+            ><button type="button" data-direction="newest" aria-pressed="false"
+              >Newest → oldest</button
+            >
+          </div>
+        </div>
+      </div>
+      <p class="result-status" id="publication-status" aria-live="polite">
+        Showing {publications.length} publications
+      </p>
+
+      <div id="table-view">
+        <div class="publication-table-wrap">
+          <table class="publication-table">
+            <colgroup>
+              <col class="year-column" />
+              <col class="publication-column" />
+              <col class="venue-column" />
+              <col class="type-column" />
+              <col class="citation-column" />
+              <col class="links-column" />
+            </colgroup>
+            <thead
+              ><tr
+                ><th>Year</th><th>Publication</th><th>Venue</th><th>Type</th><th>Citations</th><th
+                  >Links</th
+                ></tr
+              ></thead
+            >
+            <tbody id="publication-rows">
+              {
+                publications.map((publication) => (
+                  <tr data-publication-id={publication.id}>
+                    <td data-label="Year">{publication.year ?? '—'}</td>
+                    <td data-label="Publication">
+                      <>
+                        <strong title={publication.title}>
+                          <a href={publication.scholarUrl} target="_blank" rel="noreferrer">
+                            {publication.title}
+                          </a>
+                        </strong>
+                        <span class="publication-authors" title={publication.authors.join(', ')}>
+                          {publication.authors.join(', ')}
+                        </span>
+                      </>
+                    </td>
+                    <td data-label="Venue">{publication.venue || 'Venue not listed'}</td>
+                    <td data-label="Type">
+                      <span class="type-label">{publication.type}</span>
+                    </td>
+                    <td data-label="Scholar citations" class="citation-cell">
+                      <button
+                        type="button"
+                        class="citation-copy"
+                        data-copy-bibtex={publication.id}
+                        aria-label={`Copy BibTeX for ${publication.title}`}
+                        title="Copy BibTeX"
+                      >
+                        {publication.scholarCitations}
+                        <span aria-hidden="true">⧉</span>
+                      </button>
+                    </td>
+                    <td data-label="Links" class="publication-links">
+                      {publication.doi && (
+                        <a
+                          href={`https://doi.org/${publication.doi}`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          DOI
+                        </a>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="empty-state" id="table-empty" hidden>No publications match this search.</p>
+      </div>
+
+      <div id="graph-view" hidden>
+        <div class="graph-intro">
+          <p>
+            Arrows run from a citing work to a cited work. Connections are limited to publications
+            on this profile and depend on OpenAlex reference coverage.
+          </p>
+          <div class="size-legend" aria-label="Node size represents Google Scholar citations">
+            <span class="legend-dot legend-dot-small"></span><span>Fewer citations</span><span
+              class="legend-dot legend-dot-large"></span><span>More citations</span>
+          </div>
+        </div>
+        <div class="timeline-shell">
+          <svg
+            id="citation-graph"
+            viewBox="0 0 1100 300"
+            role="img"
+            aria-labelledby="graph-title graph-description"
+            ><title id="graph-title">Chronological citation graph</title><desc
+              id="graph-description"
+              >Publications are ordered by year. Node size represents Google Scholar citations and
+              arrows represent references between displayed publications.</desc
+            ></svg
+          >
+        </div>
+        <aside class="graph-detail" id="graph-detail" aria-live="polite">
+          <p class="detail-placeholder">Select or focus a publication to inspect it.</p>
+        </aside>
+      </div>
+    </section>
+    <script is:inline type="application/json" id="publication-data" set:html={serializedSnapshot} />
   </section>
 </BaseLayout>
+
+<script>
+  import {
+    filterPublications,
+    placePublicationsChronologically,
+    publicationToBibtex,
+    sortPublications,
+    type Publication,
+    type PublicationSnapshot,
+    type PublicationSort,
+  } from '../../lib/publications';
+
+  const dataElement = document.querySelector<HTMLScriptElement>('#publication-data');
+  const snapshot = JSON.parse(dataElement?.textContent ?? '{}') as PublicationSnapshot;
+  const search = document.querySelector<HTMLInputElement>('#publication-search');
+  const sort = document.querySelector<HTMLSelectElement>('#publication-sort');
+  const tableView = document.querySelector<HTMLElement>('#table-view');
+  const graphView = document.querySelector<HTMLElement>('#graph-view');
+  const tableBody = document.querySelector<HTMLTableSectionElement>('#publication-rows');
+  const tableRows = new Map(
+    [...(tableBody?.querySelectorAll<HTMLTableRowElement>('[data-publication-id]') ?? [])].map(
+      (row) => [row.dataset.publicationId ?? '', row],
+    ),
+  );
+  const publicationById = new Map(
+    snapshot.publications.map((publication) => [publication.id, publication]),
+  );
+  const citationButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-copy-bibtex]')];
+  const tableEmpty = document.querySelector<HTMLElement>('#table-empty');
+  const status = document.querySelector<HTMLElement>('#publication-status');
+  const graph = document.querySelector<SVGSVGElement>('#citation-graph');
+  const graphDetail = document.querySelector<HTMLElement>('#graph-detail');
+  const viewButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-view-button]')];
+  const directionButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-direction]')];
+  const graphControls = document.querySelector<HTMLElement>('[data-graph-control]');
+  const tableControl = document.querySelector<HTMLElement>('[data-table-control]');
+  const metricReplay = document.querySelector<HTMLButtonElement>('.metrics-replay');
+  const metricDigits = [...document.querySelectorAll<HTMLElement>('[data-flip-digit]')];
+  const metricUpdate = document.querySelector<HTMLElement>('[data-metric-update]');
+  let currentView: 'table' | 'graph' = 'table';
+  let newestFirst = false;
+  let selectedId: string | null = null;
+  let metricAnimationRun = 0;
+  const svgNamespace = 'http://www.w3.org/2000/svg';
+
+  const escapeHtml = (value: string) =>
+    value.replace(
+      /[&<>"']/g,
+      (character) =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[character] ??
+        character,
+    );
+  function publicationLinks(publication: Publication): string {
+    return publication.doi
+      ? `<a href="https://doi.org/${encodeURIComponent(publication.doi)}" target="_blank" rel="noreferrer">DOI</a>`
+      : '';
+  }
+  function renderTable(items: Publication[]) {
+    if (!tableBody) return;
+    for (const row of tableRows.values()) row.hidden = true;
+    for (const publication of items) {
+      const row = tableRows.get(publication.id);
+      if (!row) continue;
+      row.hidden = false;
+      tableBody.append(row);
+    }
+    if (tableEmpty) tableEmpty.hidden = items.length > 0;
+  }
+  function setFlipGlyph(digit: HTMLElement, selector: string, value: number) {
+    const glyph = digit.querySelector<HTMLElement>(selector);
+    if (glyph) glyph.textContent = String(value);
+  }
+  function settleFlipDigit(digit: HTMLElement, value: number) {
+    digit.classList.remove('is-flipping');
+    setFlipGlyph(digit, '.flip-static-top .flip-glyph', value);
+    setFlipGlyph(digit, '.flip-static-bottom .flip-glyph', value);
+    setFlipGlyph(digit, '.flip-front .flip-glyph', value);
+    setFlipGlyph(digit, '.flip-back .flip-glyph', value);
+    digit.dataset.currentDigit = String(value);
+  }
+  const wait = (duration: number) =>
+    new Promise<void>((resolve) => window.setTimeout(resolve, duration));
+
+  async function playMetricAnimation() {
+    const run = ++metricAnimationRun;
+    const reduceMotion =
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      document.documentElement.classList.contains('animations-off');
+    if (reduceMotion) {
+      metricDigits.forEach((digit) =>
+        settleFlipDigit(digit, Number(digit.dataset.targetDigit ?? 0)),
+      );
+      if (metricUpdate) metricUpdate.hidden = true;
+      return;
+    }
+
+    metricDigits.forEach((digit) => settleFlipDigit(digit, 0));
+    if (metricUpdate) {
+      metricUpdate.hidden = false;
+      metricUpdate.classList.remove('is-visible');
+      void metricUpdate.offsetWidth;
+      metricUpdate.classList.add('is-visible');
+    }
+    await wait(180);
+
+    const highestTarget = Math.max(
+      0,
+      ...metricDigits.map((digit) => Number(digit.dataset.targetDigit ?? 0)),
+    );
+    for (let nextValue = 1; nextValue <= highestTarget; nextValue += 1) {
+      if (run !== metricAnimationRun) return;
+      const activeDigits = metricDigits.filter(
+        (digit) => Number(digit.dataset.targetDigit ?? 0) >= nextValue,
+      );
+      activeDigits.forEach((digit) => {
+        const currentValue = nextValue - 1;
+        setFlipGlyph(digit, '.flip-static-top .flip-glyph', nextValue);
+        setFlipGlyph(digit, '.flip-static-bottom .flip-glyph', currentValue);
+        setFlipGlyph(digit, '.flip-front .flip-glyph', currentValue);
+        setFlipGlyph(digit, '.flip-back .flip-glyph', nextValue);
+        digit.classList.remove('is-flipping');
+        void digit.offsetWidth;
+      });
+      activeDigits.forEach((digit) => digit.classList.add('is-flipping'));
+      await wait(420);
+      if (run !== metricAnimationRun) return;
+      activeDigits.forEach((digit) => settleFlipDigit(digit, nextValue));
+    }
+
+    await wait(160);
+    if (run !== metricAnimationRun) return;
+    if (metricUpdate) metricUpdate.classList.remove('is-visible');
+    await wait(300);
+    if (run === metricAnimationRun && metricUpdate) metricUpdate.hidden = true;
+  }
+  async function writeToClipboard(value: string): Promise<void> {
+    await navigator.clipboard.writeText(value);
+  }
+  citationButtons.forEach((button) =>
+    button.addEventListener('click', async () => {
+      const publication = publicationById.get(button.dataset.copyBibtex ?? '');
+      if (!publication) return;
+      try {
+        await writeToClipboard(publicationToBibtex(publication));
+        button.classList.add('is-copied');
+        button.title = 'BibTeX copied';
+        if (status) status.textContent = `BibTeX copied for “${publication.title}”`;
+        window.setTimeout(() => {
+          button.classList.remove('is-copied');
+          button.title = 'Copy BibTeX';
+          if (status && currentView === 'table') {
+            const count = visibleItems().length;
+            status.textContent = `Showing ${count} of ${snapshot.publications.length} publications`;
+          }
+        }, 1800);
+      } catch {
+        if (status) status.textContent = 'Could not copy BibTeX. Please try again.';
+      }
+    }),
+  );
+  function svgElement<K extends keyof SVGElementTagNameMap>(
+    name: K,
+    attributes: Record<string, string>,
+  ) {
+    const element = document.createElementNS(svgNamespace, name);
+    for (const [key, value] of Object.entries(attributes)) element.setAttribute(key, value);
+    return element;
+  }
+  function selectNode(id: string, items: Publication[]) {
+    selectedId = id;
+    const connected = new Set([id]);
+    for (const edge of snapshot.citationEdges) {
+      if (edge.source === id) connected.add(edge.target);
+      if (edge.target === id) connected.add(edge.source);
+    }
+    graph?.querySelectorAll<SVGElement>('[data-node-id]').forEach((node) => {
+      node.classList.toggle('is-dimmed', !connected.has(node.dataset.nodeId ?? ''));
+      node.classList.toggle('is-selected', node.dataset.nodeId === id);
+    });
+    graph?.querySelectorAll<SVGElement>('[data-edge-source]').forEach((edge) => {
+      const active = edge.dataset.edgeSource === id || edge.dataset.edgeTarget === id;
+      edge.classList.toggle('is-dimmed', !active);
+      edge.classList.toggle('is-highlighted', active);
+    });
+    const publication = items.find((item) => item.id === id);
+    if (!publication || !graphDetail) return;
+    const date = publication.publicationDate
+      ? new Intl.DateTimeFormat('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          timeZone: 'UTC',
+        }).format(new Date(publication.publicationDate))
+      : (publication.year?.toString() ?? 'Date not listed');
+    graphDetail.innerHTML = `<p class="detail-eyebrow">${publication.type} · ${date}</p><h3><a href="${escapeHtml(publication.scholarUrl)}" target="_blank" rel="noreferrer">${escapeHtml(publication.title)}</a></h3><p>${escapeHtml(publication.authors.join(', '))}</p><p>${escapeHtml(publication.venue || 'Venue not listed')} · <strong>${publication.scholarCitations}</strong> Scholar citations</p><div class="publication-links">${publicationLinks(publication)}</div>`;
+  }
+  function renderGraph(items: Publication[]) {
+    if (!graph) return;
+    graph.querySelectorAll(':scope > :not(title):not(desc)').forEach((element) => element.remove());
+    const marker = svgElement('marker', {
+      id: 'arrowhead',
+      markerWidth: '7',
+      markerHeight: '7',
+      refX: '6',
+      refY: '3.5',
+      orient: 'auto',
+    });
+    marker.append(svgElement('path', { d: 'M0,0 L7,3.5 L0,7 z', class: 'arrowhead' }));
+    const definitions = svgElement('defs', {});
+    definitions.append(marker);
+    graph.append(definitions);
+    if (!items.length) {
+      if (graphDetail)
+        graphDetail.innerHTML =
+          '<p class="detail-placeholder">No publications match this search.</p>';
+      return;
+    }
+    const points = placePublicationsChronologically(items, 1100, newestFirst);
+    const pointById = new Map(points.map((point) => [point.id, point]));
+    graph.append(
+      svgElement('line', { x1: '38', y1: '260', x2: '1062', y2: '260', class: 'timeline-axis' }),
+    );
+    for (const edge of snapshot.citationEdges) {
+      const source = pointById.get(edge.source);
+      const target = pointById.get(edge.target);
+      if (!source || !target) continue;
+      const midpoint = (source.x + target.x) / 2;
+      graph.append(
+        svgElement('path', {
+          d: `M ${source.x} ${source.y} Q ${midpoint} ${Math.max(18, Math.min(source.y, target.y) - 38)} ${target.x} ${target.y}`,
+          class: 'citation-edge',
+          'data-edge-source': edge.source,
+          'data-edge-target': edge.target,
+          'marker-end': 'url(#arrowhead)',
+        }),
+      );
+    }
+    for (const publication of items) {
+      const point = pointById.get(publication.id);
+      if (!point) continue;
+      const group = svgElement('g', {
+        class: 'publication-node',
+        role: 'button',
+        tabindex: '0',
+        'data-node-id': publication.id,
+        'aria-label': `${publication.title}, ${publication.year ?? 'year unknown'}, ${publication.scholarCitations} citations`,
+      });
+      group.append(
+        svgElement('circle', { cx: String(point.x), cy: String(point.y), r: String(point.radius) }),
+      );
+      const year = svgElement('text', {
+        x: String(point.x),
+        y: '282',
+        'text-anchor': 'middle',
+        class: 'node-year',
+      });
+      year.textContent = publication.year?.toString() ?? 'n.d.';
+      const title = svgElement('title', {});
+      title.textContent = `${publication.title} — ${publication.scholarCitations} citations`;
+      group.append(year, title);
+      group.addEventListener('click', () => selectNode(publication.id, items));
+      group.addEventListener('focus', () => selectNode(publication.id, items));
+      group.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          selectNode(publication.id, items);
+        }
+      });
+      graph.append(group);
+    }
+    const active = items.some((item) => item.id === selectedId) ? selectedId : items[0].id;
+    selectNode(active ?? items[0].id, items);
+  }
+  function visibleItems() {
+    return sortPublications(
+      filterPublications(snapshot.publications, search?.value ?? ''),
+      (sort?.value ?? 'newest') as PublicationSort,
+    );
+  }
+  function render() {
+    const items = visibleItems();
+    if (status)
+      status.textContent = `Showing ${items.length} of ${snapshot.publications.length} publications`;
+    currentView === 'table' ? renderTable(items) : renderGraph(items);
+  }
+  function setView(view: 'table' | 'graph', updateUrl = true) {
+    currentView = view;
+    if (tableView) tableView.hidden = view !== 'table';
+    if (graphView) graphView.hidden = view !== 'graph';
+    if (graphControls) graphControls.hidden = view !== 'graph';
+    if (tableControl) tableControl.hidden = view !== 'table';
+    for (const button of viewButtons)
+      button.setAttribute('aria-pressed', String(button.dataset.viewButton === view));
+    if (updateUrl) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('view', view);
+      window.history.replaceState({}, '', url);
+    }
+    render();
+  }
+  viewButtons.forEach((button) =>
+    button.addEventListener('click', () =>
+      setView(button.dataset.viewButton === 'graph' ? 'graph' : 'table'),
+    ),
+  );
+  directionButtons.forEach((button) =>
+    button.addEventListener('click', () => {
+      newestFirst = button.dataset.direction === 'newest';
+      directionButtons.forEach((item) =>
+        item.setAttribute('aria-pressed', String(item === button)),
+      );
+      render();
+    }),
+  );
+  search?.addEventListener('input', render);
+  sort?.addEventListener('change', render);
+  metricReplay?.addEventListener('click', () => void playMetricAnimation());
+  void playMetricAnimation();
+  setView(
+    new URL(window.location.href).searchParams.get('view') === 'graph' ? 'graph' : 'table',
+    false,
+  );
+</script>
+
+<style>
+  .publication-page {
+    color: var(--color-text);
+  }
+  .profile-link,
+  .publication-links a {
+    color: var(--color-accent-strong);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+    text-underline-offset: 0.2em;
+  }
+  .publication-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(24rem, 31rem);
+    gap: 3rem;
+    align-items: center;
+  }
+  .metrics-widget {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+  }
+  .metrics-interactive {
+    position: relative;
+    z-index: 2;
+  }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.85rem;
+    background: var(--color-surface-muted);
+    box-shadow: var(--shadow-card);
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+  .metrics div {
+    padding: 0.3rem 0.65rem;
+    text-align: center;
+  }
+  .metrics-replay {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    border: 0;
+    border-radius: 0.85rem;
+    background: transparent;
+    cursor: pointer;
+  }
+  .metrics-interactive:hover .metrics {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-lift);
+  }
+  .metrics dt {
+    color: var(--color-muted);
+    font-size: 0.62rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .metrics dd {
+    margin: 0.18rem 0 0;
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    line-height: 1;
+  }
+  .metrics .flip-number {
+    display: flex;
+    justify-content: center;
+    gap: 0.12rem;
+    margin-top: 0.3rem;
+  }
+  .flip-digit {
+    --flip-height: 1.62rem;
+    position: relative;
+    display: inline-block;
+    width: 1.18rem;
+    height: var(--flip-height);
+    border-radius: 0.2rem;
+    box-shadow:
+      0 2px 4px rgba(23, 21, 38, 0.22),
+      inset 0 1px rgba(255, 255, 255, 0.13);
+    color: white;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 1rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 750;
+    line-height: 1;
+    perspective: 8rem;
+  }
+  .flip-half,
+  .flip-face {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    border-inline: 1px solid color-mix(in srgb, var(--color-brand-violet) 70%, #24103d);
+    box-sizing: border-box;
+  }
+  .flip-static-top {
+    z-index: 1;
+    top: 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-brand-violet) 70%, #24103d);
+    border-radius: 0.2rem 0.2rem 0 0;
+    background: #4d286f;
+  }
+  .flip-static-bottom {
+    z-index: 1;
+    bottom: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-brand-violet) 70%, #24103d);
+    border-radius: 0 0 0.2rem 0.2rem;
+    background: #361b52;
+  }
+  .flip-glyph {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--flip-height);
+    line-height: var(--flip-height);
+    text-align: center;
+  }
+  .flip-static-bottom .flip-glyph,
+  .flip-back .flip-glyph {
+    top: calc(var(--flip-height) * -0.5);
+  }
+  .flip-leaf {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    transform: rotateX(0deg);
+    transform-origin: bottom center;
+    transform-style: preserve-3d;
+  }
+  .flip-face {
+    inset: 0;
+    height: 100%;
+    border-top: 1px solid color-mix(in srgb, var(--color-brand-violet) 70%, #24103d);
+    border-radius: 0.2rem 0.2rem 0 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .flip-front {
+    background: #4d286f;
+  }
+  .flip-back {
+    background: #361b52;
+    transform: rotateX(180deg);
+  }
+  .flip-digit.is-flipping .flip-leaf {
+    animation: flip-leaf-forward 380ms cubic-bezier(0.45, 0, 0.2, 1) both;
+  }
+  .flip-digit::after {
+    position: absolute;
+    z-index: 4;
+    top: 50%;
+    right: 0;
+    left: 0;
+    height: 1px;
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    content: '';
+    pointer-events: none;
+  }
+  @keyframes flip-leaf-forward {
+    to {
+      transform: rotateX(-180deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flip-digit.is-flipping .flip-leaf {
+      animation: none;
+    }
+  }
+  :global(html.animations-off) .flip-digit.is-flipping .flip-leaf {
+    animation: none;
+  }
+  .metric-update-status {
+    position: absolute;
+    z-index: 1;
+    top: calc(100% - 0.45rem);
+    left: 50%;
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0.25rem 0.55rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+    color: var(--color-muted);
+    font-size: 0.62rem;
+    opacity: 0;
+    transform: translate(-50%, -100%);
+    transition:
+      opacity 220ms ease,
+      transform 280ms var(--ease-emphatic);
+    white-space: nowrap;
+  }
+  .metric-update-status.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0.65rem);
+  }
+  .metric-update-status time {
+    color: var(--color-text);
+    font-weight: 700;
+  }
+  .update-pulse {
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: update-pulse 700ms ease-in-out infinite alternate;
+  }
+  @keyframes update-pulse {
+    to {
+      opacity: 0.35;
+    }
+  }
+  .explorer {
+    margin-top: 2.5rem;
+  }
+  .explorer-heading-row {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .explorer h2 {
+    margin: 0;
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: 600;
+  }
+  .view-switch,
+  .direction-buttons {
+    display: inline-flex;
+    padding: 0.18rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 999px;
+    background: var(--color-surface-muted);
+  }
+  .view-switch button,
+  .direction-buttons button {
+    padding: 0.38rem 0.75rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-muted);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 750;
+  }
+  .view-switch button[aria-pressed='true'],
+  .direction-buttons button[aria-pressed='true'] {
+    background: var(--color-accent-strong);
+    color: white;
+    box-shadow: var(--shadow-card);
+  }
+  .explorer-controls {
+    display: grid;
+    grid-template-columns: minmax(16rem, 1fr) auto;
+    gap: 0.75rem;
+    align-items: end;
+    margin-top: 1.25rem;
+  }
+  .search-field,
+  .sort-field,
+  .direction-control {
+    display: grid;
+    gap: 0.35rem;
+    color: var(--color-muted);
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  input,
+  select {
+    min-height: 2.4rem;
+    box-sizing: border-box;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 0.55rem;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 0.86rem;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+  input {
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+  }
+  select {
+    min-width: 10rem;
+    padding: 0.5rem 1.8rem 0.5rem 0.7rem;
+  }
+  .result-status {
+    margin: 0.75rem 0;
+    color: var(--color-muted);
+    font-size: 0.78rem;
+  }
+  .publication-table-wrap {
+    overflow-x: auto;
+    border-block: 1px solid var(--color-border-strong);
+  }
+  .publication-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    text-align: left;
+  }
+  .year-column {
+    width: 6%;
+  }
+  .publication-column {
+    width: 42%;
+  }
+  .venue-column {
+    width: 22%;
+  }
+  .type-column {
+    width: 11%;
+  }
+  .citation-column {
+    width: 9%;
+  }
+  .links-column {
+    width: 10%;
+  }
+  .publication-table th {
+    padding: 0.48rem 0.55rem;
+    color: var(--color-muted);
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .publication-table td {
+    padding: 0.52rem 0.55rem;
+    border-top: 1px solid var(--color-border);
+    vertical-align: middle;
+    font-size: 0.75rem;
+  }
+  .publication-table th:first-child,
+  .publication-table td:first-child {
+    padding-left: 0;
+  }
+  .publication-table strong {
+    display: block;
+    overflow: hidden;
+    font-size: 0.82rem;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .publication-table strong a,
+  .graph-detail :global(h3 a) {
+    color: inherit;
+    text-decoration: none;
+  }
+  .publication-table strong a:hover,
+  .graph-detail :global(h3 a:hover) {
+    color: var(--color-accent-strong);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    text-underline-offset: 0.18em;
+  }
+  .publication-table .publication-authors {
+    display: block;
+    overflow: hidden;
+    margin-top: 0.14rem;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .publication-table .type-label {
+    display: inline-block;
+    width: auto;
+    margin: 0;
+    padding: 0.08rem 0.35rem;
+    border-radius: 99px;
+    background: var(--color-accent-tint);
+    color: var(--color-accent-strong);
+    font-size: 0.61rem;
+    text-transform: capitalize;
+  }
+  .citation-cell {
+    font-size: 0.82rem !important;
+    font-weight: 800;
+    text-align: center;
+  }
+  .citation-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.22rem;
+    padding: 0.22rem 0.38rem;
+    border: 1px solid transparent;
+    border-radius: 0.35rem;
+    background: transparent;
+    color: var(--color-accent-strong);
+    cursor: copy;
+    font: inherit;
+    font-weight: 800;
+    transition:
+      border-color 160ms ease,
+      background 160ms ease;
+  }
+  .citation-copy span {
+    color: var(--color-muted);
+    font-size: 0.66rem;
+    font-weight: 500;
+  }
+  .citation-copy:hover {
+    border-color: var(--color-border-strong);
+    background: var(--color-accent-tint);
+  }
+  .citation-copy.is-copied {
+    border-color: color-mix(in srgb, var(--color-signal) 70%, var(--color-border));
+    background: var(--color-signal-tint);
+  }
+  .publication-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .empty-state {
+    padding: 2rem;
+    text-align: center;
+    color: var(--color-muted);
+  }
+  .graph-intro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+  .graph-intro p {
+    max-width: 45rem;
+    margin: 0;
+  }
+  .size-legend {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    white-space: nowrap;
+  }
+  .legend-dot {
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+  .legend-dot-small {
+    width: 0.7rem;
+    height: 0.7rem;
+  }
+  .legend-dot-large {
+    width: 1.35rem;
+    height: 1.35rem;
+    margin-left: 0.5rem;
+  }
+  .timeline-shell {
+    overflow-x: auto;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 0.8rem;
+    background: var(--color-surface);
+  }
+  #citation-graph {
+    display: block;
+    min-width: 58rem;
+  }
+  #citation-graph :global(.timeline-axis) {
+    stroke: var(--color-border-strong);
+    stroke-width: 1;
+  }
+  #citation-graph :global(.citation-edge) {
+    fill: none;
+    stroke: var(--color-muted);
+    stroke-width: 1.4;
+    opacity: 0.34;
+    transition:
+      opacity 0.2s,
+      stroke-width 0.2s;
+  }
+  #citation-graph :global(.arrowhead) {
+    fill: var(--color-muted);
+  }
+  #citation-graph :global(.publication-node) {
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  #citation-graph :global(.publication-node circle) {
+    fill: var(--color-accent);
+    stroke: var(--color-surface);
+    stroke-width: 3;
+  }
+  #citation-graph :global(.publication-node.is-selected circle) {
+    fill: var(--color-signal);
+    stroke: var(--color-accent-strong);
+    stroke-width: 4;
+  }
+  #citation-graph :global(.is-dimmed) {
+    opacity: 0.12;
+  }
+  #citation-graph :global(.citation-edge.is-highlighted) {
+    stroke: var(--color-accent-strong);
+    stroke-width: 2.5;
+    opacity: 0.9;
+  }
+  #citation-graph :global(.node-year) {
+    fill: var(--color-muted);
+    font-size: 11px;
+  }
+  .graph-detail {
+    min-height: 7rem;
+    margin-top: 0.75rem;
+    padding: 1rem;
+    border-left: 3px solid var(--color-signal);
+    background: var(--color-surface-muted);
+  }
+  .graph-detail :global(h3) {
+    margin: 0.2rem 0 0.5rem;
+    font-size: 1.05rem;
+  }
+  .graph-detail :global(p) {
+    margin: 0.4rem 0;
+    color: var(--color-muted);
+  }
+  .graph-detail :global(.detail-eyebrow) {
+    color: var(--color-accent);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .graph-detail :global(.publication-links a) {
+    color: var(--color-accent-strong);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .detail-placeholder {
+    color: var(--color-muted);
+  }
+  [hidden] {
+    display: none !important;
+  }
+  @media (max-width: 1000px) {
+    .publication-summary {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .metrics {
+      max-width: 31rem;
+    }
+    .metrics-widget {
+      max-width: 31rem;
+    }
+  }
+  @media (max-width: 800px) {
+    .metrics {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .metrics div,
+    .metrics div:first-child {
+      padding: 0.35rem;
+    }
+    .explorer-heading-row,
+    .graph-intro {
+      align-items: start;
+      flex-direction: column;
+    }
+    .explorer-controls {
+      grid-template-columns: 1fr;
+    }
+    .publication-table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+    .publication-table,
+    .publication-table tbody,
+    .publication-table tr,
+    .publication-table td {
+      display: block;
+    }
+    .publication-table tr {
+      padding: 0.6rem 0;
+      border-top: 1px solid var(--color-border);
+    }
+    .publication-table td,
+    .publication-table th:first-child,
+    .publication-table td:first-child {
+      display: grid;
+      grid-template-columns: 7rem 1fr;
+      gap: 0.8rem;
+      padding: 0.38rem 0;
+      border: 0;
+      text-align: left;
+    }
+    .publication-table td::before {
+      content: attr(data-label);
+      color: var(--color-muted);
+      font-size: 0.68rem;
+      font-weight: 750;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .publication-table td > * {
+      grid-column: 2;
+    }
+    .publication-links {
+      justify-content: start;
+    }
+  }
+</style>

@@ -1,0 +1,741 @@
+{
+  "generatedAt": "2026-09-03T05:17:33.298Z",
+  "profile": {
+    "id": "m3sQS9cAAAAJ",
+    "name": "Gonzalo Vidal",
+    "url": "https://scholar.google.com/citations?user=m3sQS9cAAAAJ&hl=en",
+    "totalCitations": 222,
+    "hIndex": 8,
+    "i10Index": 7,
+    "sourceRecordCount": 24
+  },
+  "publications": [
+    {
+      "id": "scholar:WF5omc3nYNoC",
+      "title": "Glucagon-like peptide-1 inhibits vascular smooth muscle cell dedifferentiation through mitochondrial dynamics regulation",
+      "authors": ["G Torres", "PE Morales", "M García-Miguel", "I Norambuena-Soto", "..."],
+      "venue": "Biochemical pharmacology 104, 52-61",
+      "year": 2016,
+      "publicationDate": "2016-01-22",
+      "type": "journal article",
+      "scholarCitations": 81,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:WF5omc3nYNoC",
+      "doi": "10.1016/j.bcp.2016.01.013",
+      "openAlexId": "https://openalex.org/W2274894148",
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:WF5omc3nYNoC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:WF5omc3nYNoC",
+          "title": "Glucagon-like peptide-1 inhibits vascular smooth muscle cell dedifferentiation through mitochondrial dynamics regulation",
+          "authors": ["G Torres", "PE Morales", "M García-Miguel", "I Norambuena-Soto", "..."],
+          "venue": "Biochemical pharmacology 104, 52-61",
+          "year": 2016,
+          "citations": 81
+        }
+      ]
+    },
+    {
+      "id": "scholar:roLk4NBRz8UC",
+      "title": "Synthetic biology open language (SBOL) version 3.1. 0",
+      "authors": [
+        "L Buecherl",
+        "T Mitchell",
+        "J Scott-Brown",
+        "P Vaidyanathan",
+        "G Vidal",
+        "H Baig",
+        "..."
+      ],
+      "venue": "Journal of integrative bioinformatics 20 (1), 20220058",
+      "year": 2023,
+      "publicationDate": "2023-01-01",
+      "type": "journal article",
+      "scholarCitations": 25,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:roLk4NBRz8UC",
+      "doi": null,
+      "openAlexId": null,
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:roLk4NBRz8UC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:roLk4NBRz8UC",
+          "title": "Synthetic biology open language (SBOL) version 3.1. 0",
+          "authors": [
+            "L Buecherl",
+            "T Mitchell",
+            "J Scott-Brown",
+            "P Vaidyanathan",
+            "G Vidal",
+            "H Baig",
+            "..."
+          ],
+          "venue": "Journal of integrative bioinformatics 20 (1), 20220058",
+          "year": 2023,
+          "citations": 25
+        }
+      ]
+    },
+    {
+      "id": "scholar:eQOLeE2rZwMC",
+      "title": "Flapjack: Data management and analysis for genetic circuit characterization",
+      "authors": ["G Yanez Feliu", "B Earle Gomez", "V Codoceo Berrocal", "M Munoz Silva", "..."],
+      "venue": "ACS Synthetic Biology 10 (1), 183-191",
+      "year": 2021,
+      "publicationDate": "2021-01-01",
+      "type": "journal article",
+      "scholarCitations": 23,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:eQOLeE2rZwMC",
+      "doi": null,
+      "openAlexId": null,
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:eQOLeE2rZwMC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:eQOLeE2rZwMC",
+          "title": "Flapjack: Data management and analysis for genetic circuit characterization",
+          "authors": [
+            "G Yanez Feliu",
+            "B Earle Gomez",
+            "V Codoceo Berrocal",
+            "M Munoz Silva",
+            "..."
+          ],
+          "venue": "ACS Synthetic Biology 10 (1), 183-191",
+          "year": 2021,
+          "citations": 23
+        },
+        {
+          "scholarId": "m3sQS9cAAAAJ:MXK_kJrjxJIC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:MXK_kJrjxJIC",
+          "title": "Flapjack: Data management and analysis for genetic circuit characterization",
+          "authors": [
+            "C Vitalis",
+            "GY Feliú",
+            "G Vidal",
+            "MM Silva",
+            "T Matúte",
+            "I Núñez",
+            "F Federici",
+            "..."
+          ],
+          "venue": "Synthetic Biology: Methods and Protocols, 413-434",
+          "year": 2024,
+          "citations": 2
+        }
+      ]
+    },
+    {
+      "id": "scholar:Tyk-4Ss8FVUC",
+      "title": "Functional synthetic biology",
+      "authors": [
+        "I Aldulijan",
+        "J Beal",
+        "S Billerbeck",
+        "J Bouffard",
+        "G Chambonnier",
+        "N Ntelkis",
+        "..."
+      ],
+      "venue": "Synthetic Biology 8 (1), ysad006",
+      "year": 2023,
+      "publicationDate": "2023-01-01",
+      "type": "journal article",
+      "scholarCitations": 22,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:Tyk-4Ss8FVUC",
+      "doi": "10.1093/synbio/ysad006",
+      "openAlexId": "https://openalex.org/W4362717777",
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:Tyk-4Ss8FVUC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:Tyk-4Ss8FVUC",
+          "title": "Functional synthetic biology",
+          "authors": [
+            "I Aldulijan",
+            "J Beal",
+            "S Billerbeck",
+            "J Bouffard",
+            "G Chambonnier",
+            "N Ntelkis",
+            "..."
+          ],
+          "venue": "Synthetic Biology 8 (1), ysad006",
+          "year": 2023,
+          "citations": 22
+        }
+      ]
+    },
+    {
+      "id": "scholar:YsMSGLbcyi4C",
+      "title": "LOICA: Integrating models with data for genetic network design automation",
+      "authors": ["G Vidal", "C Vitalis", "TJ Rudge"],
+      "venue": "ACS Synthetic Biology 11 (5), 1984-1990",
+      "year": 2022,
+      "publicationDate": "2022-01-01",
+      "type": "journal article",
+      "scholarCitations": 15,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:YsMSGLbcyi4C",
+      "doi": null,
+      "openAlexId": null,
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:YsMSGLbcyi4C",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:YsMSGLbcyi4C",
+          "title": "LOICA: Integrating models with data for genetic network design automation",
+          "authors": ["G Vidal", "C Vitalis", "TJ Rudge"],
+          "venue": "ACS Synthetic Biology 11 (5), 1984-1990",
+          "year": 2022,
+          "citations": 15
+        }
+      ]
+    },
+    {
+      "id": "scholar:5nxA0vEk-isC",
+      "title": "OPA1 and disease-causing mutants perturb mitochondrial nucleoid distribution",
+      "authors": ["J Macuada", "I Molina-Riquelme", "G Vidal", "N Pérez-Bravo", "..."],
+      "venue": "Cell Death & Disease 15 (11), 870",
+      "year": 2024,
+      "publicationDate": "2024-11-30",
+      "type": "journal article",
+      "scholarCitations": 12,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:5nxA0vEk-isC",
+      "doi": "10.1038/s41419-024-07165-9",
+      "openAlexId": "https://openalex.org/W4404877749",
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:5nxA0vEk-isC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:5nxA0vEk-isC",
+          "title": "OPA1 and disease-causing mutants perturb mitochondrial nucleoid distribution",
+          "authors": ["J Macuada", "I Molina-Riquelme", "G Vidal", "N Pérez-Bravo", "..."],
+          "venue": "Cell Death & Disease 15 (11), 870",
+          "year": 2024,
+          "citations": 12
+        },
+        {
+          "scholarId": "m3sQS9cAAAAJ:KlAtU1dfN6UC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:KlAtU1dfN6UC",
+          "title": "OPA1 and disease-causing mutants perturb mitochondrial nucleoid distribution",
+          "authors": [
+            "JP Macuada Alvarado",
+            "IE Molina Riquelme",
+            "G Vidal",
+            "N Pérez Bravo",
+            "..."
+          ],
+          "venue": "",
+          "year": 2024,
+          "citations": 0
+        }
+      ]
+    },
+    {
+      "id": "scholar:9yKSN-GCB0IC",
+      "title": "Novel tunable spatio-temporal patterns from a simple genetic oscillator circuit",
+      "authors": ["G Yáñez Feliú", "G Vidal", "M Muñoz Silva", "TJ Rudge"],
+      "venue": "Frontiers in bioengineering and biotechnology 8, 893",
+      "year": 2020,
+      "publicationDate": "2020-01-01",
+      "type": "other",
+      "scholarCitations": 12,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:9yKSN-GCB0IC",
+      "doi": null,
+      "openAlexId": null,
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:9yKSN-GCB0IC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:9yKSN-GCB0IC",
+          "title": "Novel tunable spatio-temporal patterns from a simple genetic oscillator circuit",
+          "authors": ["G Yáñez Feliú", "G Vidal", "M Muñoz Silva", "TJ Rudge"],
+          "venue": "Frontiers in bioengineering and biotechnology 8, 893",
+          "year": 2020,
+          "citations": 12
+        }
+      ]
+    },
+    {
+      "id": "scholar:ufrVoPGSRksC",
+      "title": "Accurate characterization of dynamic microbial gene expression and growth rate profiles",
+      "authors": [
+        "G Vidal",
+        "C Vitalis",
+        "M Muñoz Silva",
+        "C Castillo-Passi",
+        "G Yáñez Feliú",
+        "..."
+      ],
+      "venue": "Synthetic Biology 7 (1), ysac020",
+      "year": 2022,
+      "publicationDate": "2022-01-01",
+      "type": "journal article",
+      "scholarCitations": 9,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:ufrVoPGSRksC",
+      "doi": "10.1093/synbio/ysac020",
+      "openAlexId": "https://openalex.org/W4303645964",
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:ufrVoPGSRksC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:ufrVoPGSRksC",
+          "title": "Accurate characterization of dynamic microbial gene expression and growth rate profiles",
+          "authors": [
+            "G Vidal",
+            "C Vitalis",
+            "M Muñoz Silva",
+            "C Castillo-Passi",
+            "G Yáñez Feliú",
+            "..."
+          ],
+          "venue": "Synthetic Biology 7 (1), ysac020",
+          "year": 2022,
+          "citations": 9
+        }
+      ]
+    },
+    {
+      "id": "scholar:LkGwnXOMwfcC",
+      "title": "Experimental data connector (XDC): integrating the capture of experimental data and metadata using standard formats and digital repositories",
+      "authors": [
+        "SP Samineni",
+        "G Vidal",
+        "C Vitalis",
+        "GY Feliu",
+        "TJ Rudge",
+        "CJ Myers",
+        "J Mante"
+      ],
+      "venue": "ACS Synthetic Biology 12 (4), 1364-1370",
+      "year": 2023,
+      "publicationDate": "2023-01-01",
+      "type": "journal article",
+      "scholarCitations": 6,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:LkGwnXOMwfcC",
+      "doi": null,
+      "openAlexId": null,
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:LkGwnXOMwfcC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:LkGwnXOMwfcC",
+          "title": "Experimental data connector (XDC): integrating the capture of experimental data and metadata using standard formats and digital repositories",
+          "authors": [
+            "SP Samineni",
+            "G Vidal",
+            "C Vitalis",
+            "GY Feliu",
+            "TJ Rudge",
+            "CJ Myers",
+            "J Mante"
+          ],
+          "venue": "ACS Synthetic Biology 12 (4), 1364-1370",
+          "year": 2023,
+          "citations": 6
+        }
+      ]
+    },
+    {
+      "id": "scholar:0EnyYjriUFMC",
+      "title": "Standardized representation of parts and assembly for build planning",
+      "authors": [
+        "J Beal",
+        "V Selvarajah",
+        "G Chambonnier",
+        "T Haddock",
+        "A Vignoni",
+        "G Vidal",
+        "..."
+      ],
+      "venue": "ACS synthetic biology 12 (12), 3646-3655",
+      "year": 2023,
+      "publicationDate": "2023-11-13",
+      "type": "journal article",
+      "scholarCitations": 5,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:0EnyYjriUFMC",
+      "doi": "10.1021/acssynbio.3c00418",
+      "openAlexId": "https://openalex.org/W4388651575",
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:0EnyYjriUFMC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:0EnyYjriUFMC",
+          "title": "Standardized representation of parts and assembly for build planning",
+          "authors": [
+            "J Beal",
+            "V Selvarajah",
+            "G Chambonnier",
+            "T Haddock",
+            "A Vignoni",
+            "G Vidal",
+            "..."
+          ],
+          "venue": "ACS synthetic biology 12 (12), 3646-3655",
+          "year": 2023,
+          "citations": 5
+        }
+      ]
+    },
+    {
+      "id": "scholar:hFOr9nPyWt4C",
+      "title": "A framework for a Standard-Enabled FAIR data Management workflow for synthetic biology",
+      "authors": ["C Vitalis", "G Vidal", "SP Samineni", "P Fontanarrosa", "CJ Myers"],
+      "venue": "ACS Synthetic Biology 15 (1), 1-8",
+      "year": 2026,
+      "publicationDate": "2026-01-07",
+      "type": "journal article",
+      "scholarCitations": 4,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:hFOr9nPyWt4C",
+      "doi": "10.1021/acssynbio.5c00813",
+      "openAlexId": "https://openalex.org/W7118843061",
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:hFOr9nPyWt4C",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:hFOr9nPyWt4C",
+          "title": "A framework for a Standard-Enabled FAIR data Management workflow for synthetic biology",
+          "authors": ["C Vitalis", "G Vidal", "SP Samineni", "P Fontanarrosa", "CJ Myers"],
+          "venue": "ACS Synthetic Biology 15 (1), 1-8",
+          "year": 2026,
+          "citations": 4
+        }
+      ]
+    },
+    {
+      "id": "scholar:Zph67rFs4hoC",
+      "title": "Standardized golden gate assembly metadata representation using SBOL",
+      "authors": ["G Vidal", "C Vitalis", "J Guillén"],
+      "venue": "Golden Gate Cloning: Methods and Protocols, 89-104",
+      "year": 2024,
+      "publicationDate": "2024-09-17",
+      "type": "book chapter",
+      "scholarCitations": 4,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:Zph67rFs4hoC",
+      "doi": "10.1007/978-1-0716-4220-7_6",
+      "openAlexId": "https://openalex.org/W4403096578",
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:Zph67rFs4hoC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:Zph67rFs4hoC",
+          "title": "Standardized golden gate assembly metadata representation using SBOL",
+          "authors": ["G Vidal", "C Vitalis", "J Guillén"],
+          "venue": "Golden Gate Cloning: Methods and Protocols, 89-104",
+          "year": 2024,
+          "citations": 4
+        }
+      ]
+    },
+    {
+      "id": "scholar:dhFuZR0502QC",
+      "title": "A decade of SBOL Visual: growing adoption of a diagram standard for engineering biology",
+      "authors": [
+        "L Buecherl",
+        "FX Buson",
+        "GH Sørensen",
+        "C Vitalis",
+        "E Kubaczka",
+        "G Vidal",
+        "..."
+      ],
+      "venue": "ACS synthetic biology 14 (10), 3822-3830",
+      "year": 2025,
+      "publicationDate": "2025-01-01",
+      "type": "journal article",
+      "scholarCitations": 1,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:dhFuZR0502QC",
+      "doi": null,
+      "openAlexId": null,
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:dhFuZR0502QC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:dhFuZR0502QC",
+          "title": "A decade of SBOL Visual: growing adoption of a diagram standard for engineering biology",
+          "authors": [
+            "L Buecherl",
+            "FX Buson",
+            "GH Sørensen",
+            "C Vitalis",
+            "E Kubaczka",
+            "G Vidal",
+            "..."
+          ],
+          "venue": "ACS synthetic biology 14 (10), 3822-3830",
+          "year": 2025,
+          "citations": 1
+        }
+      ]
+    },
+    {
+      "id": "scholar:8k81kl-MbHgC",
+      "title": "Genetic network design automation with loica",
+      "authors": ["G Vidal", "C Vitalis", "T Matúte", "I Núñez", "F Federici", "TJ Rudge"],
+      "venue": "Synthetic Biology: Methods and Protocols, 393-412",
+      "year": 2024,
+      "publicationDate": "2024-01-01",
+      "type": "book chapter",
+      "scholarCitations": 1,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:8k81kl-MbHgC",
+      "doi": "10.1007/978-1-0716-3658-9_22",
+      "openAlexId": "https://openalex.org/W4392666950",
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:8k81kl-MbHgC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:8k81kl-MbHgC",
+          "title": "Genetic network design automation with loica",
+          "authors": ["G Vidal", "C Vitalis", "T Matúte", "I Núñez", "F Federici", "TJ Rudge"],
+          "venue": "Synthetic Biology: Methods and Protocols, 393-412",
+          "year": 2024,
+          "citations": 1
+        }
+      ]
+    },
+    {
+      "id": "scholar:TQgYirikUcIC",
+      "title": "SBOL converter: enabling backward compatibility for biological designs",
+      "authors": [
+        "M Ünal",
+        "CJ Myers",
+        "IT Medeni",
+        "J Beal",
+        "P Vaidyanathan",
+        "L Buecherl",
+        "..."
+      ],
+      "venue": "Journal of integrative bioinformatics, 20260005",
+      "year": 2026,
+      "publicationDate": "2026-08-18",
+      "type": "journal article",
+      "scholarCitations": 0,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:TQgYirikUcIC",
+      "doi": "10.1515/jib-2026-0005",
+      "openAlexId": "https://openalex.org/W7203711832",
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:TQgYirikUcIC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:TQgYirikUcIC",
+          "title": "SBOL converter: enabling backward compatibility for biological designs",
+          "authors": [
+            "M Ünal",
+            "CJ Myers",
+            "IT Medeni",
+            "J Beal",
+            "P Vaidyanathan",
+            "L Buecherl",
+            "..."
+          ],
+          "venue": "Journal of integrative bioinformatics, 20260005",
+          "year": 2026,
+          "citations": 0
+        }
+      ]
+    },
+    {
+      "id": "scholar:_FxGoFyzp5QC",
+      "title": "Phase-based genetic logic circuits",
+      "authors": ["TJ Rudge", "G Vidal"],
+      "venue": "bioRxiv, 2022.12. 13.520289",
+      "year": 2022,
+      "publicationDate": "2022-01-01",
+      "type": "preprint",
+      "scholarCitations": 0,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:_FxGoFyzp5QC",
+      "doi": null,
+      "openAlexId": null,
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:_FxGoFyzp5QC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:_FxGoFyzp5QC",
+          "title": "Phase-based genetic logic circuits",
+          "authors": ["TJ Rudge", "G Vidal"],
+          "venue": "bioRxiv, 2022.12. 13.520289",
+          "year": 2022,
+          "citations": 0
+        }
+      ]
+    },
+    {
+      "id": "scholar:qjMakFHDy7sC",
+      "title": "Mitochondrial nucleoid dynamics perturbation by OPA1 disease-causing mutants",
+      "authors": ["V Eisner", "J Macuada", "G Vidal", "G Aedo", "B Cartes-Saavedra", "T Rudge"],
+      "venue": "Biophysical Journal 121 (3), 5a",
+      "year": 2022,
+      "publicationDate": "2022-01-01",
+      "type": "journal article",
+      "scholarCitations": 0,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:qjMakFHDy7sC",
+      "doi": null,
+      "openAlexId": null,
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:qjMakFHDy7sC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:qjMakFHDy7sC",
+          "title": "Mitochondrial nucleoid dynamics perturbation by OPA1 disease-causing mutants",
+          "authors": ["V Eisner", "J Macuada", "G Vidal", "G Aedo", "B Cartes-Saavedra", "T Rudge"],
+          "venue": "Biophysical Journal 121 (3), 5a",
+          "year": 2022,
+          "citations": 0
+        }
+      ]
+    },
+    {
+      "id": "scholar:2osOgNQ5qMEC",
+      "title": "OPA1 disease-causing mutants perturb mitochondrial nucleoid cluster distribution",
+      "authors": [
+        "V Eisner",
+        "J Macuada",
+        "G Vidal",
+        "I Molina-Riquelme",
+        "G Aedo",
+        "D Lagos",
+        "..."
+      ],
+      "venue": "Elsevier",
+      "year": 2022,
+      "publicationDate": "2022-01-01",
+      "type": "other",
+      "scholarCitations": 0,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:2osOgNQ5qMEC",
+      "doi": null,
+      "openAlexId": null,
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:2osOgNQ5qMEC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:2osOgNQ5qMEC",
+          "title": "OPA1 disease-causing mutants perturb mitochondrial nucleoid cluster distribution",
+          "authors": [
+            "V Eisner",
+            "J Macuada",
+            "G Vidal",
+            "I Molina-Riquelme",
+            "G Aedo",
+            "D Lagos",
+            "..."
+          ],
+          "venue": "Elsevier",
+          "year": 2022,
+          "citations": 0
+        }
+      ]
+    },
+    {
+      "id": "scholar:W7OEmFMy1HYC",
+      "title": "Role of OPA1 ADOA-Causing Mutants in Mitochondrial Nucleoid Distribution",
+      "authors": ["J Macuada", "G Aedo", "G Vidal", "T Rudge", "B Cartes-Saavedra", "V Eisner"],
+      "venue": "Biophysical Journal 120 (3), 349a",
+      "year": 2021,
+      "publicationDate": "2021-01-01",
+      "type": "journal article",
+      "scholarCitations": 0,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:W7OEmFMy1HYC",
+      "doi": null,
+      "openAlexId": null,
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:W7OEmFMy1HYC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:W7OEmFMy1HYC",
+          "title": "Role of OPA1 ADOA-Causing Mutants in Mitochondrial Nucleoid Distribution",
+          "authors": ["J Macuada", "G Aedo", "G Vidal", "T Rudge", "B Cartes-Saavedra", "V Eisner"],
+          "venue": "Biophysical Journal 120 (3), 349a",
+          "year": 2021,
+          "citations": 0
+        }
+      ]
+    },
+    {
+      "id": "scholar:u5HHmVD_uO8C",
+      "title": "Semi-Automated Method for Image Analysis of mtDNA Nucleoids Dynamics",
+      "authors": ["G Aedo", "J Macuada", "B Cartes-Saavedra", "G Vidal", "T Rudge", "V Eisner"],
+      "venue": "Biophysical Journal 120 (3), 349a",
+      "year": 2021,
+      "publicationDate": "2021-02-01",
+      "type": "journal article",
+      "scholarCitations": 0,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:u5HHmVD_uO8C",
+      "doi": "10.1016/j.bpj.2020.11.2171",
+      "openAlexId": "https://openalex.org/W3130475629",
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:u5HHmVD_uO8C",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:u5HHmVD_uO8C",
+          "title": "Semi-Automated Method for Image Analysis of mtDNA Nucleoids Dynamics",
+          "authors": ["G Aedo", "J Macuada", "B Cartes-Saavedra", "G Vidal", "T Rudge", "V Eisner"],
+          "venue": "Biophysical Journal 120 (3), 349a",
+          "year": 2021,
+          "citations": 0
+        }
+      ]
+    },
+    {
+      "id": "scholar:UebtZRa9Y70C",
+      "title": "Corchea: paper-based microfluidic device",
+      "authors": ["G Vidal", "T Rudge"],
+      "venue": "",
+      "year": 2018,
+      "publicationDate": "2018-01-01",
+      "type": "other",
+      "scholarCitations": 0,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:UebtZRa9Y70C",
+      "doi": null,
+      "openAlexId": null,
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:UebtZRa9Y70C",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:UebtZRa9Y70C",
+          "title": "Corchea: paper-based microfluidic device",
+          "authors": ["G Vidal", "T Rudge"],
+          "venue": "",
+          "year": 2018,
+          "citations": 0
+        }
+      ]
+    },
+    {
+      "id": "scholar:IjCSPb-OGe4C",
+      "title": "Emergence of Travelling Waves from a Synthetic Oscillatory Gene Network",
+      "authors": ["GY Feliú", "G Vidal", "M Muñoz", "S Figueroa", "TJ Rudge"],
+      "venue": "",
+      "year": 2018,
+      "publicationDate": "2018-01-01",
+      "type": "other",
+      "scholarCitations": 0,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:IjCSPb-OGe4C",
+      "doi": null,
+      "openAlexId": null,
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:IjCSPb-OGe4C",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:IjCSPb-OGe4C",
+          "title": "Emergence of Travelling Waves from a Synthetic Oscillatory Gene Network",
+          "authors": ["GY Feliú", "G Vidal", "M Muñoz", "S Figueroa", "TJ Rudge"],
+          "venue": "",
+          "year": 2018,
+          "citations": 0
+        }
+      ]
+    }
+  ],
+  "citationEdges": [
+    {
+      "source": "scholar:0EnyYjriUFMC",
+      "target": "scholar:Tyk-4Ss8FVUC"
+    },
+    {
+      "source": "scholar:hFOr9nPyWt4C",
+      "target": "scholar:ufrVoPGSRksC"
+    },
+    {
+      "source": "scholar:hFOr9nPyWt4C",
+      "target": "scholar:0EnyYjriUFMC"
+    },
+    {
+      "source": "scholar:Zph67rFs4hoC",
+      "target": "scholar:0EnyYjriUFMC"
+    },
+    {
+      "source": "scholar:8k81kl-MbHgC",
+      "target": "scholar:ufrVoPGSRksC"
+    },
+    {
+      "source": "scholar:8k81kl-MbHgC",
+      "target": "scholar:Tyk-4Ss8FVUC"
+    },
+    {
+      "source": "scholar:TQgYirikUcIC",
+      "target": "scholar:0EnyYjriUFMC"
+    },
+    {
+      "source": "scholar:TQgYirikUcIC",
+      "target": "scholar:hFOr9nPyWt4C"
+    }
+  ]
+}

@@ -48,6 +48,14 @@ pnpm build
 pnpm preview
 ```
 
+The Platform Ecosystem repository cards render from a checked-in snapshot, so local development and
+site builds never depend on GitHub availability. Deployments run `pnpm sync:github` with the Actions
+token before building; a failed refresh retains the last good snapshot. Run the command with
+`GITHUB_TOKEN` to refresh locally. To hide a repository, add its name to
+`.github-repositories-ignore`; optional maturity overrides following PyPI's Development Status
+taxonomy and editorial DBTL/Infrastructure assignments live in
+`src/data/githubRepositoryConfig.ts`.
+
 Preview/draft-aware build:
 
 ```bash

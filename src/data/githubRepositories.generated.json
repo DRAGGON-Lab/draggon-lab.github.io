@@ -1,0 +1,185 @@
+{
+  "generatedAt": "2026-09-03T04:04:29.000Z",
+  "repositories": [
+    {
+      "name": "SimBOL",
+      "url": "https://github.com/DRAGGON-Lab/SimBOL",
+      "description": "SBOL3 to agent-based simulations",
+      "classification": "fork",
+      "ecosystemTags": ["Design", "Learn"],
+      "updatedAt": "2026-08-25T01:14:57Z",
+      "languages": [{ "name": "Jupyter Notebook", "percentage": 100, "color": "#DA5B0B" }]
+    },
+    {
+      "name": "ATCG-FM",
+      "url": "https://github.com/DRAGGON-Lab/ATCG-FM",
+      "description": "ATCG-FM is a research workspace for genomic foundation models.",
+      "classification": "alpha",
+      "ecosystemTags": ["Learn", "Infrastructure"],
+      "updatedAt": "2026-08-24T21:11:09Z",
+      "languages": [{ "name": "Python", "percentage": 100, "color": "#3572A5" }]
+    },
+    {
+      "name": "CellModeller2",
+      "url": "https://github.com/DRAGGON-Lab/CellModeller2",
+      "description": "CellModeller2 is a GPU-accelerated multicellular modelling framework with independent implementations for Apple Metal, NVIDIA CUDA, and the CPU",
+      "classification": "alpha",
+      "ecosystemTags": ["Design", "Learn"],
+      "updatedAt": "2026-08-24T00:00:00Z",
+      "languages": [{ "name": "Python", "percentage": 100, "color": "#3572A5" }]
+    },
+    {
+      "name": "LOICA",
+      "url": "https://github.com/DRAGGON-Lab/LOICA",
+      "description": "Logical Operators for Integrated Cell Algorithms",
+      "classification": "fork",
+      "ecosystemTags": ["Design"],
+      "updatedAt": "2026-08-23T00:00:00Z",
+      "languages": [{ "name": "Jupyter Notebook", "percentage": 100, "color": "#DA5B0B" }]
+    },
+    {
+      "name": "Tricahue",
+      "url": "https://github.com/DRAGGON-Lab/Tricahue",
+      "description": "This package extracts experimental data and metadata, converts to standard formats, uploads to SynBioHub and Flapjack, and connects them.",
+      "classification": "fork",
+      "ecosystemTags": ["Test", "Learn", "Infrastructure"],
+      "updatedAt": "2026-08-22T00:00:00Z",
+      "languages": []
+    },
+    {
+      "name": "SBOLInventory",
+      "url": "https://github.com/DRAGGON-Lab/SBOLInventory",
+      "description": "Python package for handling SBOL on Inventoris linking physical and digital assets.",
+      "classification": "alpha",
+      "ecosystemTags": ["Build", "Infrastructure"],
+      "updatedAt": "2026-08-21T00:00:00Z",
+      "languages": [{ "name": "Python", "percentage": 100, "color": "#3572A5" }]
+    },
+    {
+      "name": "Excel-to-Flapjack",
+      "url": "https://github.com/DRAGGON-Lab/Excel-to-Flapjack",
+      "description": null,
+      "classification": "fork",
+      "ecosystemTags": ["Test", "Infrastructure"],
+      "updatedAt": "2026-08-20T00:00:00Z",
+      "languages": [{ "name": "Jupyter Notebook", "percentage": 100, "color": "#DA5B0B" }]
+    },
+    {
+      "name": "GG",
+      "url": "https://github.com/DRAGGON-Lab/GG",
+      "description": "GG Circuit is a desktop IDE for building genetic and genomic networks",
+      "classification": "alpha",
+      "ecosystemTags": ["Design"],
+      "updatedAt": "2026-08-19T00:00:00Z",
+      "languages": [{ "name": "TypeScript", "percentage": 100, "color": "#3178C6" }]
+    },
+    {
+      "name": "dnaplotlib",
+      "url": "https://github.com/DRAGGON-Lab/dnaplotlib",
+      "description": "DNA plotting library for Python",
+      "classification": "fork",
+      "ecosystemTags": ["Design", "Infrastructure"],
+      "updatedAt": "2026-08-18T00:00:00Z",
+      "languages": [{ "name": "Python", "percentage": 100, "color": "#3572A5" }]
+    },
+    {
+      "name": "GC-AI-environment",
+      "url": "https://github.com/DRAGGON-Lab/GC-AI-environment",
+      "description": null,
+      "classification": "fork",
+      "ecosystemTags": ["Learn", "Infrastructure"],
+      "updatedAt": "2026-08-17T00:00:00Z",
+      "languages": []
+    },
+    {
+      "name": "pyFlapjack",
+      "url": "https://github.com/DRAGGON-Lab/pyFlapjack",
+      "description": "Python package interfacing the Flapjack API with pandas and the NumPy stack.",
+      "classification": "fork",
+      "ecosystemTags": ["Test", "Learn", "Infrastructure"],
+      "updatedAt": "2026-08-16T00:00:00Z",
+      "languages": [{ "name": "Jupyter Notebook", "percentage": 100, "color": "#DA5B0B" }]
+    },
+    {
+      "name": "EngBioLearning",
+      "url": "https://github.com/DRAGGON-Lab/EngBioLearning",
+      "description": "Courses, workshops, tutorials and more on Engineering Biology",
+      "classification": "alpha",
+      "ecosystemTags": ["Learn", "Infrastructure"],
+      "updatedAt": "2026-08-15T00:00:00Z",
+      "languages": []
+    },
+    {
+      "name": "Excel-to-SBOL",
+      "url": "https://github.com/DRAGGON-Lab/Excel-to-SBOL",
+      "description": null,
+      "classification": "fork",
+      "ecosystemTags": ["Design", "Infrastructure"],
+      "updatedAt": "2026-08-14T00:00:00Z",
+      "languages": []
+    },
+    {
+      "name": "AoGuang",
+      "url": "https://github.com/DRAGGON-Lab/AoGuang",
+      "description": "Software tool for DNA annotation using standards.",
+      "classification": "alpha",
+      "ecosystemTags": ["Design", "Learn"],
+      "updatedAt": "2026-08-13T00:00:00Z",
+      "languages": []
+    },
+    {
+      "name": "WebCM",
+      "url": "https://github.com/DRAGGON-Lab/WebCM",
+      "description": "WebCM is a web platform used to develop and run bacterial simulations",
+      "classification": "fork",
+      "ecosystemTags": ["Design", "Learn"],
+      "updatedAt": "2026-08-12T00:00:00Z",
+      "languages": []
+    },
+    {
+      "name": "flapjack_fullstack",
+      "url": "https://github.com/DRAGGON-Lab/flapjack_fullstack",
+      "description": "Repository with Flapjack backend and frontend.",
+      "classification": "fork",
+      "ecosystemTags": ["Test", "Learn", "Infrastructure"],
+      "updatedAt": "2026-08-11T00:00:00Z",
+      "languages": []
+    },
+    {
+      "name": "SynBioInventory",
+      "url": "https://github.com/DRAGGON-Lab/SynBioInventory",
+      "description": "Python package to handle synthetic biology inventory using standards",
+      "classification": "alpha",
+      "ecosystemTags": ["Build", "Infrastructure"],
+      "updatedAt": "2026-04-06T22:08:22Z",
+      "languages": []
+    },
+    {
+      "name": "Ouroboros",
+      "url": "https://github.com/DRAGGON-Lab/Ouroboros",
+      "description": "Software tool to predict promoters and promoter activity",
+      "classification": "alpha",
+      "ecosystemTags": ["Design", "Learn"],
+      "updatedAt": "2026-04-03T17:35:41Z",
+      "languages": [{ "name": "TypeScript", "percentage": 100, "color": "#3178C6" }]
+    },
+    {
+      "name": "KaiTen",
+      "url": "https://github.com/DRAGGON-Lab/KaiTen",
+      "description": "Software tool to predict operator sites and their dose response effect on gene expression using protein-DNA binding affinity.",
+      "classification": "alpha",
+      "ecosystemTags": ["Design", "Learn"],
+      "updatedAt": "2026-03-23T22:30:58Z",
+      "languages": []
+    },
+    {
+      "name": "LADON",
+      "url": "https://github.com/DRAGGON-Lab/LADON",
+      "description": "Software tool to infer genetic networks",
+      "classification": "alpha",
+      "ecosystemTags": ["Learn"],
+      "updatedAt": "2026-03-23T20:51:53Z",
+      "languages": []
+    }
+  ]
+}

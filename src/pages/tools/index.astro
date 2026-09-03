@@ -1,23 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
-
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import SimpleCard from '../../components/cards/SimpleCard.astro';
+import GitHubRepositoryCard from '../../components/cards/GitHubRepositoryCard.astro';
 import DBTLCycleDisplay from '../../components/DBTLCycleDisplay.astro';
-import DraftBadge from '../../components/ui/DraftBadge.astro';
-import {
-  includeEntryInEnvironment,
-  shouldShowDraftBadge,
-  sortEntriesByTitle,
-} from '../../lib/contentFilters';
+import repositorySnapshot from '../../data/githubRepositories.generated.json';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { GitHubRepository } from '../../lib/githubRepositories';
 
-const entries = sortEntriesByTitle(
-  (await getCollection('tools')).filter(includeEntryInEnvironment),
-);
-
-const getToolCardTitle = (title: string) => title.replace(/^[^-]+ - /, '');
-const formatStage = (stage?: string) =>
-  stage ? stage.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()) : '';
+const repositories = repositorySnapshot.repositories as GitHubRepository[];
 ---
 
 <BaseLayout
@@ -28,93 +16,123 @@ const formatStage = (stage?: string) =>
     <h1 class="text-4xl font-bold tracking-tight text-slate-950">Platform Ecosystem</h1>
     <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
       Our tools form a modular platform ecosystem for designing, building, testing, learning from,
-      and sharing programmable biological systems.
+      and sharing programmable biological systems. This catalog is synchronized from the public
+      DRAGGON Lab GitHub organization whenever the website is deployed, with the last successful
+      snapshot retained if GitHub is temporarily unavailable.
     </p>
     <div class="mt-8">
       <DBTLCycleDisplay />
     </div>
 
     <div class="mt-8 max-w-xl">
-      <label for="tool-search" class="block text-sm font-semibold text-slate-950"
-        >Search tools</label
+      <label for="repository-search" class="block text-sm font-semibold text-slate-950"
+        >Search repositories</label
       >
       <div class="mt-2">
         <input
-          id="tool-search"
+          id="repository-search"
           type="search"
-          placeholder="Search by tool, summary, tag, or workflow stage"
+          placeholder="Search by repository, description, stage, or language"
           class="focus:border-draggon-violet focus:ring-draggon-violet/20 w-full rounded-full border border-slate-300 bg-white px-5 py-3 text-sm text-slate-950 shadow-sm transition outline-none placeholder:text-slate-400 focus:ring-4"
-          aria-describedby="tool-search-help tool-search-count"
+          aria-describedby="repository-search-help repository-search-count"
         />
       </div>
-      <p id="tool-search-help" class="mt-2 text-sm text-slate-600">
-        Search across tool card text, including workflow stages such as design, build, test, and
-        learn.
+      <p id="repository-search-help" class="mt-2 text-sm text-slate-600">
+        Search across repository names, descriptions, development stages, and languages.
       </p>
-      <p id="tool-search-count" class="sr-only" aria-live="polite"></p>
+      <p id="repository-search-count" class="sr-only" aria-live="polite"></p>
     </div>
 
-    <div id="tools-grid" class="mt-8 grid gap-4 md:grid-cols-3">
+    <div id="repositories-grid" class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {
-        entries.map((entry) => {
-          const cardTitle = getToolCardTitle(entry.data.title);
+        repositories.map((repository) => {
           const searchText = [
-            cardTitle,
-            entry.data.title,
-            entry.data.summary,
-            ...entry.data.tags,
-            entry.data.ecosystem_group,
-            entry.data.lifecycle_stage,
-            entry.data.status,
-            formatStage(entry.data.ecosystem_group),
-            formatStage(entry.data.lifecycle_stage),
+            repository.name,
+            repository.description,
+            repository.classification,
+            ...repository.ecosystemTags,
+            ...repository.languages.map((language) => language.name),
           ]
             .filter(Boolean)
             .join(' ');
 
           return (
-            <div class="tool-card" data-tool-search={searchText}>
-              <SimpleCard title={cardTitle} eyebrow={entry.data.tags[0]}>
-                {shouldShowDraftBadge(entry) && <DraftBadge slot="titleSuffix" />}
-                {entry.data.summary}
-              </SimpleCard>
+            <div
+              class="repository-card"
+              data-repository-search={searchText}
+              data-repository-filters={[
+                repository.classification,
+                ...repository.ecosystemTags,
+              ].join('|')}
+            >
+              <GitHubRepositoryCard repository={repository} />
             </div>
           );
         })
       }
     </div>
     <p
-      id="tools-empty"
+      id="repositories-empty"
       class="mt-8 hidden rounded-2xl border border-dashed border-slate-300 p-6 text-sm text-slate-600"
     >
-      No tools match your search. Clear the search field to show all tool cards again.
+      No repositories match your search. Clear the search field to show all repository cards again.
     </p>
   </section>
 
   <script>
-    const searchInput = document.querySelector<HTMLInputElement>('#tool-search');
-    const cards = Array.from(document.querySelectorAll<HTMLElement>('.tool-card'));
-    const emptyState = document.querySelector<HTMLElement>('#tools-empty');
-    const count = document.querySelector<HTMLElement>('#tool-search-count');
+    const searchInput = document.querySelector<HTMLInputElement>('#repository-search');
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('.repository-card'));
+    const emptyState = document.querySelector<HTMLElement>('#repositories-empty');
+    const count = document.querySelector<HTMLElement>('#repository-search-count');
+    const filterButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('[data-repository-filter]'),
+    );
+    let activePillFilter = '';
 
-    const updateToolSearch = () => {
+    const updateRepositorySearch = () => {
       const query = searchInput?.value.trim().toLowerCase() ?? '';
       let visibleCards = 0;
 
       cards.forEach((card) => {
-        const text = card.dataset.toolSearch?.toLowerCase() ?? '';
-        const isVisible = query === '' || text.includes(query);
+        const text = card.dataset.repositorySearch?.toLowerCase() ?? '';
+        const filters = (card.dataset.repositoryFilters ?? '').toLowerCase().split('|');
+        const isVisible =
+          query === '' ||
+          (activePillFilter ? filters.includes(activePillFilter) : text.includes(query));
         card.hidden = !isVisible;
         if (isVisible) visibleCards += 1;
       });
 
+      filterButtons.forEach((button) => {
+        button.setAttribute(
+          'aria-pressed',
+          String(button.dataset.repositoryFilter?.toLowerCase() === activePillFilter),
+        );
+      });
+
       emptyState?.classList.toggle('hidden', visibleCards > 0);
       if (count) {
-        count.textContent = `${visibleCards} ${visibleCards === 1 ? 'tool' : 'tools'} shown`;
+        count.textContent = `${visibleCards} ${visibleCards === 1 ? 'repository' : 'repositories'} shown`;
       }
     };
 
-    searchInput?.addEventListener('input', updateToolSearch);
-    updateToolSearch();
+    searchInput?.addEventListener('input', () => {
+      activePillFilter = '';
+      updateRepositorySearch();
+    });
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const requestedFilter = button.dataset.repositoryFilter?.toLowerCase() ?? '';
+        activePillFilter = activePillFilter === requestedFilter ? '' : requestedFilter;
+        if (searchInput) {
+          searchInput.value = activePillFilter
+            ? (button.dataset.repositoryFilterLabel ?? button.dataset.repositoryFilter ?? '')
+            : '';
+          searchInput.focus();
+        }
+        updateRepositorySearch();
+      });
+    });
+    updateRepositorySearch();
   </script>
 </BaseLayout>

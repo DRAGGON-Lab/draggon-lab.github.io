@@ -1,0 +1,375 @@
+---
+import type { GitHubRepository, RepositoryClassification } from '../../lib/githubRepositories';
+
+type Props = {
+  repository: GitHubRepository;
+};
+
+const { repository } = Astro.props;
+const classificationLabels: Record<RepositoryClassification, string> = {
+  planning: 'Planning',
+  'pre-alpha': 'Pre-Alpha',
+  alpha: 'Alpha',
+  beta: 'Beta',
+  stable: 'Stable',
+  mature: 'Mature',
+  inactive: 'Inactive',
+  fork: 'Fork',
+};
+const languageSummary = repository.languages
+  .map((language) => `${language.name} ${language.percentage}%`)
+  .join(', ');
+---
+
+<article class="github-repository-card card rounded-xl p-5">
+  <div class="flex items-start justify-between gap-4">
+    <h3 class="flex min-w-0 items-center gap-2 text-lg font-semibold text-slate-950">
+      <svg class="repository-icon" viewBox="0 0 16 16" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75H4.5a1 1 0 0 0 0 2h8.75a.75.75 0 0 1 0 1.5H4.5A2.5 2.5 0 0 1 2 15V2.5Zm2.5-1A1 1 0 0 0 3.5 2.5v10.208A2.49 2.49 0 0 1 4.5 12.5h8V1.5h-8Z"
+        ></path>
+      </svg>
+      <a
+        href={repository.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="repository-title truncate"
+      >
+        {repository.name}
+        <span class="sr-only"> (opens on GitHub in a new tab)</span>
+      </a>
+    </h3>
+    <button
+      type="button"
+      class:list={[
+        'repository-classification',
+        `repository-classification--${repository.classification}`,
+      ]}
+      data-repository-filter={repository.classification}
+      data-repository-filter-label={classificationLabels[repository.classification]}
+      aria-label={`Filter repositories by ${classificationLabels[repository.classification]} classification`}
+      aria-pressed="false"
+    >
+      {classificationLabels[repository.classification]}
+    </button>
+  </div>
+
+  <p class="repository-description mt-4 text-sm leading-6 text-slate-600">
+    {repository.description ?? 'No description provided on GitHub.'}
+  </p>
+
+  <div class="repository-ecosystem mt-5" role="group" aria-label="DBTL and infrastructure roles">
+    <ul class="repository-tag-list" aria-label="Repository tags">
+      {
+        repository.ecosystemTags.map((tag) => (
+          <li>
+            <button
+              type="button"
+              class:list={['repository-tag', `repository-tag--${tag.toLowerCase()}`]}
+              data-repository-filter={tag}
+              aria-label={`Filter repositories by ${tag}`}
+              aria-pressed="false"
+            >
+              {tag}
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="repository-languages mt-4">
+    <p class="sr-only">Languages: {languageSummary || 'No language data available'}</p>
+    {
+      repository.languages.length > 0 ? (
+        <>
+          <div class="language-bar" aria-hidden="true">
+            {repository.languages.map((language) => (
+              <span
+                class="language-color"
+                style={`--language-color: ${language.color ?? 'var(--color-muted)'}; width: ${language.percentage}%`}
+              />
+            ))}
+          </div>
+          <ul class="language-list" data-language-list aria-hidden="true">
+            {repository.languages.map((language) => (
+              <li data-language-item>
+                <span
+                  class="language-dot language-color"
+                  style={`--language-color: ${language.color ?? 'var(--color-muted)'}`}
+                />
+                <span>{language.name}</span>
+                <span class="language-percentage">{language.percentage}%</span>
+              </li>
+            ))}
+            <li class="language-overflow" data-language-overflow hidden>
+              ...
+            </li>
+          </ul>
+        </>
+      ) : (
+        <p class="text-xs text-slate-500">No language data available</p>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .github-repository-card {
+    display: flex;
+    min-height: 15rem;
+    flex-direction: column;
+  }
+
+  .repository-icon {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 auto;
+    color: var(--color-accent);
+  }
+
+  .repository-title {
+    text-decoration: none;
+    transition: color 160ms var(--ease-emphatic);
+  }
+
+  .repository-title:hover {
+    color: var(--color-accent);
+  }
+
+  .repository-classification {
+    flex: 0 0 auto;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    cursor: pointer;
+    padding: 0.2rem 0.55rem;
+    font-family: inherit;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.25;
+    text-transform: uppercase;
+    transition:
+      box-shadow 160ms var(--ease-emphatic),
+      transform 160ms var(--ease-emphatic);
+  }
+
+  .repository-classification:hover {
+    transform: translateY(-1px);
+  }
+
+  .repository-classification:focus-visible,
+  .repository-classification[aria-pressed='true'] {
+    box-shadow:
+      0 0 0 2px var(--color-surface),
+      0 0 0 4px currentColor;
+  }
+
+  .repository-classification--fork {
+    border-color: #cbd5e1;
+    background: #f1f5f9;
+    color: #475569;
+  }
+
+  .repository-classification--planning,
+  .repository-classification--pre-alpha {
+    border-color: color-mix(in srgb, #b7791f 45%, var(--color-border));
+    background: color-mix(in srgb, #b7791f 14%, var(--color-surface));
+    color: color-mix(in srgb, var(--color-text) 68%, #8a4b08);
+  }
+
+  .repository-classification--alpha {
+    border-color: #86efac;
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .repository-classification--beta {
+    border-color: #4ade80;
+    background: #bbf7d0;
+    color: #14532d;
+  }
+
+  .repository-classification--stable {
+    border-color: #22c55e;
+    background: #86efac;
+    color: #14532d;
+  }
+
+  .repository-classification--mature {
+    border-color: #15803d;
+    background: #166534;
+    color: #f0fdf4;
+  }
+
+  .repository-classification--inactive {
+    border-color: color-mix(in srgb, #dc2626 48%, var(--color-border));
+    background: color-mix(in srgb, #dc2626 12%, var(--color-surface));
+    color: color-mix(in srgb, var(--color-text) 62%, #b91c1c);
+  }
+
+  .repository-description {
+    display: -webkit-box;
+    height: 4.5rem;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .repository-tag-list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    list-style: none;
+  }
+
+  .repository-tag {
+    border: 1px solid var(--repository-tag-border);
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--repository-tag-start), var(--repository-tag-end));
+    color: var(--repository-tag-text);
+    cursor: pointer;
+    padding: 0.22rem 0.5rem;
+    font-family: inherit;
+    font-size: 0.68rem;
+    font-weight: 650;
+    line-height: 1.2;
+    transition:
+      box-shadow 160ms var(--ease-emphatic),
+      transform 160ms var(--ease-emphatic);
+  }
+
+  .repository-tag:hover {
+    transform: translateY(-1px);
+  }
+
+  .repository-tag:focus-visible,
+  .repository-tag[aria-pressed='true'] {
+    box-shadow:
+      0 0 0 2px var(--color-surface),
+      0 0 0 4px var(--repository-tag-border);
+  }
+
+  .repository-tag--design {
+    --repository-tag-border: color-mix(in srgb, var(--color-accent) 38%, var(--color-border));
+    --repository-tag-start: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+    --repository-tag-end: color-mix(in srgb, var(--color-accent) 14%, var(--color-surface));
+    --repository-tag-text: color-mix(in srgb, var(--color-accent-strong) 88%, var(--color-text));
+  }
+
+  .repository-tag--build {
+    --repository-tag-border: color-mix(in srgb, var(--color-accent) 48%, var(--color-border));
+    --repository-tag-start: color-mix(in srgb, var(--color-accent) 14%, var(--color-surface));
+    --repository-tag-end: color-mix(in srgb, var(--color-accent) 22%, var(--color-surface));
+    --repository-tag-text: color-mix(in srgb, var(--color-accent-strong) 92%, var(--color-text));
+  }
+
+  .repository-tag--test {
+    --repository-tag-border: color-mix(in srgb, var(--color-accent) 60%, var(--color-border));
+    --repository-tag-start: color-mix(in srgb, var(--color-accent) 22%, var(--color-surface));
+    --repository-tag-end: color-mix(in srgb, var(--color-accent) 32%, var(--color-surface));
+    --repository-tag-text: color-mix(in srgb, var(--color-accent-strong) 94%, var(--color-text));
+  }
+
+  .repository-tag--learn {
+    --repository-tag-border: color-mix(in srgb, var(--color-accent) 72%, var(--color-border));
+    --repository-tag-start: color-mix(in srgb, var(--color-accent) 30%, var(--color-surface));
+    --repository-tag-end: color-mix(in srgb, var(--color-accent) 42%, var(--color-surface));
+    --repository-tag-text: color-mix(in srgb, var(--color-accent-strong) 96%, var(--color-text));
+  }
+
+  .repository-tag--infrastructure {
+    --repository-tag-border: color-mix(in srgb, var(--color-signal) 72%, #166534);
+    --repository-tag-start: color-mix(in srgb, var(--color-signal) 18%, var(--color-surface));
+    --repository-tag-end: color-mix(in srgb, var(--color-signal) 30%, var(--color-surface));
+    --repository-tag-text: color-mix(in srgb, #166534 82%, var(--color-text));
+  }
+
+  .language-bar {
+    display: flex;
+    height: 0.3rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--color-surface-muted);
+  }
+
+  .language-list {
+    display: flex;
+    margin: 0.7rem 0 0;
+    padding: 0;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.8rem;
+    max-height: 2.35rem;
+    overflow: hidden;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    list-style: none;
+  }
+
+  .language-list li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .language-list li[hidden] {
+    display: none;
+  }
+
+  .language-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+  }
+
+  .language-percentage {
+    color: color-mix(in srgb, var(--color-muted) 72%, transparent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .language-color {
+    background: var(--language-color);
+  }
+
+  .language-overflow {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+</style>
+
+<script>
+  const fitLanguageList = (list: HTMLElement) => {
+    const items = Array.from(list.querySelectorAll<HTMLElement>('[data-language-item]'));
+    const overflow = list.querySelector<HTMLElement>('[data-language-overflow]');
+    if (!overflow || items.length === 0) return;
+
+    items.forEach((item) => (item.hidden = false));
+    overflow.hidden = true;
+
+    const rowTops = [...new Set(items.map((item) => item.offsetTop))];
+    if (rowTops.length <= 2) return;
+
+    const secondRowTop = rowTops[1];
+    items.forEach((item) => {
+      item.hidden = item.offsetTop > secondRowTop;
+    });
+    overflow.hidden = false;
+
+    while (overflow.offsetTop > secondRowTop) {
+      const lastVisibleItem = items.findLast((item) => !item.hidden);
+      if (!lastVisibleItem) break;
+      lastVisibleItem.hidden = true;
+    }
+  };
+
+  const languageLists = Array.from(document.querySelectorAll<HTMLElement>('[data-language-list]'));
+  languageLists.forEach(fitLanguageList);
+
+  const resizeObserver = new ResizeObserver((entries) => {
+    entries.forEach((entry) => fitLanguageList(entry.target as HTMLElement));
+  });
+  languageLists.forEach((list) => resizeObserver.observe(list));
+</script>

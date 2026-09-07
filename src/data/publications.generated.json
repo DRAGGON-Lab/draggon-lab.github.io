@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T05:17:33.298Z",
+  "generatedAt": "2026-09-07T14:19:03.066Z",
   "profile": {
     "id": "m3sQS9cAAAAJ",
     "name": "Gonzalo Vidal",
@@ -705,37 +705,13 @@
     }
   ],
   "citationEdges": [
-    {
-      "source": "scholar:0EnyYjriUFMC",
-      "target": "scholar:Tyk-4Ss8FVUC"
-    },
-    {
-      "source": "scholar:hFOr9nPyWt4C",
-      "target": "scholar:ufrVoPGSRksC"
-    },
-    {
-      "source": "scholar:hFOr9nPyWt4C",
-      "target": "scholar:0EnyYjriUFMC"
-    },
-    {
-      "source": "scholar:Zph67rFs4hoC",
-      "target": "scholar:0EnyYjriUFMC"
-    },
-    {
-      "source": "scholar:8k81kl-MbHgC",
-      "target": "scholar:ufrVoPGSRksC"
-    },
-    {
-      "source": "scholar:8k81kl-MbHgC",
-      "target": "scholar:Tyk-4Ss8FVUC"
-    },
-    {
-      "source": "scholar:TQgYirikUcIC",
-      "target": "scholar:0EnyYjriUFMC"
-    },
-    {
-      "source": "scholar:TQgYirikUcIC",
-      "target": "scholar:hFOr9nPyWt4C"
-    }
+    { "source": "scholar:0EnyYjriUFMC", "target": "scholar:Tyk-4Ss8FVUC" },
+    { "source": "scholar:hFOr9nPyWt4C", "target": "scholar:ufrVoPGSRksC" },
+    { "source": "scholar:hFOr9nPyWt4C", "target": "scholar:0EnyYjriUFMC" },
+    { "source": "scholar:Zph67rFs4hoC", "target": "scholar:0EnyYjriUFMC" },
+    { "source": "scholar:8k81kl-MbHgC", "target": "scholar:ufrVoPGSRksC" },
+    { "source": "scholar:8k81kl-MbHgC", "target": "scholar:Tyk-4Ss8FVUC" },
+    { "source": "scholar:TQgYirikUcIC", "target": "scholar:0EnyYjriUFMC" },
+    { "source": "scholar:TQgYirikUcIC", "target": "scholar:hFOr9nPyWt4C" }
   ]
 }

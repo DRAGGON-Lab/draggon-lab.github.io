@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-09-07T14:19:03.066Z",
+  "generatedAt": "2026-09-28T16:50:11.750Z",
   "profile": {
     "id": "m3sQS9cAAAAJ",
     "name": "Gonzalo Vidal",
     "url": "https://scholar.google.com/citations?user=m3sQS9cAAAAJ&hl=en",
-    "totalCitations": 222,
+    "totalCitations": 229,
     "hIndex": 8,
     "i10Index": 7,
     "sourceRecordCount": 24
@@ -18,7 +18,7 @@
       "year": 2016,
       "publicationDate": "2016-01-22",
       "type": "journal article",
-      "scholarCitations": 81,
+      "scholarCitations": 84,
       "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:WF5omc3nYNoC",
       "doi": "10.1016/j.bcp.2016.01.013",
       "openAlexId": "https://openalex.org/W2274894148",
@@ -30,7 +30,7 @@
           "authors": ["G Torres", "PE Morales", "M García-Miguel", "I Norambuena-Soto", "..."],
           "venue": "Biochemical pharmacology 104, 52-61",
           "year": 2016,
-          "citations": 81
+          "citations": 84
         }
       ]
     },
@@ -50,7 +50,7 @@
       "year": 2023,
       "publicationDate": "2023-01-01",
       "type": "journal article",
-      "scholarCitations": 25,
+      "scholarCitations": 26,
       "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:roLk4NBRz8UC",
       "doi": null,
       "openAlexId": null,
@@ -70,7 +70,47 @@
           ],
           "venue": "Journal of integrative bioinformatics 20 (1), 20220058",
           "year": 2023,
-          "citations": 25
+          "citations": 26
+        }
+      ]
+    },
+    {
+      "id": "scholar:Tyk-4Ss8FVUC",
+      "title": "Functional synthetic biology",
+      "authors": [
+        "I Aldulijan",
+        "J Beal",
+        "S Billerbeck",
+        "J Bouffard",
+        "G Chambonnier",
+        "N Ntelkis",
+        "..."
+      ],
+      "venue": "Synthetic Biology 8 (1), ysad006",
+      "year": 2023,
+      "publicationDate": "2023-01-01",
+      "type": "journal article",
+      "scholarCitations": 23,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:Tyk-4Ss8FVUC",
+      "doi": "10.1093/synbio/ysad006",
+      "openAlexId": "https://openalex.org/W4362717777",
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:Tyk-4Ss8FVUC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:Tyk-4Ss8FVUC",
+          "title": "Functional synthetic biology",
+          "authors": [
+            "I Aldulijan",
+            "J Beal",
+            "S Billerbeck",
+            "J Bouffard",
+            "G Chambonnier",
+            "N Ntelkis",
+            "..."
+          ],
+          "venue": "Synthetic Biology 8 (1), ysad006",
+          "year": 2023,
+          "citations": 23
         }
       ]
     },
@@ -123,46 +163,6 @@
       ]
     },
     {
-      "id": "scholar:Tyk-4Ss8FVUC",
-      "title": "Functional synthetic biology",
-      "authors": [
-        "I Aldulijan",
-        "J Beal",
-        "S Billerbeck",
-        "J Bouffard",
-        "G Chambonnier",
-        "N Ntelkis",
-        "..."
-      ],
-      "venue": "Synthetic Biology 8 (1), ysad006",
-      "year": 2023,
-      "publicationDate": "2023-01-01",
-      "type": "journal article",
-      "scholarCitations": 22,
-      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:Tyk-4Ss8FVUC",
-      "doi": "10.1093/synbio/ysad006",
-      "openAlexId": "https://openalex.org/W4362717777",
-      "versions": [
-        {
-          "scholarId": "m3sQS9cAAAAJ:Tyk-4Ss8FVUC",
-          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:Tyk-4Ss8FVUC",
-          "title": "Functional synthetic biology",
-          "authors": [
-            "I Aldulijan",
-            "J Beal",
-            "S Billerbeck",
-            "J Bouffard",
-            "G Chambonnier",
-            "N Ntelkis",
-            "..."
-          ],
-          "venue": "Synthetic Biology 8 (1), ysad006",
-          "year": 2023,
-          "citations": 22
-        }
-      ]
-    },
-    {
       "id": "scholar:YsMSGLbcyi4C",
       "title": "LOICA: Integrating models with data for genetic network design automation",
       "authors": ["G Vidal", "C Vitalis", "TJ Rudge"],
@@ -194,7 +194,7 @@
       "year": 2024,
       "publicationDate": "2024-11-30",
       "type": "journal article",
-      "scholarCitations": 12,
+      "scholarCitations": 13,
       "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:5nxA0vEk-isC",
       "doi": "10.1038/s41419-024-07165-9",
       "openAlexId": "https://openalex.org/W4404877749",
@@ -206,7 +206,7 @@
           "authors": ["J Macuada", "I Molina-Riquelme", "G Vidal", "N Pérez-Bravo", "..."],
           "venue": "Cell Death & Disease 15 (11), 870",
           "year": 2024,
-          "citations": 12
+          "citations": 13
         },
         {
           "scholarId": "m3sQS9cAAAAJ:KlAtU1dfN6UC",
@@ -288,6 +288,46 @@
       ]
     },
     {
+      "id": "scholar:0EnyYjriUFMC",
+      "title": "Standardized representation of parts and assembly for build planning",
+      "authors": [
+        "J Beal",
+        "V Selvarajah",
+        "G Chambonnier",
+        "T Haddock",
+        "A Vignoni",
+        "G Vidal",
+        "..."
+      ],
+      "venue": "ACS synthetic biology 12 (12), 3646-3655",
+      "year": 2023,
+      "publicationDate": "2023-11-13",
+      "type": "journal article",
+      "scholarCitations": 6,
+      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:0EnyYjriUFMC",
+      "doi": "10.1021/acssynbio.3c00418",
+      "openAlexId": "https://openalex.org/W4388651575",
+      "versions": [
+        {
+          "scholarId": "m3sQS9cAAAAJ:0EnyYjriUFMC",
+          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:0EnyYjriUFMC",
+          "title": "Standardized representation of parts and assembly for build planning",
+          "authors": [
+            "J Beal",
+            "V Selvarajah",
+            "G Chambonnier",
+            "T Haddock",
+            "A Vignoni",
+            "G Vidal",
+            "..."
+          ],
+          "venue": "ACS synthetic biology 12 (12), 3646-3655",
+          "year": 2023,
+          "citations": 6
+        }
+      ]
+    },
+    {
       "id": "scholar:LkGwnXOMwfcC",
       "title": "Experimental data connector (XDC): integrating the capture of experimental data and metadata using standard formats and digital repositories",
       "authors": [
@@ -324,46 +364,6 @@
           "venue": "ACS Synthetic Biology 12 (4), 1364-1370",
           "year": 2023,
           "citations": 6
-        }
-      ]
-    },
-    {
-      "id": "scholar:0EnyYjriUFMC",
-      "title": "Standardized representation of parts and assembly for build planning",
-      "authors": [
-        "J Beal",
-        "V Selvarajah",
-        "G Chambonnier",
-        "T Haddock",
-        "A Vignoni",
-        "G Vidal",
-        "..."
-      ],
-      "venue": "ACS synthetic biology 12 (12), 3646-3655",
-      "year": 2023,
-      "publicationDate": "2023-11-13",
-      "type": "journal article",
-      "scholarCitations": 5,
-      "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:0EnyYjriUFMC",
-      "doi": "10.1021/acssynbio.3c00418",
-      "openAlexId": "https://openalex.org/W4388651575",
-      "versions": [
-        {
-          "scholarId": "m3sQS9cAAAAJ:0EnyYjriUFMC",
-          "scholarUrl": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3sQS9cAAAAJ&pagesize=100&citation_for_view=m3sQS9cAAAAJ:0EnyYjriUFMC",
-          "title": "Standardized representation of parts and assembly for build planning",
-          "authors": [
-            "J Beal",
-            "V Selvarajah",
-            "G Chambonnier",
-            "T Haddock",
-            "A Vignoni",
-            "G Vidal",
-            "..."
-          ],
-          "venue": "ACS synthetic biology 12 (12), 3646-3655",
-          "year": 2023,
-          "citations": 5
         }
       ]
     },

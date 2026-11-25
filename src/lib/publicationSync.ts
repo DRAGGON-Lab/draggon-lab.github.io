@@ -182,19 +182,52 @@ async function fetchOpenAlexCandidates(
   return Array.isArray(payload.results) ? payload.results : [];
 }
 
+function indexPreviousPublicationsByScholarId(
+  snapshot: PublicationSnapshot | undefined,
+): Map<string, Publication> {
+  const publicationsByScholarId = new Map<string, Publication>();
+  for (const publication of snapshot?.publications ?? []) {
+    for (const version of publication.versions ?? []) {
+      publicationsByScholarId.set(version.scholarId, publication);
+    }
+  }
+  return publicationsByScholarId;
+}
+
+function preservePreviousEnrichment(
+  publication: Publication,
+  previous: Publication | undefined,
+): Publication {
+  if (!previous || (!previous.doi && !previous.openAlexId)) return publication;
+  return {
+    ...publication,
+    doi: normalizeDoi(previous.doi),
+    openAlexId: previous.openAlexId,
+    publicationDate: previous.publicationDate ?? publication.publicationDate,
+    type: previous.type,
+  };
+}
+
 export async function buildPublicationSnapshot(options: {
   scholarHtml: string;
   fetchImpl?: typeof fetch;
   generatedAt?: string;
+  previousSnapshot?: PublicationSnapshot;
 }): Promise<PublicationSnapshot> {
   const fetchImpl = options.fetchImpl ?? fetch;
   const profile = parseScholarProfile(options.scholarHtml);
+  const previousPublications = indexPreviousPublicationsByScholarId(options.previousSnapshot);
   const enriched: Publication[] = [];
   const referencesById = new Map<string, string[]>();
 
   for (const publication of profile.records) {
+    const scholarId = publication.versions[0]?.scholarId;
+    const previous = scholarId ? previousPublications.get(scholarId) : undefined;
     const candidates = await fetchOpenAlexCandidates(publication.title, fetchImpl);
-    const match = matchOpenAlexWork(publication, candidates);
+    const match = matchOpenAlexWork(
+      { title: publication.title, doi: previous?.doi ?? publication.doi },
+      candidates,
+    );
     const updated: Publication = match
       ? {
           ...publication,
@@ -203,7 +236,7 @@ export async function buildPublicationSnapshot(options: {
           publicationDate: match.publication_date ?? publication.publicationDate,
           type: inferType(publication.venue, publication.title, match.type),
         }
-      : publication;
+      : preservePreviousEnrichment(publication, previous);
     enriched.push(updated);
     if (match) referencesById.set(updated.id, match.referenced_works ?? []);
   }

@@ -13,8 +13,10 @@ import {
   remapCitationEdges,
   sortPublications,
   type Publication,
+  type PublicationSnapshot,
 } from '../src/lib/publications.ts';
 import {
+  buildPublicationSnapshot,
   isBlockedScholarResponse,
   matchOpenAlexWork,
   parseScholarProfile,
@@ -47,6 +49,25 @@ const work = (overrides: Partial<OpenAlexWork> = {}): OpenAlexWork => ({
   referenced_works: [],
   ...overrides,
 });
+const snapshot = (publications: Publication[]): PublicationSnapshot => ({
+  generatedAt: '2026-01-01T00:00:00.000Z',
+  profile: {
+    id: 'm3sQS9cAAAAJ',
+    name: 'Gonzalo Vidal',
+    url: 'https://scholar.google.com/citations?user=m3sQS9cAAAAJ&hl=en',
+    totalCitations: 0,
+    hIndex: 0,
+    i10Index: 0,
+    sourceRecordCount: publications.reduce((total, item) => total + item.versions.length, 0),
+  },
+  publications,
+  citationEdges: [],
+});
+const openAlexFetch = (candidates: OpenAlexWork[]): typeof fetch =>
+  (async () =>
+    new Response(JSON.stringify({ results: candidates }), {
+      headers: { 'Content-Type': 'application/json' },
+    })) as typeof fetch;
 
 test('Scholar fixtures parse duplicates, missing years, zero citations, and metrics', async () => {
   const parsed = parseScholarProfile(await fixture('scholar-profile.html'));
@@ -94,6 +115,73 @@ test('OpenAlex matching prefers DOI, supports normalized titles, and rejects amb
     matchOpenAlexWork(publication(), [work(), work({ id: 'https://openalex.org/W2' })]),
     null,
   );
+});
+
+test('publication refresh preserves prior enrichment until a new unique match replaces it', async () => {
+  const scholarHtml = await fixture('scholar-profile.html');
+  const previous = snapshot([
+    publication({
+      id: 'scholar:one',
+      title: 'Earlier title',
+      doi: '10.1/previous',
+      openAlexId: 'https://openalex.org/WOLD',
+      publicationDate: '2024-11-30',
+      type: 'journal article',
+      versions: [
+        {
+          scholarId: 'm3sQS9cAAAAJ:one',
+          scholarUrl: 'https://scholar.google.com/example',
+          title: 'Earlier title',
+          authors: ['G Vidal'],
+          venue: 'Journal',
+          year: 2024,
+          citations: 1,
+        },
+      ],
+    }),
+  ]);
+
+  for (const candidates of [
+    [],
+    [
+      work({ id: 'https://openalex.org/W2', title: 'Example & test' }),
+      work({ id: 'https://openalex.org/W3', title: 'Example & test' }),
+    ],
+  ]) {
+    const refreshed = await buildPublicationSnapshot({
+      scholarHtml,
+      previousSnapshot: previous,
+      fetchImpl: openAlexFetch(candidates),
+    });
+    const retained = refreshed.publications.find((item) =>
+      item.versions.some(({ scholarId }) => scholarId === 'm3sQS9cAAAAJ:one'),
+    );
+    assert.equal(retained?.doi, '10.1/previous');
+    assert.equal(retained?.openAlexId, 'https://openalex.org/WOLD');
+    assert.equal(retained?.publicationDate, '2024-11-30');
+    assert.equal(retained?.type, 'journal article');
+  }
+
+  const replaced = await buildPublicationSnapshot({
+    scholarHtml,
+    previousSnapshot: previous,
+    fetchImpl: openAlexFetch([
+      work({
+        id: 'https://openalex.org/WNEW',
+        doi: 'https://doi.org/10.1/new',
+        title: 'Example & test',
+        publication_date: '2025-02-03',
+        type: 'book-chapter',
+      }),
+    ]),
+  });
+  const updated = replaced.publications.find((item) =>
+    item.versions.some(({ scholarId }) => scholarId === 'm3sQS9cAAAAJ:one'),
+  );
+  assert.equal(updated?.doi, '10.1/new');
+  assert.equal(updated?.openAlexId, 'https://openalex.org/WNEW');
+  assert.equal(updated?.publicationDate, '2025-02-03');
+  assert.equal(updated?.type, 'book chapter');
 });
 
 test('duplicate merging uses DOI or normalized title, keeps versions, and remaps edges', () => {
@@ -210,6 +298,21 @@ test('checked-in snapshot and explorer markup expose resilient and accessible de
     snapshot.publications.find(({ title }) => title.startsWith('Emergence of Travelling Waves'))
       ?.year,
     2018,
+  );
+  const opa1Publication = snapshot.publications.find(({ id }) => id === 'scholar:5nxA0vEk-isC');
+  assert.deepEqual(
+    opa1Publication && {
+      doi: opa1Publication.doi,
+      openAlexId: opa1Publication.openAlexId,
+      publicationDate: opa1Publication.publicationDate,
+      type: opa1Publication.type,
+    },
+    {
+      doi: '10.1038/s41419-024-07165-9',
+      openAlexId: 'https://openalex.org/W4404877749',
+      publicationDate: '2024-11-30',
+      type: 'journal article',
+    },
   );
   assert.equal(
     snapshot.publications.reduce((total, item) => total + item.versions.length, 0),
